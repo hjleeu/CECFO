@@ -12,6 +12,7 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
         </script>
     <style>
+        table {text-align: center !important;}
         .date_col {background-color: #eddcd2 !important;}
         .host_col {background-color: #fff1e6 !important;}
         .prayer_col {background-color: #fde2e4 !important;}
@@ -185,8 +186,8 @@
         if(input != "-") {
             var table = document.getElementById("cecfo-service-tbody");
             if(clicked == 1) {
-                reset();
                 clicked = 0;
+                reset();
             } else {
                 Array.from(table.rows).forEach(row => {
                     Array.from(row.cells).forEach((cell, i) => {
