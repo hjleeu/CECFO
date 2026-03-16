@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <title>主日聚会安排</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+        </script>
+    <style>
+        .prayer_col {background-color: beige !important;}
+        .sunday_school_col {background-color: cyan !important;}
+        .worship_col {background-color: ivory !important;}
+    </style>
+</head>
+
+
+
+<body>
+    <div class="m-2 text-nowrap table-responsive">
+        <table id="cecfo-service" class="table table-bordered text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col" rowspan="2">月/周</th>
+                    <th scope="col">主持</th>
+                    <th scope="col" class="prayer_col">敬拜祷告</th>
+                    <th scope="col" class="prayer_col">记念祷告</th>
+                    <th scope="col">读经</th>
+                    <th scope="col">证道</th>
+                    <th scope="col" class="sunday_school_col">青年团契</th>
+                    <th scope="col" class="sunday_school_col">主日学大班</th>
+                    <th scope="col" class="sunday_school_col">主日学中班</th>
+                    <th scope="col" class="sunday_school_col">主日学小班</th>
+                    <th scope="col" colspan="2">值日</th>
+                    <th scope="col" colspan="2">执勤/接待</th>
+                    <th scope="col" class="worship_col">敬拜带领</th>
+                    <th scope="col" class="worship_col">敬拜司琴</th>
+                    <th scope="col" class="worship_col">敬拜鼓手</th>
+                    <th scope="col" class="worship_col" colspan="3">敬拜领唱</th>
+                    <th scope="col">音控&文字</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="cecfo-service-tbody"></tbody>
+        </table>
+    </div>
+</body>
+<script>
+    const services = [
+        {
+            date: "3月第4周", host: "吴荣良", adoration_pry: "季育林", memorial_pry: "张爱丽", scripture_reader: {reader: "蒋励", bible: "雅1:1-18节"}, sermon: "陈章",
+            youth_group: "陈恩德", big_class: "林可盈", medium_class: "季凯伦", small_class: "季艳芬", clean_up: ["郑海燕", "郑小燕"], reception: ["陈佳倩", "厉子浩"],
+            worship_lead: "林可盈", worship_piano: "柳安琪", worship_drums: "留宇泽", worship_vocal: ["陈佳怡", "陈曦", "季霜双"],
+            niuma: "黄浩琪"
+        },
+        {
+            date: "3月第5周", host: "陈章", adoration_pry: "吴荣良", memorial_pry: "郑海燕", scripture_reader: {reader: "柳美灵", bible: "雅1:19-27节"}, sermon: "陈恩德",
+            youth_group: "柳徐康", big_class: "柯铭", medium_class: "周月珍", small_class: "杨金爱", clean_up: ["陈秀梅", "林定娟"], reception: ["柯铭", "柳安琪"],
+            worship_lead: "王纯智", worship_piano: "吴优", worship_drums: "留宇泽", worship_vocal: ["陈章", "季凯静", "吴佳怡"],
+            niuma: "柳豪杰"
+        },
+        {
+            date: "4月第1周", host: "裘先平", adoration_pry: "季育林", memorial_pry: "胡莉莉", scripture_reader: {reader: "陈智轩", bible: "雅2:1-13节"}, sermon: "王少东",
+            youth_group: "-", big_class: "柯铭", medium_class: "-", small_class: "季艳芬", clean_up: ["季育林", "留丽珠"], reception: ["-", "-"],
+            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
+            niuma: "柳豪杰"
+        }
+    ]
+
+    window.onload = function () {
+        var service = document.getElementById("cecfo-service-tbody");
+
+        for (let i = 0; i < services.length; i++) {
+            var thisrow = service.insertRow(i);
+
+            thisrow.innerHTML = `
+            <th scope="row">${services[i].date}</th>
+            <td><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].host}">${services[i].host}</button></td>
+            <td class="prayer_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].adoration_pry}">${services[i].adoration_pry}</button></td>
+            <td class="prayer_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].memorial_pry}">${services[i].memorial_pry}</button></td>
+            <td><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].scripture_reader.reader}">${services[i].scripture_reader.reader}</button><br>${services[i].scripture_reader.bible}</td>
+            <td><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].sermon}">${services[i].sermon}</button></td>
+            <td class="sunday_school_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].youth_group}">${services[i].youth_group}</button></td>
+            <td class="sunday_school_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].big_class}">${services[i].big_class}</button></td>
+            <td class="sunday_school_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].medium_class}">${services[i].medium_class}</button></td>
+            <td class="sunday_school_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].small_class}">${services[i].small_class}</button></td>
+            <td><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].clean_up[0] != undefined ? services[i].clean_up[0] : "-"}">${services[i].clean_up[0] != undefined ? services[i].clean_up[0] : "-"}</td>
+                <td><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].clean_up[1] != undefined ? services[i].clean_up[1] : "-"}">${services[i].clean_up[1] != undefined ? services[i].clean_up[1] : "-"}</td>
+            <td><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].reception[0] != undefined ? services[i].reception[0] : "-"}">${services[i].reception[0] != undefined ? services[i].reception[0] : "-"}</td>
+                <td><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].reception[1] != undefined ? services[i].reception[1] : "-"}">${services[i].reception[1] != undefined ? services[i].reception[1] : "-"}</td>
+            <td class="worship_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].worship_lead}">${services[i].worship_lead}</button></td>
+            <td class="worship_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].worship_piano}">${services[i].worship_piano}</button></td>
+            <td class="worship_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].worship_drums}">${services[i].worship_drums}</button></td>
+            <td class="worship_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].worship_vocal[0] != undefined ? services[i].worship_vocal[0] : "-"}">${services[i].worship_vocal[0] != undefined ? services[i].worship_vocal[0] : "-"}</button></td>
+                <td class="worship_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].worship_vocal[0] != undefined ? services[i].worship_vocal[1] : "-"}">${services[i].worship_vocal[1] != undefined ? services[i].worship_vocal[1] : "-"}</button></td>
+                <td class="worship_col"><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].worship_vocal[0] != undefined ? services[i].worship_vocal[2] : "-"}">${services[i].worship_vocal[2] != undefined ? services[i].worship_vocal[2] : "-"}</button></td>
+            <td><button class="btn" onmouseover="filter(this.value)" onmouseout="reset()" value="${services[i].niuma}">${services[i].niuma}</button></td>`;
+        }
+    }
+
+    function filter(input) {
+        if(input != "-") {
+            var table = document.getElementById("cecfo-service-tbody");
+            Array.from(table.rows).forEach(row => {
+                Array.from(row.cells).forEach(cell => {
+                    if (!cell.innerText.includes(input)) {
+                        cell.style.opacity = "0.25";
+                    }
+                });
+            });
+        }
+    }
+
+    function reset() {
+        var table = document.getElementById("cecfo-service-tbody");
+        Array.from(table.rows).forEach(row => {
+			Array.from(row.cells).forEach(cell => {
+                cell.style.opacity = "1";
+			});
+		});
+    }
+</script>
+
+</html>
