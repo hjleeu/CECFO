@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
         </script>
+    <script type="text/javascript" src="https://github.com/niklasvh/html2canvas/releases/download/0.5.0-alpha1/html2canvas.js"></script>
     <style>
         .date_col {background-color: #eddcd2 !important; text-align: center !important;}
         .host_col {background-color: #fff1e6 !important; text-align: center !important;}
@@ -53,6 +54,7 @@
             </thead>
             <tbody class="table-group-divider" id="cecfo-service-tbody"></tbody>
         </table>
+        <button class="btn btn-success" onclick="downloadAsImg()">下载表格</button>
     </div>
 </body>
 <script>
@@ -225,6 +227,16 @@
                 });
             });
         }
+    }
+
+    function downloadAsImg() {
+        html2canvas(document.getElementById("cecfo-service")).then(canvas => {
+                const a = document.createElement("a");
+                a.href = canvas.toDataURL("image/png");
+                a.download = "services.png";
+                a.click();
+            }
+        )
     }
 </script>
 
