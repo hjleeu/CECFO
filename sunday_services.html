@@ -21,7 +21,7 @@
         .clean_up_col {background-color: #f0efeb !important; text-align: center !important;}
         .reception_col {background-color: #d6e2e9 !important; text-align: center !important;}
         .worship_col {background-color: #bcd4e6 !important; text-align: center !important;}
-        .niuma_col {background-color: #99c1de !important; text-align: center !important;}
+        .mix_team_col {background-color: #99c1de !important; text-align: center !important;}
     </style>
 </head>
 
@@ -52,6 +52,8 @@
                     <th scope="col" class="worship_col">敬拜带领</th>
                     <th scope="col" class="worship_col">敬拜司琴</th>
                     <th scope="col" class="worship_col">敬拜鼓手</th>
+                    <th scope="col" class="worship_col">敬拜吉他手</th>
+                    <th scope="col" class="worship_col">敬拜贝斯手</th>
                     <th scope="col" class="worship_col" colspan="3">敬拜领唱</th>
                     <th scope="col" class="niuma_col">音控&文字</th>
                 </tr>
@@ -61,139 +63,337 @@
     </div>
 </body>
 <script>
-    const services = [
-        {
-            date: "3月第4周", host: "裘先平", adoration_pry: "季育林", memorial_pry: "张爱丽", scripture_reader: {reader: "蒋励", bible: "雅1:1-18节"}, sermon: "陈章",
-            youth_group: "陈恩德", big_class: "林可盈", medium_class: "季凯伦", small_class: "季艳芬", clean_up: ["郑海燕", "郑小燕"], reception: ["陈佳倩", "厉子浩"],
-            worship_lead: "林可盈", worship_piano: "-", worship_drums: "留宇泽", worship_vocal: ["陈佳怡", "陈曦", "季霜双"],
-            niuma: "黄浩琪"
-        },
-        {
-            date: "3月第5周", host: "陈章", adoration_pry: "吴荣良", memorial_pry: "郑海燕", scripture_reader: {reader: "柳美灵", bible: "雅1:19-27节"}, sermon: "陈恩德",
-            youth_group: "柳徐康", big_class: "柯铭", medium_class: "周月珍", small_class: "杨金爱", clean_up: ["陈秀梅", "林定娟"], reception: ["柯铭", "柳安琪"],
-            worship_lead: "王纯智", worship_piano: "吴优", worship_drums: "留宇泽", worship_vocal: ["陈章", "季凯静", "吴佳怡"],
-            niuma: "柳豪杰"
-        },
-        {
-            date: "4月第1周", host: "裘先平", adoration_pry: "季育林", memorial_pry: "胡莉莉", scripture_reader: {reader: "陈智轩", bible: "雅2:1-13节"}, sermon: "王少东",
-            youth_group: "-", big_class: "柯铭", medium_class: "-", small_class: "季艳芬", clean_up: ["季育林", "留丽珠"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "4月第2周", host: "林良恩", adoration_pry: "裘先平", memorial_pry: "廖珍云", scripture_reader: {reader: "蒋俐珊", bible: "雅2:14-26节"}, sermon: "陈章",
-            youth_group: "-", big_class: "林可盈", medium_class: "应月珍", small_class: "杨金爱", clean_up: ["陈章", "张雪琴"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "4月第3周", host: "季育林", adoration_pry: "吴荣良", memorial_pry: "王纯智", scripture_reader: {reader: "厉子浩", bible: "雅3:1-18节"}, sermon: "金悦恩",
-            youth_group: "-", big_class: "柯铭", medium_class: "周月珍", small_class: "周青青", clean_up: ["廖珍云", "柳徐康"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "4月第4周", host: "吴荣良", adoration_pry: "季育林", memorial_pry: "陈兴雪", scripture_reader: {reader: "吴家乐", bible: "雅4:1-17节"}, sermon: "潘胜洁",
-            youth_group: "-", big_class: "陈章", medium_class: "季凯伦", small_class: "杨金爱", clean_up: ["陈兴雪", "裘先平"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "5月第1周", host: "-", adoration_pry: "王纯智", memorial_pry: "张雪琴", scripture_reader: {reader: "季妍", bible: "雅5:1-20"}, sermon: "陈海峰",
-            youth_group: "-", big_class: "柯铭", medium_class: "-", small_class: "季艳芬", clean_up: ["厉勇毅", "吴荣良"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "5月第2周", host: "柳徐康", adoration_pry: "季育林", memorial_pry: "刘翠娟", scripture_reader: {reader: "季双凯", bible: "彼前1:1-25节"}, sermon: "陈利民",
-            youth_group: "-", big_class: "林可盈", medium_class: "周月珍", small_class: "杨金爱", clean_up: ["郑海燕", "郑小燕"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "5月第3周", host: "季育林", adoration_pry: "吴荣良", memorial_pry: "廖珍云", scripture_reader: {reader: "吴雨乐", bible: "彼前2:1-25节"}, sermon: "裘彩平",
-            youth_group: "-", big_class: "陈章", medium_class: "应月珍", small_class: "周青青", clean_up: ["陈秀梅", "林定娟"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "5月第4周", host: "裘先平", adoration_pry: "刘荣霞", memorial_pry: "张爱丽", scripture_reader: {reader: "陈曦", bible: "彼前3:1-22节"}, sermon: "陈晔",
-            youth_group: "-", big_class: "林可盈", medium_class: "-", small_class: "杨金爱", clean_up: ["季育林", "留丽珠"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "5月第5周", host: "陈章", adoration_pry: "吴立平", memorial_pry: "胡莉莉", scripture_reader: {reader: "胡杰", bible: "彼前4:1-19节"}, sermon: "陈恩德",
-            youth_group: "-", big_class: "柳徐康", medium_class: "季凯伦", small_class: "季艳芬", clean_up: ["陈章", "张雪琴"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "6月第1周", host: "季育林", adoration_pry: "吴荣良", memorial_pry: "陈兴雪", scripture_reader: {reader: "黄浩琪", bible: "彼前5:1-14节"}, sermon: "陈灵雅",
-            youth_group: "-", big_class: "柯铭", medium_class: "应月珍", small_class: "杨金爱", clean_up: ["廖珍云", "柳徐康"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "6月第2周", host: "柳徐康", adoration_pry: "裘先平", memorial_pry: "廖珍云", scripture_reader: {reader: "柳安琪", bible: "彼后1:1-21节"}, sermon: "邱冠民",
-            youth_group: "-", big_class: "陈章", medium_class: "唐晓东", small_class: "周青青", clean_up: ["陈兴雪", "裘先平"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "6月第3周", host: "吴荣良", adoration_pry: "季育林", memorial_pry: "张雪琴", scripture_reader: {reader: "陈家俊", bible: "彼后2:1-22节"}, sermon: "王怀芝",
-            youth_group: "-", big_class: "林可盈", medium_class: "周月珍", small_class: "杨金爱", clean_up: ["厉勇毅", "吴荣良"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        },
-        {
-            date: "6月第4周", host: "裘先平", adoration_pry: "吴立平", memorial_pry: "郑海燕", scripture_reader: {reader: "蒋励", bible: "彼后3:1-18节"}, sermon: "陈章",
-            youth_group: "-", big_class: "柳徐康", medium_class: "唐晓东", small_class: "季艳芬", clean_up: ["郑海燕", "郑小燕"], reception: ["-", "-"],
-            worship_lead: "-", worship_piano: "-", worship_drums: "-", worship_vocal: ["-", "-", "-"],
-            niuma: "-"
-        }
-    ]
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
 
-    window.onload = function () {
-        var service = document.getElementById("cecfo-service-tbody");
+    var service_table = document.getElementById("cecfo-service-tbody");
+    var services_list = [];
+    let clicked;
 
-        for (let i = 0; i < services.length; i++) {
-            var thisrow = service.insertRow(i);
+    async function fetchData() {
+        try {
+            const response = await fetch(scriptUrl);
+            const data = await response.json();
 
-            thisrow.innerHTML = `
-            <th scope="row" class="date_col">${services[i].date}</th>
-            <td class="host_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].host}">${services[i].host}</button></td>
-            <td class="prayer_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].adoration_pry}">${services[i].adoration_pry}</button></td>
-            <td class="prayer_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].memorial_pry}">${services[i].memorial_pry}</button></td>
-            <td class="read_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].scripture_reader.reader}">${services[i].scripture_reader.reader}</button><br>${services[i].scripture_reader.bible}</td>
-            <td class="sermon_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].sermon}">${services[i].sermon}</button></td>
-            <td class="sunday_school_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].youth_group}">${services[i].youth_group}</button></td>
-            <td class="sunday_school_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].big_class}">${services[i].big_class}</button></td>
-            <td class="sunday_school_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].medium_class}">${services[i].medium_class}</button></td>
-            <td class="sunday_school_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].small_class}">${services[i].small_class}</button></td>
-            <td class="clean_up_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].clean_up[0] != undefined ? services[i].clean_up[0] : "-"}">${services[i].clean_up[0] != undefined ? services[i].clean_up[0] : "-"}</button></td>
-                <td class="clean_up_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].clean_up[1] != undefined ? services[i].clean_up[1] : "-"}">${services[i].clean_up[1] != undefined ? services[i].clean_up[1] : "-"}</button></td>
-            <td class="reception_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].reception[0] != undefined ? services[i].reception[0] : "-"}">${services[i].reception[0] != undefined ? services[i].reception[0] : "-"}</button></td>
-                <td class="reception_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].reception[1] != undefined ? services[i].reception[1] : "-"}">${services[i].reception[1] != undefined ? services[i].reception[1] : "-"}</button></td>
-            <td class="worship_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].worship_lead}">${services[i].worship_lead}</button></td>
-            <td class="worship_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].worship_piano}">${services[i].worship_piano}</button></td>
-            <td class="worship_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].worship_drums}">${services[i].worship_drums}</button></td>
-            <td class="worship_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].worship_vocal[0] != undefined ? services[i].worship_vocal[0] : "-"}">${services[i].worship_vocal[0] != undefined ? services[i].worship_vocal[0] : "-"}</button></td>
-                <td class="worship_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].worship_vocal[0] != undefined ? services[i].worship_vocal[1] : "-"}">${services[i].worship_vocal[1] != undefined ? services[i].worship_vocal[1] : "-"}</button></td>
-                <td class="worship_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].worship_vocal[0] != undefined ? services[i].worship_vocal[2] : "-"}">${services[i].worship_vocal[2] != undefined ? services[i].worship_vocal[2] : "-"}</button></td>
-            <td class="niuma_col"><button class="btn" onclick="filter_click(this.value)" onmouseover="filter_hover(this.value)" onmouseout="reset()" value="${services[i].niuma}">${services[i].niuma}</button></td>`;
+            return data;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return [];
         }
     }
 
-    let clicked = 0; // 0 not clicked, 1 clicked.
+    window.onload = async function () {
+        var services_list = await fetchData();
+
+        for (let i = 0; i < services_list.length; i++) {
+            console.log(services_list[i].host);
+
+            var thisrow = service_table.insertRow(i);
+
+            /* My header column, rapresenting the date. */
+            var row_h = document.createElement("th");
+            row_h.className = "date_col";
+            row_h.scope = "row";
+            row_h.textContent = services_list[i].date;
+            thisrow.appendChild(row_h);
+
+            /* Host column .*/
+            var host_col = document.createElement("td");
+            host_col.className = "host_col";
+            var host_btn = document.createElement("button");
+            host_btn.className = "btn";
+            host_btn.value = services_list[i].host ? services_list[i].host : "-";
+            host_btn.textContent = services_list[i].host ? services_list[i].host : "-";
+            host_btn.onclick = function() { filter_click(this.value); };
+            host_btn.onmouseover = function() { filter_hover(this.value) };
+            host_btn.onmouseout = function() { reset() };
+            host_col.appendChild(host_btn);
+            thisrow.appendChild(host_col);
+
+            /* Worship pray column. */
+            var worship_pray_col = document.createElement("td");
+            worship_pray_col.className = "prayer_col";
+            var worship_pray_btn = document.createElement("button");
+            worship_pray_btn.className = "btn";
+            worship_pray_btn.value = services_list[i].worship_pray ? services_list[i].worship_pray : "-";
+            worship_pray_btn.textContent = services_list[i].worship_pray ? services_list[i].worship_pray : "-";
+            worship_pray_btn.onclick = function() { filter_click(this.value); };
+            worship_pray_btn.onmouseover = function() { filter_hover(this.value) };
+            worship_pray_btn.onmouseout = function() { reset(); };
+            worship_pray_col.appendChild(worship_pray_btn);
+            thisrow.appendChild(worship_pray_col);
+
+            /* Memorial pray column. */
+            var memorial_pray_col = document.createElement("td");
+            memorial_pray_col.className = "prayer_col";
+            var memorial_pray_btn = document.createElement("button");
+            memorial_pray_btn.className = "btn";
+            memorial_pray_btn.value = services_list[i].memorial_pray != "" ? services_list[i].memorial_pray : "-";
+            memorial_pray_btn.textContent = services_list[i].memorial_pray != "" ? services_list[i].memorial_pray : "-";
+            memorial_pray_btn.onclick = function() { filter_click(this.value); };
+            memorial_pray_btn.onmouseover = function() { filter_hover(this.value); };
+            memorial_pray_btn.onmouseout = function() { reset(); };
+            memorial_pray_col.appendChild(memorial_pray_btn);
+            thisrow.appendChild(memorial_pray_col);
+
+            /* Scripture reading column. */
+            var scr_read_col = document.createElement("td");
+            scr_read_col.className = "read_col";
+            var scr_read_btn = document.createElement("button");
+            scr_read_btn.className = "btn";
+            scr_read_btn.value = services_list[i].scripture_reader ? services_list[i].scripture_reader : "-";
+            scr_read_btn.textContent = services_list[i].scripture_reader ? services_list[i].scripture_reader : "-";
+            scr_read_btn.onclick = function() { filter_click(this.value); };
+            scr_read_btn.onmouseover = function() { filter_hover(this.value); };
+            scr_read_btn.onmouseout = function() { reset(); };
+            scr_read_col.appendChild(scr_read_btn);
+            scr_read_col.appendChild(document.createElement("br"));
+            var scr_read_label = document.createElement("label");
+            scr_read_label.textContent = services_list[i].scripture_toread != "" ? services_list[i].scripture_toread : "";
+            scr_read_col.appendChild(scr_read_label);
+            thisrow.appendChild(scr_read_col);
+
+            /* Sermon column. */
+            var sermon_col = document.createElement("td");
+            sermon_col.className = "sermon_col";
+            var sermon_btn = document.createElement("button");
+            sermon_btn.className = "btn";
+            sermon_btn.value = services_list[i].sermon != "" ? services_list[i].sermon : "-";
+            sermon_btn.textContent = services_list[i].sermon != "" ? services_list[i].sermon : "-";
+            sermon_btn.onclick = function() { filter_click(this.value); };
+            sermon_btn.onmouseover = function() { filter_hover(this.value); };
+            sermon_btn.onmouseout = function() { reset(); };
+            sermon_col.appendChild(sermon_btn);
+            thisrow.appendChild(sermon_col);
+
+            /* Youth community column. */
+            var youth_col = document.createElement("td");
+            youth_col.className = "sunday_school_col";
+            var youth_btn = document.createElement("button");
+            youth_btn.className = "btn";
+            youth_btn.value = services_list[i].youth_comm != "" ? services_list[i].youth_comm : "-";
+            youth_btn.textContent = services_list[i].youth_comm != "" ? services_list[i].youth_comm : "-";
+            youth_btn.onclick = function() { filter_click(this.value); };
+            youth_btn.onmouseover = function() { filter_hover(this.value); };
+            youth_btn.onmouseout = function() { reset(); };
+            youth_col.appendChild(youth_btn);
+            thisrow.appendChild(youth_col);
+
+            /* Big class column. */
+            var bclass_col = document.createElement("td");
+            bclass_col.className = "sunday_school_col";
+            var bclass_btn = document.createElement("button");
+            bclass_btn.className = "btn";
+            bclass_btn.value = services_list[i].sunschool_big != "" ? services_list[i].sunschool_big : "-";
+            bclass_btn.textContent = services_list[i].sunschool_big != "" ? services_list[i].sunschool_big : "-";
+            bclass_btn.onclick = function() { filter_click(this.value); };
+            bclass_btn.onmouseover = function() { filter_hover(this.value); };
+            bclass_btn.onmouseout = function() { reset(); };
+            bclass_col.appendChild(bclass_btn);
+            thisrow.appendChild(bclass_col);
+
+            /* Medium class column. */
+            var mclass_col = document.createElement("td");
+            mclass_col.className = "sunday_school_col";
+            var mclass_btn = document.createElement("button");
+            mclass_btn.className = "btn";
+            mclass_btn.value = services_list[i].sunschool_medium != "" ? services_list[i].sunschool_medium : "-";
+            mclass_btn.textContent = services_list[i].sunschool_medium != "" ? services_list[i].sunschool_medium : "-";
+            mclass_btn.onclick = function() { filter_click(this.value); };
+            mclass_btn.onmouseover = function() { filter_hover(this.value); };
+            mclass_btn.onmouseout = function() { reset(); };
+            mclass_col.appendChild(mclass_btn);
+            thisrow.appendChild(mclass_col);
+
+            /* Small class column. */
+            var sclass_col = document.createElement("td");
+            sclass_col.className = "sunday_school_col";
+            var sclass_btn = document.createElement("button");
+            sclass_btn.className = "btn";
+            sclass_btn.value = services_list[i].sunschool_small != "" ? services_list[i].sunschool_small : "-";
+            sclass_btn.textContent = services_list[i].sunschool_small != "" ? services_list[i].sunschool_small : "-";
+            sclass_btn.onclick = function() { filter_click(this.value); };
+            sclass_btn.onmouseover = function() { filter_hover(this.value); };
+            sclass_btn.onmouseout = function() { reset(); };
+            sclass_col.appendChild(sclass_btn);
+            thisrow.appendChild(sclass_col);
+
+            /* Clean up columns. */
+            var clean_up_col1 = document.createElement("td");
+            var clean_up_col2 = document.createElement("td");
+            clean_up_col1.className = "clean_up_col";
+            clean_up_col2.className = "clean_up_col";
+            var clean_up_btn1 = document.createElement("button");
+            var clean_up_btn2 = document.createElement("button");
+            clean_up_btn1.className = "btn";
+            clean_up_btn2.className = "btn";
+            clean_up_btn1.value = services_list[i].clean_up01 != "" ? services_list[i].clean_up01 : "-";
+            clean_up_btn1.textContent = services_list[i].clean_up01 != "" ? services_list[i].clean_up01 : "-";
+            clean_up_btn2.value = services_list[i].clean_up02 != "" ? services_list[i].clean_up02 : "-";
+            clean_up_btn2.textContent = services_list[i].clean_up02 != "" ? services_list[i].clean_up02 : "-";
+            clean_up_btn1.onclick = function() { filter_click(this.value); };
+            clean_up_btn1.onmouseover = function() { filter_hover(this.value); };
+            clean_up_btn1.onmouseout = function() { reset(); };
+            clean_up_btn2.onclick = function() { filter_click(this.value); };
+            clean_up_btn2.onmouseover = function() { filter_hover(this.value); };
+            clean_up_btn2.onmouseout = function() { reset(); };
+            clean_up_col1.appendChild(clean_up_btn1);
+            clean_up_col2.appendChild(clean_up_btn2);
+            thisrow.appendChild(clean_up_col1);
+            thisrow.appendChild(clean_up_col2);
+
+            /* Reception columns. */
+            var reception_col1 = document.createElement("td");
+            var reception_col2 = document.createElement("td");
+            reception_col1.className = "reception_col";
+            reception_col2.className = "reception_col";
+            var reception_btn1 = document.createElement("button");
+            var reception_btn2 = document.createElement("button");
+            reception_btn1.className = "btn";
+            reception_btn2.className = "btn";
+            reception_btn1.value = services_list[i].reception01 != "" ? services_list[i].reception01 : "-";
+            reception_btn1.textContent = services_list[i].reception01 != "" ? services_list[i].reception01 : "-";
+            reception_btn2.value = services_list[i].reception02 != "" ? services_list[i].reception02 : "-";
+            reception_btn2.textContent = services_list[i].reception02 != "" ? services_list[i].reception02 : "-";
+            reception_btn1.onclick = function() { filter_click(this.value); };
+            reception_btn1.onmouseover = function() { filter_hover(this.value); };
+            reception_btn1.onmouseout = function() { reset(); };
+            reception_btn2.onclick = function() { filter_click(this.value); };
+            reception_btn2.onmouseover = function() { filter_hover(this.value); };
+            reception_btn2.onmouseout = function() { reset(); };
+            reception_col1.appendChild(reception_btn1);
+            reception_col2.appendChild(reception_btn2);
+            thisrow.appendChild(reception_col1);
+            thisrow.appendChild(reception_col2);
+
+            /* Worship leader column. */
+            var ws_leader_col = document.createElement("td");
+            ws_leader_col.className = "worship_col";
+            var ws_leader_btn = document.createElement("button");
+            ws_leader_btn.className = "btn";
+            ws_leader_btn.value = services_list[i].leader != "" ? services_list[i].leader : "-";
+            ws_leader_btn.textContent = services_list[i].leader != "" ? services_list[i].leader : "-";
+            ws_leader_btn.onclick = function() { filter_click(this.value); };
+            ws_leader_btn.onmouseover = function() { filter_hover(this.value); };
+            ws_leader_btn.onmouseout = function() { reset(); };
+            ws_leader_col.appendChild(ws_leader_btn);
+            thisrow.appendChild(ws_leader_col);
+
+            /* Worship piano column. */
+            var ws_piano_col = document.createElement("td");
+            ws_piano_col.className = "worship_col";
+            var ws_piano_btn = document.createElement("button");
+            ws_piano_btn.className = "btn";
+            ws_piano_btn.value = services_list[i].piano != "" ? services_list[i].piano : "-";
+            ws_piano_btn.textContent = services_list[i].piano != "" ? services_list[i].piano : "-";
+            ws_piano_btn.onclick = function() { filter_click(this.value); };
+            ws_piano_btn.onmouseover = function() { filter_hover(this.value); };
+            ws_piano_btn.onmouseout = function() { reset(); };
+            ws_piano_col.appendChild(ws_piano_btn);
+            thisrow.appendChild(ws_piano_col);
+
+            /* Worship drums column. */
+            var ws_drums_col = document.createElement("td");
+            ws_drums_col.className = "worship_col";
+            var ws_drums_btn = document.createElement("button");
+            ws_drums_btn.className = "btn";
+            ws_drums_btn.value = services_list[i].drums != "" ? services_list[i].drums : "-";
+            ws_drums_btn.textContent = services_list[i].drums != "" ? services_list[i].drums : "-";
+            ws_drums_btn.onclick = function() { filter_click(this.value); };
+            ws_drums_btn.onmouseover = function() { filter_hover(this.value); };
+            ws_drums_btn.onmouseout = function() { reset(); };
+            ws_drums_col.appendChild(ws_drums_btn);
+            thisrow.appendChild(ws_drums_col);
+
+            /* Worship guitar column. */
+            var ws_guitar_col = document.createElement("td");
+            ws_guitar_col.className = "worship_col";
+            var ws_guitar_btn = document.createElement("button");
+            ws_guitar_btn.className = "btn";
+            ws_guitar_btn.value = services_list[i].guitar != "" ? services_list[i].guitar : "-";
+            ws_guitar_btn.textContent = services_list[i].guitar != "" ? services_list[i].guitar : "-";
+            ws_guitar_btn.onclick = function() { filter_click(this.value); };
+            ws_guitar_btn.onmouseover = function() { filter_hover(this.value); };
+            ws_guitar_btn.onmouseout = function() { reset(); };
+            ws_guitar_col.appendChild(ws_guitar_btn);
+            thisrow.appendChild(ws_guitar_col);
+
+            /* Worship bass column. */
+            var ws_bass_col = document.createElement("td");
+            ws_bass_col.className = "worship_col";
+            var ws_bass_btn = document.createElement("button");
+            ws_bass_btn.className = "btn";
+            ws_bass_btn.value = services_list[i].bass != "" ? services_list[i].bass : "-";
+            ws_bass_btn.textContent = services_list[i].bass != "" ? services_list[i].bass : "-";
+            ws_bass_btn.onclick = function() { filter_click(this.value); };
+            ws_bass_btn.onmouseover = function() { filter_hover(this.value); };
+            ws_bass_btn.onmouseout = function() { reset(); };
+            ws_bass_col.appendChild(ws_bass_btn);
+            thisrow.appendChild(ws_bass_col);
+
+            /* Worship vocal columns. */
+            var ws_vocal_col01 = document.createElement("td");
+            ws_vocal_col01.className = "worship_col";
+            var ws_vocal_btn01 = document.createElement("button");
+            ws_vocal_btn01.className = "btn";
+            ws_vocal_btn01.value = services_list[i].vocal01 != "" ? services_list[i].vocal01 : "-";
+            ws_vocal_btn01.textContent = services_list[i].vocal01 != "" ? services_list[i].vocal01 : "-";
+            ws_vocal_btn01.onclick = function() { filter_click(this.value); };
+            ws_vocal_btn01.onmouseover = function() { filter_hover(this.value); };
+            ws_vocal_btn01.onmouseout = function() { reset(); };
+            ws_vocal_col01.appendChild(ws_vocal_btn01);
+            thisrow.appendChild(ws_vocal_col01);
+
+            var ws_vocal_col02 = document.createElement("td");
+            ws_vocal_col02.className = "worship_col";
+            var ws_vocal_btn02 = document.createElement("button");
+            ws_vocal_btn02.className = "btn";
+            ws_vocal_btn02.value = services_list[i].vocal02 != "" ? services_list[i].vocal02 : "-";
+            ws_vocal_btn02.textContent = services_list[i].vocal02 != "" ? services_list[i].vocal02 : "-";
+            ws_vocal_btn02.onclick = function() { filter_click(this.value); };
+            ws_vocal_btn02.onmouseover = function() { filter_hover(this.value); };
+            ws_vocal_btn02.onmouseout = function() { reset(); };
+            ws_vocal_col02.appendChild(ws_vocal_btn02);
+            thisrow.appendChild(ws_vocal_col02);
+
+            var ws_vocal_col03 = document.createElement("td");
+            ws_vocal_col03.className = "worship_col";
+            var ws_vocal_btn03 = document.createElement("button");
+            ws_vocal_btn03.className = "btn";
+            ws_vocal_btn03.value = services_list[i].vocal03 != "" ? services_list[i].vocal03 : "-";
+            ws_vocal_btn03.textContent = services_list[i].vocal03 != "" ? services_list[i].vocal03 : "-";
+            ws_vocal_btn03.onclick = function() { filter_click(this.value); };
+            ws_vocal_btn03.onmouseover = function() { filter_hover(this.value); };
+            ws_vocal_btn03.onmouseout = function() { reset(); };
+            ws_vocal_col03.appendChild(ws_vocal_btn03);
+            thisrow.appendChild(ws_vocal_col03);
+
+            /* Mixing team column. */
+            var mix_col = document.createElement("td");
+            mix_col.className = "sunday_school_col";
+            var mix_btn = document.createElement("button");
+            mix_btn.className = "btn";
+            mix_btn.value = services_list[i].mix_team != "" ? services_list[i].mix_team : "-";
+            mix_btn.textContent = services_list[i].mix_team != "" ? services_list[i].mix_team : "-";
+            mix_btn.onclick = function() { filter_click(this.value); };
+            mix_btn.onmouseover = function() { filter_hover(this.value); };
+            mix_btn.onmouseout = function() { reset(); };
+            mix_col.appendChild(mix_btn);
+            thisrow.appendChild(mix_col);
+        }
+
+        clicked = 0; // 0 not clicked, 1 clicked.
+        reset();
+    }
+
+
     function filter_click(input) {
+        /* Ignore cells that does not contain an acceptable value. */
         if(input != "-") {
-            var table = document.getElementById("cecfo-service-tbody");
             if(clicked == 1) {
                 clicked = 0;
                 reset();
             } else {
-                Array.from(table.rows).forEach(row => {
+                Array.from(service_table.rows).forEach(row => {
                     Array.from(row.cells).forEach((cell, i) => {
                         if(i === 0) return;
                         if (!cell.innerText.includes(input)) {
@@ -208,10 +408,9 @@
 
     function filter_hover(input) {
         if(input != "-" && clicked == 0) {
-            var table = document.getElementById("cecfo-service-tbody");
-            Array.from(table.rows).forEach(row => {
+            Array.from(service_table.rows).forEach(row => {
                 Array.from(row.cells).forEach((cell, i) => {
-                    if(i === 0) return;
+                    if(i === 0) return; // Ignore the first colunm.
                     if (!cell.innerText.includes(input)) {
                         cell.style.opacity = "0.25";
                     }
@@ -221,10 +420,9 @@
     }
 
     function reset() {
-        // When clicked was set to 1, disable this function.
+        // When clicked is set to 1, this function is disabled.
         if(clicked == 0) {
-            var table = document.getElementById("cecfo-service-tbody");
-            Array.from(table.rows).forEach(row => {
+            Array.from(service_table.rows).forEach(row => {
                 Array.from(row.cells).forEach(cell => {
                     cell.style.opacity = "1";
                 });
