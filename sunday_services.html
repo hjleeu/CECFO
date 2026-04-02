@@ -65,8 +65,7 @@
 <script>
     const scriptUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
 
-    var service_table = document.getElementById("cecfo-service-tbody");
-    var services_list = [];
+    let service_table = document.getElementById("cecfo-service-tbody");
     let clicked;
 
     async function fetchData() {
@@ -82,24 +81,24 @@
     }
 
     window.onload = async function () {
-        var services_list = await fetchData();
+        const services_list = await fetchData();
 
         for (let i = 0; i < services_list.length; i++) {
             console.log(services_list[i].host);
 
-            var thisrow = service_table.insertRow(i);
+            let thisrow = service_table.insertRow(i);
 
             /* My header column, rapresenting the date. */
-            var row_h = document.createElement("th");
+            let row_h = document.createElement("th");
             row_h.className = "date_col";
             row_h.scope = "row";
             row_h.textContent = services_list[i].date;
             thisrow.appendChild(row_h);
 
-            /* Host column .*/
-            var host_col = document.createElement("td");
+            /* Host column. */
+            let host_col = document.createElement("td");
             host_col.className = "host_col";
-            var host_btn = document.createElement("button");
+            let host_btn = document.createElement("button");
             host_btn.className = "btn";
             host_btn.value = services_list[i].host ? services_list[i].host : "-";
             host_btn.textContent = services_list[i].host ? services_list[i].host : "-";
@@ -110,9 +109,9 @@
             thisrow.appendChild(host_col);
 
             /* Worship pray column. */
-            var worship_pray_col = document.createElement("td");
+            let worship_pray_col = document.createElement("td");
             worship_pray_col.className = "prayer_col";
-            var worship_pray_btn = document.createElement("button");
+            let worship_pray_btn = document.createElement("button");
             worship_pray_btn.className = "btn";
             worship_pray_btn.value = services_list[i].worship_pray ? services_list[i].worship_pray : "-";
             worship_pray_btn.textContent = services_list[i].worship_pray ? services_list[i].worship_pray : "-";
@@ -123,9 +122,9 @@
             thisrow.appendChild(worship_pray_col);
 
             /* Memorial pray column. */
-            var memorial_pray_col = document.createElement("td");
+            let memorial_pray_col = document.createElement("td");
             memorial_pray_col.className = "prayer_col";
-            var memorial_pray_btn = document.createElement("button");
+            let memorial_pray_btn = document.createElement("button");
             memorial_pray_btn.className = "btn";
             memorial_pray_btn.value = services_list[i].memorial_pray != "" ? services_list[i].memorial_pray : "-";
             memorial_pray_btn.textContent = services_list[i].memorial_pray != "" ? services_list[i].memorial_pray : "-";
@@ -136,9 +135,9 @@
             thisrow.appendChild(memorial_pray_col);
 
             /* Scripture reading column. */
-            var scr_read_col = document.createElement("td");
+            let scr_read_col = document.createElement("td");
             scr_read_col.className = "read_col";
-            var scr_read_btn = document.createElement("button");
+            let scr_read_btn = document.createElement("button");
             scr_read_btn.className = "btn";
             scr_read_btn.value = services_list[i].scripture_reader ? services_list[i].scripture_reader : "-";
             scr_read_btn.textContent = services_list[i].scripture_reader ? services_list[i].scripture_reader : "-";
@@ -147,15 +146,15 @@
             scr_read_btn.onmouseout = function() { reset(); };
             scr_read_col.appendChild(scr_read_btn);
             scr_read_col.appendChild(document.createElement("br"));
-            var scr_read_label = document.createElement("label");
+            let scr_read_label = document.createElement("label");
             scr_read_label.textContent = services_list[i].scripture_toread != "" ? services_list[i].scripture_toread : "";
             scr_read_col.appendChild(scr_read_label);
             thisrow.appendChild(scr_read_col);
 
             /* Sermon column. */
-            var sermon_col = document.createElement("td");
+            let sermon_col = document.createElement("td");
             sermon_col.className = "sermon_col";
-            var sermon_btn = document.createElement("button");
+            let sermon_btn = document.createElement("button");
             sermon_btn.className = "btn";
             sermon_btn.value = services_list[i].sermon != "" ? services_list[i].sermon : "-";
             sermon_btn.textContent = services_list[i].sermon != "" ? services_list[i].sermon : "-";
@@ -166,9 +165,9 @@
             thisrow.appendChild(sermon_col);
 
             /* Youth community column. */
-            var youth_col = document.createElement("td");
+            let youth_col = document.createElement("td");
             youth_col.className = "sunday_school_col";
-            var youth_btn = document.createElement("button");
+            let youth_btn = document.createElement("button");
             youth_btn.className = "btn";
             youth_btn.value = services_list[i].youth_comm != "" ? services_list[i].youth_comm : "-";
             youth_btn.textContent = services_list[i].youth_comm != "" ? services_list[i].youth_comm : "-";
@@ -179,9 +178,9 @@
             thisrow.appendChild(youth_col);
 
             /* Big class column. */
-            var bclass_col = document.createElement("td");
+            let bclass_col = document.createElement("td");
             bclass_col.className = "sunday_school_col";
-            var bclass_btn = document.createElement("button");
+            let bclass_btn = document.createElement("button");
             bclass_btn.className = "btn";
             bclass_btn.value = services_list[i].sunschool_big != "" ? services_list[i].sunschool_big : "-";
             bclass_btn.textContent = services_list[i].sunschool_big != "" ? services_list[i].sunschool_big : "-";
@@ -192,9 +191,9 @@
             thisrow.appendChild(bclass_col);
 
             /* Medium class column. */
-            var mclass_col = document.createElement("td");
+            let mclass_col = document.createElement("td");
             mclass_col.className = "sunday_school_col";
-            var mclass_btn = document.createElement("button");
+            let mclass_btn = document.createElement("button");
             mclass_btn.className = "btn";
             mclass_btn.value = services_list[i].sunschool_medium != "" ? services_list[i].sunschool_medium : "-";
             mclass_btn.textContent = services_list[i].sunschool_medium != "" ? services_list[i].sunschool_medium : "-";
@@ -205,9 +204,9 @@
             thisrow.appendChild(mclass_col);
 
             /* Small class column. */
-            var sclass_col = document.createElement("td");
+            let sclass_col = document.createElement("td");
             sclass_col.className = "sunday_school_col";
-            var sclass_btn = document.createElement("button");
+            let sclass_btn = document.createElement("button");
             sclass_btn.className = "btn";
             sclass_btn.value = services_list[i].sunschool_small != "" ? services_list[i].sunschool_small : "-";
             sclass_btn.textContent = services_list[i].sunschool_small != "" ? services_list[i].sunschool_small : "-";
@@ -218,12 +217,12 @@
             thisrow.appendChild(sclass_col);
 
             /* Clean up columns. */
-            var clean_up_col1 = document.createElement("td");
-            var clean_up_col2 = document.createElement("td");
+            let clean_up_col1 = document.createElement("td");
+            let clean_up_col2 = document.createElement("td");
             clean_up_col1.className = "clean_up_col";
             clean_up_col2.className = "clean_up_col";
-            var clean_up_btn1 = document.createElement("button");
-            var clean_up_btn2 = document.createElement("button");
+            let clean_up_btn1 = document.createElement("button");
+            let clean_up_btn2 = document.createElement("button");
             clean_up_btn1.className = "btn";
             clean_up_btn2.className = "btn";
             clean_up_btn1.value = services_list[i].clean_up01 != "" ? services_list[i].clean_up01 : "-";
@@ -242,12 +241,12 @@
             thisrow.appendChild(clean_up_col2);
 
             /* Reception columns. */
-            var reception_col1 = document.createElement("td");
-            var reception_col2 = document.createElement("td");
+            let reception_col1 = document.createElement("td");
+            let reception_col2 = document.createElement("td");
             reception_col1.className = "reception_col";
             reception_col2.className = "reception_col";
-            var reception_btn1 = document.createElement("button");
-            var reception_btn2 = document.createElement("button");
+            let reception_btn1 = document.createElement("button");
+            let reception_btn2 = document.createElement("button");
             reception_btn1.className = "btn";
             reception_btn2.className = "btn";
             reception_btn1.value = services_list[i].reception01 != "" ? services_list[i].reception01 : "-";
@@ -266,9 +265,9 @@
             thisrow.appendChild(reception_col2);
 
             /* Worship leader column. */
-            var ws_leader_col = document.createElement("td");
+            let ws_leader_col = document.createElement("td");
             ws_leader_col.className = "worship_col";
-            var ws_leader_btn = document.createElement("button");
+            let ws_leader_btn = document.createElement("button");
             ws_leader_btn.className = "btn";
             ws_leader_btn.value = services_list[i].leader != "" ? services_list[i].leader : "-";
             ws_leader_btn.textContent = services_list[i].leader != "" ? services_list[i].leader : "-";
@@ -279,9 +278,9 @@
             thisrow.appendChild(ws_leader_col);
 
             /* Worship piano column. */
-            var ws_piano_col = document.createElement("td");
+            let ws_piano_col = document.createElement("td");
             ws_piano_col.className = "worship_col";
-            var ws_piano_btn = document.createElement("button");
+            let ws_piano_btn = document.createElement("button");
             ws_piano_btn.className = "btn";
             ws_piano_btn.value = services_list[i].piano != "" ? services_list[i].piano : "-";
             ws_piano_btn.textContent = services_list[i].piano != "" ? services_list[i].piano : "-";
@@ -292,9 +291,9 @@
             thisrow.appendChild(ws_piano_col);
 
             /* Worship drums column. */
-            var ws_drums_col = document.createElement("td");
+            let ws_drums_col = document.createElement("td");
             ws_drums_col.className = "worship_col";
-            var ws_drums_btn = document.createElement("button");
+            let ws_drums_btn = document.createElement("button");
             ws_drums_btn.className = "btn";
             ws_drums_btn.value = services_list[i].drums != "" ? services_list[i].drums : "-";
             ws_drums_btn.textContent = services_list[i].drums != "" ? services_list[i].drums : "-";
@@ -305,9 +304,9 @@
             thisrow.appendChild(ws_drums_col);
 
             /* Worship guitar column. */
-            var ws_guitar_col = document.createElement("td");
+            let ws_guitar_col = document.createElement("td");
             ws_guitar_col.className = "worship_col";
-            var ws_guitar_btn = document.createElement("button");
+            let ws_guitar_btn = document.createElement("button");
             ws_guitar_btn.className = "btn";
             ws_guitar_btn.value = services_list[i].guitar != "" ? services_list[i].guitar : "-";
             ws_guitar_btn.textContent = services_list[i].guitar != "" ? services_list[i].guitar : "-";
@@ -318,9 +317,9 @@
             thisrow.appendChild(ws_guitar_col);
 
             /* Worship bass column. */
-            var ws_bass_col = document.createElement("td");
+            let ws_bass_col = document.createElement("td");
             ws_bass_col.className = "worship_col";
-            var ws_bass_btn = document.createElement("button");
+            let ws_bass_btn = document.createElement("button");
             ws_bass_btn.className = "btn";
             ws_bass_btn.value = services_list[i].bass != "" ? services_list[i].bass : "-";
             ws_bass_btn.textContent = services_list[i].bass != "" ? services_list[i].bass : "-";
@@ -331,9 +330,9 @@
             thisrow.appendChild(ws_bass_col);
 
             /* Worship vocal columns. */
-            var ws_vocal_col01 = document.createElement("td");
+            let ws_vocal_col01 = document.createElement("td");
             ws_vocal_col01.className = "worship_col";
-            var ws_vocal_btn01 = document.createElement("button");
+            let ws_vocal_btn01 = document.createElement("button");
             ws_vocal_btn01.className = "btn";
             ws_vocal_btn01.value = services_list[i].vocal01 != "" ? services_list[i].vocal01 : "-";
             ws_vocal_btn01.textContent = services_list[i].vocal01 != "" ? services_list[i].vocal01 : "-";
@@ -343,9 +342,9 @@
             ws_vocal_col01.appendChild(ws_vocal_btn01);
             thisrow.appendChild(ws_vocal_col01);
 
-            var ws_vocal_col02 = document.createElement("td");
+            let ws_vocal_col02 = document.createElement("td");
             ws_vocal_col02.className = "worship_col";
-            var ws_vocal_btn02 = document.createElement("button");
+            let ws_vocal_btn02 = document.createElement("button");
             ws_vocal_btn02.className = "btn";
             ws_vocal_btn02.value = services_list[i].vocal02 != "" ? services_list[i].vocal02 : "-";
             ws_vocal_btn02.textContent = services_list[i].vocal02 != "" ? services_list[i].vocal02 : "-";
@@ -355,9 +354,9 @@
             ws_vocal_col02.appendChild(ws_vocal_btn02);
             thisrow.appendChild(ws_vocal_col02);
 
-            var ws_vocal_col03 = document.createElement("td");
+            let ws_vocal_col03 = document.createElement("td");
             ws_vocal_col03.className = "worship_col";
-            var ws_vocal_btn03 = document.createElement("button");
+            let ws_vocal_btn03 = document.createElement("button");
             ws_vocal_btn03.className = "btn";
             ws_vocal_btn03.value = services_list[i].vocal03 != "" ? services_list[i].vocal03 : "-";
             ws_vocal_btn03.textContent = services_list[i].vocal03 != "" ? services_list[i].vocal03 : "-";
@@ -368,9 +367,9 @@
             thisrow.appendChild(ws_vocal_col03);
 
             /* Mixing team column. */
-            var mix_col = document.createElement("td");
+            let mix_col = document.createElement("td");
             mix_col.className = "sunday_school_col";
-            var mix_btn = document.createElement("button");
+            let mix_btn = document.createElement("button");
             mix_btn.className = "btn";
             mix_btn.value = services_list[i].mix_team != "" ? services_list[i].mix_team : "-";
             mix_btn.textContent = services_list[i].mix_team != "" ? services_list[i].mix_team : "-";
@@ -384,7 +383,6 @@
         clicked = 0; // 0 not clicked, 1 clicked.
         reset();
     }
-
 
     function filter_click(input) {
         /* Ignore cells that does not contain an acceptable value. */
