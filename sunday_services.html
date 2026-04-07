@@ -75,6 +75,19 @@
     /* 1 if clicked, 0 else. When clicked, the filter on mouse hover is disabled. */
     let clicked;
 
+    const table_columns = [
+        "date_col",
+        "host_col",
+        "prayer_col",
+        "read_col",
+        "sermon_col",
+        "sunday_school_col",
+        "clean_up_col",
+        "reception_col",
+        "worship_col",
+        "mix_team_col" 
+    ];
+
     async function fetchData() {
         try {
             const response = await fetch(scriptUrl);
@@ -452,19 +465,6 @@
             });
         }
     }
-
-    const table_columns = [
-        "date_col",
-        "host_col",
-        "prayer_col",
-        "read_col",
-        "sermon_col",
-        "sunday_school_col",
-        "clean_up_col",
-        "reception_col",
-        "worship_col",
-        "niuma_col" 
-    ];
 
     // time complexity: O(NM) (hope so)
     function handle_filter_columns() {
