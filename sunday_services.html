@@ -53,11 +53,16 @@
                     <th scope="col" class="worship_col">敬拜吉他手</th>
                     <th scope="col" class="worship_col">敬拜贝斯手</th>
                     <th scope="col" class="worship_col" colspan="3">敬拜领唱</th>
-                    <th scope="col" class="mix_team_col>音控&文字</th>
+                    <th scope="col" class="mix_team_col">音控&文字</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider" id="cecfo-service-tbody"></tbody>
         </table>
+        <div class="text-center">
+            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status" id="deleteme">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
 </body>
 <script>
@@ -82,6 +87,7 @@
 
     window.onload = async function () {
         const services_list = await fetchData();
+        document.getElementById("deleteme").hidden = true;
 
         for (let i = 0; i < services_list.length; i++) {
             console.log(services_list[i].host);
