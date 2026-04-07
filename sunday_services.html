@@ -31,6 +31,7 @@
         <li class=""><i class="bi bi-laptop"></i> 电脑端：鼠标覆盖某个名字后，会强调这位弟兄姊妹的服事安排。点击后，可以锁定当前情况，再次点击后可以恢复原装。</li>
         <li class=""><i class="bi bi-phone"></i> 移动端：点击某个名字后后，会强调这位弟兄姊妹的服事安排，再次点击后可以恢复原装。</li>
     </ul>
+    <div id="filter_checkboxes"></div>
     <div class="m-2 text-nowrap table-responsive">
         <table id="cecfo-service" class="table table-sm table-bordered text-center align-middle">
             <thead>
@@ -65,6 +66,7 @@
         </div>
     </div>
 </body>
+
 <script>
     const scriptUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
 
@@ -72,6 +74,19 @@
 
     /* 1 if clicked, 0 else. When clicked, the filter on mouse hover is disabled. */
     let clicked;
+
+    const table_columns = [
+        "date_col",
+        "host_col",
+        "prayer_col",
+        "read_col",
+        "sermon_col",
+        "sunday_school_col",
+        "clean_up_col",
+        "reception_col",
+        "worship_col",
+        "mix_team_col" 
+    ];
 
     async function fetchData() {
         try {
@@ -386,6 +401,20 @@
             thisrow.appendChild(mix_col);
         }
 
+        let filter_menu = document.getElementById("filter_checkboxes");
+        // i = 1 skips "date" column
+        for (let i = 1; i < table_columns.length; i++) {
+            let col_checkbox = document.createElement("input");
+            col_checkbox.type = "checkbox";
+            col_checkbox.className = "filter_checkbox";
+            col_checkbox.value = table_columns[i];
+            col_checkbox.onclick = function() { handle_filter_columns(); };
+            let col_label = document.createElement("label");
+            col_label.textContent = table_columns[i];
+            filter_menu.appendChild(col_checkbox);
+            filter_menu.appendChild(col_label);
+        }
+
         clicked = 0; // 0 not clicked, 1 clicked.
         reset();
     }
@@ -434,6 +463,21 @@
                     cell.style.opacity = "1";
                 });
             });
+        }
+    }
+
+    // time complexity: O(NM) (hope so)
+    function handle_filter_columns() {
+        let checkboxes = document.getElementById("filter_checkboxes").getElementsByClassName("filter_checkbox");
+        for (let i = 0; i < checkboxes.length; i++) {
+            let cb = checkboxes[i];
+            let column = document.getElementById("cecfo-service").getElementsByClassName(cb.value);
+            for (let i = 0; i < column.length; i++) {
+                if (cb.checked)
+                    column[i].style.display = "none";
+                else
+                    column[i].style.display = "";
+            }
         }
     }
 </script>
