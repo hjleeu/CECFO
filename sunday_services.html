@@ -54,11 +54,16 @@
                     <th scope="col" class="worship_col">敬拜吉他手</th>
                     <th scope="col" class="worship_col">敬拜贝斯手</th>
                     <th scope="col" class="worship_col" colspan="3">敬拜领唱</th>
-                    <th scope="col" class="niuma_col">音控&文字</th>
+                    <th scope="col" class="mix_team_col">音控&文字</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider" id="cecfo-service-tbody"></tbody>
         </table>
+        <div class="text-center">
+            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status" id="deleteme">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
 </body>
 
@@ -84,6 +89,7 @@
 
     window.onload = async function () {
         const services_list = await fetchData();
+        document.getElementById("deleteme").hidden = true;
 
         for (let i = 0; i < services_list.length; i++) {
             console.log(services_list[i].host);
@@ -370,7 +376,7 @@
 
             /* Mixing team column. */
             let mix_col = document.createElement("td");
-            mix_col.className = "sunday_school_col";
+            mix_col.className = "mix_team_col";
             let mix_btn = document.createElement("button");
             mix_btn.className = "btn";
             mix_btn.value = services_list[i].mix_team != "" ? services_list[i].mix_team : "-";
