@@ -12,7 +12,7 @@ const services_headers = {
     "scripture_reader": "读经",
     "reception": "执勤/接待",
     "clean_up": "值日"
-}
+};
 
 const worship_headers = {
     "worship_leader": "敬拜主领",
@@ -21,7 +21,51 @@ const worship_headers = {
     "worship_guitar": "敬拜吉他",
     "worship_bass": "敬拜贝斯",
     "worship_vocal": "敬拜领唱"
+};
+
+/** Update manually every week. */
+const worship_song = ["安静", "我们欢迎君王降临", "十字架的传达者", "我的生命献给你"];
+const sermon_details = {
+    "title": "在基督里彼此接纳",
+    "scripture": "罗马书 第14章",
+    "points": [
+        {
+            "text": "教会中的肢体生活",
+            "points": [
+                { "text": "彼此相爱" },
+                { "text": "彼此接纳" },
+                { "text": "彼此和睦" },
+                { "text": "彼此建立" },
+                { "text": "彼此劝诫" },
+                { "text": "彼此担待" }
+            ]
+        },
+        {
+            "text": "接纳信心软弱的弟兄 | 1-12节",
+            "points": [
+                { "text": "不辩论所疑惑的事" },
+                { "text": "不可彼此轻看" },
+                { "text": "不可彼此论断" },
+                { "text": "信心坚定为主而活"}
+            ]
+        },
+        {
+            "text": "不要因论断使弟兄跌倒 | 11-23节",
+            "points": [
+                { "text": "吃喝的事是次要的事" },
+                {
+                    "text": "公义，和平，圣灵中的喜乐是重要的事",
+                    "points": [
+                        { "text": "要追求和睦的事" },
+                        { "text": "要追求建立德行的事" }
+                    ]
+                },
+                { "text": "凡不出于信心的都是罪" }
+            ]
+        }
+    ]
 }
+
 
 function loadData(id, objArray) {
     const where = document.getElementById(id);
@@ -34,6 +78,7 @@ function loadData(id, objArray) {
 
     where.appendChild(services_container);
     where.appendChild(worship_container);
+    where.appendChild(fillSermonLabel());
 
     renderSection(services_container, groupedData, months, services_headers, 0);
     renderSection(worship_container, groupedData, months, worship_headers, 0);
@@ -114,9 +159,9 @@ function generateRow(obj, key, table) {
     
     switch(key) {
         case "scripture_reader":
-            var scripture_toread = document.createElement("span");
+            var scripture_toread = document.createElement("small");
             scripture_toread.textContent = obj["scripture_toread"] ? obj["scripture_toread"] : "-";
-            scripture_toread.className = "d-block text-muted small mt-1";
+            scripture_toread.className = "d-block text-secondary fw-light mt-1";
             badge.textContent = obj[key] ? obj[key] : '-';
             badge.onmouseover = function() { highlight_on(this.textContent.split('-')[0], table); }
             badge.onmouseout = function() { highlight_off(table); }
@@ -192,5 +237,36 @@ function highlight_off(table) {
     const badges = table.querySelectorAll("span");
     badges.forEach(badge => {
         badge.style.opacity = '1';
-    })
+    });
+}
+
+function fillSermonLabel() {
+    let sermon_div = document.createElement("ul");
+    sermon_div.className = "list-group p-2";
+
+    if(sermon_details.points && sermon_details.points.length > 0) {
+        sermon_div.appendChild(renderSermonPoints(sermon_details.points, 0));
+    }
+
+    return sermon_div;
+}
+
+function renderSermonPoints(points, depth) {
+    const ol = document.createElement("ol");
+    ol.className = "list-group list-group-numbered";
+    ol.style.paddingLeft = depth === 0 ? "0" : "1.5rem";
+
+    points.forEach(point => {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        li.textContent = point.text;
+
+        if(point.points && point.points.length > 0) {
+            li.appendChild(renderSermonPoints(point.points, depth + 1));
+        }
+
+        ol.appendChild(li);
+    });
+
+    return ol;
 }
