@@ -23,15 +23,16 @@ const worship_headers = {
     "worship_vocal": "敬拜领唱"
 };
 
-const details = async function () {
+async function fetchDetails() {
     const details_URL = `https://cdn.jsdelivr.net/gh/hjleeu/CECFO@main/weekly_details/${getNextSundayDate()}.json`;
+
     try {
         const response = await fetch(details_URL);
         const data = await response.json();
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
-        return [];
+        return null;
     }
 }
 
@@ -49,11 +50,13 @@ function getNextSundayDate() {
     return `${year}-${month}-${day}`;
 }
 
-function loadData(id, objArray) {
+async function loadData(id, objArray) {
     const where = document.getElementById(id);
     where.innerHTML = '';
     const groupedData = groupByMonth(objArray);
     const months = Object.keys(groupedData);
+
+    const details = await fetchDetails();
 
     /** Services section. */
     let service_row = document.createElement("div");
@@ -64,8 +67,8 @@ function loadData(id, objArray) {
 
     let service_right_side = document.createElement("div");
     service_right_side.className = "d-flex flex-column m-2";
-    service_right_side.appendChild(renderDetails(details.sermon));
-    service_right_side.appendChild(renderDetails(details.youth_comm));
+    if(details && details.sermon) service_right_side.appendChild(renderDetails(details.sermon));
+    if(details && details.youth_comm) service_right_side.appendChild(renderDetails(details.youth_comm));
 
     service_row.appendChild(services_container);
     service_row.appendChild(service_right_side);
@@ -79,7 +82,7 @@ function loadData(id, objArray) {
 
     let worship_right_side = document.createElement("div");
     worship_right_side.className = "m-2"
-    worship_right_side.appendChild(renderDetails(details.worship));
+    if(details && details.worship) worship_right_side.appendChild(renderDetails(details.worship));
     service_right_side.style.width = "20rem";
     worship_right_side.style.width = "20rem";
 

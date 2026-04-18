@@ -7,8 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <title>主日聚会事工安排</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/gh/hjleeu/CECFO@main/cecfo_services.js"></script>
 </head>
 <body>
     <div id="i_am_a_container" class="container-fluid">
@@ -17,24 +15,27 @@
         </div>
         加载中...
     </div>
-</body>
-<script>
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
 
-    async function fetchData() {
-        try {
-            const response = await fetch(scriptUrl);
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            return [];
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hjleeu/CECFO@main/cecfo_services.js"></script>
+    <script>
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
+
+        async function fetchData() {
+            try {
+                const response = await fetch(scriptUrl);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return [];
+            }
         }
-    }
 
-    window.onload = async function () {
-        const services_list = await fetchData();
-        loadData("i_am_a_container", services_list);
-    }
-</script>
+        window.onload = async function () {
+            const services_list = await fetchData();
+            loadData("i_am_a_container", services_list);
+        }
+    </script>
+</body>
 </html>
