@@ -23,49 +23,31 @@ const worship_headers = {
     "worship_vocal": "敬拜领唱"
 };
 
-/** Update manually every week. */
-const worship_song = ["安静", "我们欢迎君王降临", "十字架的传达者", "我的生命献给你"];
-const sermon_details = {
-    "title": "在基督里彼此接纳",
-    "scripture": "罗马书 第14章",
-    "points": [
-        {
-            "text": "教会中的肢体生活",
-            "points": [
-                { "text": "彼此相爱" },
-                { "text": "彼此接纳" },
-                { "text": "彼此和睦" },
-                { "text": "彼此建立" },
-                { "text": "彼此劝诫" },
-                { "text": "彼此担待" }
-            ]
-        },
-        {
-            "text": "接纳信心软弱的弟兄 | 1-12节",
-            "points": [
-                { "text": "不辩论所疑惑的事" },
-                { "text": "不可彼此轻看" },
-                { "text": "不可彼此论断" },
-                { "text": "信心坚定为主而活"}
-            ]
-        },
-        {
-            "text": "不要因论断使弟兄跌倒 | 11-23节",
-            "points": [
-                { "text": "吃喝的事是次要的事" },
-                {
-                    "text": "公义，和平，圣灵中的喜乐是重要的事",
-                    "points": [
-                        { "text": "要追求和睦的事" },
-                        { "text": "要追求建立德行的事" }
-                    ]
-                },
-                { "text": "凡不出于信心的都是罪" }
-            ]
-        }
-    ]
+const details = async function () {
+    const details_URL = `https://cdn.jsdelivr.net/gh/hjleeu/CECFO@main/weekly_details/${getNextSundayDate()}.json`;
+    try {
+        const response = await fetch(details_URL);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
 }
 
+function getNextSundayDate() {
+    const today = new Date();
+    const day_n = today.getDay(); // 0 = Sunday, 1 = Monday, ...
+    const daysUntilSunday = day_n === 0 ? 0 : 7 - day_n;
+    const sunday = new Date(today);
+    sunday.setDate(today.getDate() + daysUntilSunday);
+
+    // format as YYYY-MM-DD
+    const year = sunday.getFullYear();
+    const month = String(sunday.getMonth() + 1).padStart(2, '0');
+    const day = String(sunday.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
 function loadData(id, objArray) {
     const where = document.getElementById(id);
@@ -73,19 +55,46 @@ function loadData(id, objArray) {
     const groupedData = groupByMonth(objArray);
     const months = Object.keys(groupedData);
 
-    let services_container = document.createElement("div");
-    let worship_container = document.createElement("div");
+    /** Services section. */
+    let service_row = document.createElement("div");
+    service_row.className = "d-flex flex-wrap";
 
-    where.appendChild(services_container);
-    where.appendChild(worship_container);
-    where.appendChild(fillSermonLabel());
+    let services_container = document.createElement("div");
+    services_container.className = "flex-grow-1";
+
+    let service_right_side = document.createElement("div");
+    service_right_side.className = "d-flex flex-column m-2";
+    service_right_side.appendChild(renderDetails(details.sermon));
+    service_right_side.appendChild(renderDetails(details.youth_comm));
+
+    service_row.appendChild(services_container);
+    service_row.appendChild(service_right_side);
+
+    /** Worship section. */
+    let worship_row = document.createElement("div");
+    worship_row.className = "d-flex flex-wrap";
+
+    let worship_container = document.createElement("div");
+    worship_container.className = "flex-grow-1";
+
+    let worship_right_side = document.createElement("div");
+    worship_right_side.className = "m-2"
+    worship_right_side.appendChild(renderDetails(details.worship));
+    service_right_side.style.width = "20rem";
+    worship_right_side.style.width = "20rem";
+
+    worship_row.appendChild(worship_container);
+    worship_row.appendChild(worship_right_side);
+
+    where.appendChild(service_row);
+    where.appendChild(worship_row);
 
     renderSection(services_container, groupedData, months, services_headers, 0);
     renderSection(worship_container, groupedData, months, worship_headers, 0);
 }
 
 function renderSection(container, groupedData, months, headers, index) {
-    /** Clean all for safety. */
+    /** Clean all. */
     container.innerHTML = '';
 
     const currentMonth = months[index];
@@ -199,7 +208,6 @@ function generateRow(obj, key, table) {
             badge.onmouseout = function() { highlight_off(table); }
             newCell.appendChild(badge);
     }
-
     return newCell;
 }
 
@@ -240,18 +248,49 @@ function highlight_off(table) {
     });
 }
 
-function fillSermonLabel() {
-    let sermon_div = document.createElement("ul");
-    sermon_div.className = "list-group p-2";
+function renderDetails(detailObj) {
+    let details_div = document.createElement("div");
+    details_div.className = "card p-2 mt-5";
 
-    if(sermon_details.points && sermon_details.points.length > 0) {
-        sermon_div.appendChild(renderSermonPoints(sermon_details.points, 0));
+    let title = document.createElement("h5");
+    title.className = "card-title bg-success-subtle";
+    title.textContent = detailObj.descr;
+    details_div.appendChild(title);
+
+    if(detailObj.song_list && detailObj.song_list.length > 0) {
+        let ul = document.createElement("ul");
+        ul.className = "list-group list-group-flush";
+        detailObj.song_list.forEach(song => {
+            let li = document.createElement("li");
+            li.className = "list-group-item";
+            li.textContent = song;
+            ul.appendChild(li);
+        });
+        details_div.appendChild(ul);
     }
 
-    return sermon_div;
+    if(detailObj.title && detailObj.title != "") {
+        let topic = document.createElement("h6");
+        topic.className = "card-subtitle";
+        topic.textContent = detailObj.title;
+        details_div.appendChild(topic);
+    }
+
+    if(detailObj.scripture && detailObj.scripture != "") {
+        let scripture = document.createElement("span");
+        scripture.className = "list-group-item";
+        scripture.textContent = detailObj.scripture;
+        details_div.appendChild(scripture);
+    }
+
+    if(detailObj.points && detailObj.points.length > 0) {
+        details_div.appendChild(renderPoints(detailObj.points, 0));
+    }
+
+    return details_div;
 }
 
-function renderSermonPoints(points, depth) {
+function renderPoints(points, depth) {
     const ol = document.createElement("ol");
     ol.className = "list-group list-group-numbered";
     ol.style.paddingLeft = depth === 0 ? "0" : "1.5rem";
@@ -262,7 +301,7 @@ function renderSermonPoints(points, depth) {
         li.textContent = point.text;
 
         if(point.points && point.points.length > 0) {
-            li.appendChild(renderSermonPoints(point.points, depth + 1));
+            li.appendChild(renderPoints(point.points, depth + 1));
         }
 
         ol.appendChild(li);

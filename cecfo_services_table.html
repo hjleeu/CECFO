@@ -11,14 +11,11 @@
     <script src="https://cdn.jsdelivr.net/gh/hjleeu/CECFO@main/cecfo_services.js"></script>
 </head>
 <body>
-    <div class="d-flex">
-        <div class="w-75" id="left-side">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            加载中...
+    <div id="i_am_a_container" class="container-fluid">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
-        <div id="right-side"></div>
+        加载中...
     </div>
 </body>
 <script>
@@ -37,7 +34,7 @@
 
     window.onload = async function () {
         const services_list = await fetchData();
-        loadData("left-side", services_list);
+        loadData("i_am_a_container", services_list);
     }
 </script>
 </html>
