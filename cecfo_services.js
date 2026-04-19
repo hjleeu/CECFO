@@ -63,7 +63,7 @@ async function loadData(id, objArray) {
     service_row.className = "d-flex flex-wrap";
 
     let services_container = document.createElement("div");
-    services_container.className = "flex-grow-1  table-responsive";
+    services_container.className = "flex-grow-1 table-responsive";
 
     let service_right_side = document.createElement("div");
     service_right_side.className = "d-flex flex-column m-2";
@@ -78,7 +78,7 @@ async function loadData(id, objArray) {
     worship_row.className = "d-flex flex-wrap";
 
     let worship_container = document.createElement("div");
-    worship_container.className = "flex-grow-1";
+    worship_container.className = "flex-grow-1 table-responsive";
 
     let worship_right_side = document.createElement("div");
     worship_right_side.className = "m-2"
