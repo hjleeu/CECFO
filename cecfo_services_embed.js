@@ -1,4 +1,5 @@
 (function () {
+    const currentScript = document.currentScript;
     const servicesHeaders = {
         "host": "主持人",
         "worship_pray": "敬拜祷告",
@@ -23,7 +24,7 @@
     };
 
     const defaultDataUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
-    const defaultDetailsBaseUrl = "https://cdn.jsdelivr.net/gh/hjleeu/CECFO@24f744e3e9e1970170a7a2da89faef753cfea922/weekly_details";
+    const defaultDetailsBaseUrl = getDefaultDetailsBaseUrl(currentScript);
     const bootstrapCssHref = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css";
     const customStyleId = "cecfo-services-embed-style";
     const bootstrapLinkId = "cecfo-services-bootstrap-css";
@@ -36,6 +37,21 @@
         } catch (error) {
             console.error("Error fetching JSON:", url, error);
             return fallbackValue;
+        }
+    }
+
+    function getDefaultDetailsBaseUrl(scriptEl) {
+        const explicitBaseUrl = scriptEl && scriptEl.dataset ? scriptEl.dataset.detailsBaseUrl : "";
+        if (explicitBaseUrl) return explicitBaseUrl.replace(/\/$/, "");
+
+        const scriptSrc = scriptEl ? scriptEl.getAttribute("src") : "";
+        if (!scriptSrc) return "./weekly_details";
+
+        try {
+            const scriptUrl = new URL(scriptSrc, window.location.href);
+            return new URL("./weekly_details", scriptUrl).toString().replace(/\/$/, "");
+        } catch (error) {
+            return "./weekly_details";
         }
     }
 
@@ -56,7 +72,13 @@
 
         const style = document.createElement("style");
         style.id = customStyleId;
-        style.textContent = `#${containerId} { color: #F2B94B; }`;
+        style.textContent = `
+            #${containerId} { color: #F2B94B; }
+            #${containerId} .cecfo-song-link {
+                color: #ff0000;
+                text-decoration: none;
+            }
+        `;
         document.head.appendChild(style);
     }
 
@@ -185,17 +207,14 @@
     }
 
     function renderSongList(songList) {
-        const ul = document.createElement("ul");
-        ul.className = "list-group list-group-flush";
-        ul.style.listStyle = "none";
-        ul.style.paddingLeft = "0";
-        ul.style.marginBottom = "0";
+        const list = document.createElement("div");
+        list.className = "list-group list-group-flush";
+        list.style.marginBottom = "0";
 
         songList.forEach(song => {
             const normalizedSong = normalizeSong(song);
-            const li = document.createElement("li");
-            li.className = "list-group-item";
-            li.style.listStyle = "none";
+            const item = document.createElement("div");
+            item.className = "list-group-item";
 
             const row = document.createElement("div");
             row.className = "d-flex align-items-center gap-2";
@@ -206,14 +225,15 @@
                 link.href = songUrl;
                 link.target = "_blank";
                 link.rel = "noopener noreferrer";
+                link.className = "cecfo-song-link";
                 link.title = normalizedSong.youtubeUrl
                     ? `打开 ${normalizedSong.title || "诗歌"} 的 YouTube 链接`
                     : `在 YouTube 搜索 ${normalizedSong.title || "这首诗歌"}`;
                 link.setAttribute("aria-label", link.title);
-                link.style.color = "#ff0000";
                 link.style.display = "inline-flex";
                 link.style.alignItems = "center";
                 link.style.flexShrink = "0";
+                link.style.textDecoration = "none";
                 link.appendChild(createYoutubeIcon());
                 row.appendChild(link);
             }
@@ -222,11 +242,11 @@
             label.textContent = normalizedSong.title || "-";
             row.appendChild(label);
 
-            li.appendChild(row);
-            ul.appendChild(li);
+            item.appendChild(row);
+            list.appendChild(item);
         });
 
-        return ul;
+        return list;
     }
 
     function renderPoints(points, depth) {
@@ -485,7 +505,6 @@
 
     window.initCecfoServicesTable = initCecfoServicesTable;
 
-    const currentScript = document.currentScript;
     if (currentScript && currentScript.dataset.autoRun !== "false") {
         const containerId = currentScript.dataset.containerId || "i_am_a_container";
         const dataUrl = currentScript.dataset.dataUrl || defaultDataUrl;

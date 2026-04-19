@@ -23,8 +23,10 @@ const worship_headers = {
     "worship_vocal": "敬拜领唱"
 };
 
-async function fetchDetails() {
-    const details_URL = `https://cdn.jsdelivr.net/gh/hjleeu/CECFO@24f744e3e9e1970170a7a2da89faef753cfea922/weekly_details/${getNextSundayDate()}.json`;
+const default_details_base_url = "./weekly_details";
+
+async function fetchDetails(detailsBaseUrl = default_details_base_url) {
+    const details_URL = `${detailsBaseUrl.replace(/\/$/, "")}/${getNextSundayDate()}.json`;
 
     try {
         const response = await fetch(details_URL);
@@ -50,13 +52,13 @@ function getNextSundayDate() {
     return `${year}-${month}-${day}`;
 }
 
-async function loadData(id, objArray) {
+async function loadData(id, objArray, detailsBaseUrl = default_details_base_url) {
     const where = document.getElementById(id);
     where.innerHTML = '';
     const groupedData = groupByMonth(objArray);
     const months = Object.keys(groupedData);
 
-    const details = await fetchDetails();
+    const details = await fetchDetails(detailsBaseUrl);
 
     /** Services section. */
     let service_row = document.createElement("div");
@@ -311,17 +313,14 @@ function createYoutubeIcon() {
 }
 
 function renderSongList(songList) {
-    const ul = document.createElement("ul");
-    ul.className = "list-group list-group-flush";
-    ul.style.listStyle = "none";
-    ul.style.paddingLeft = "0";
-    ul.style.marginBottom = "0";
+    const list = document.createElement("div");
+    list.className = "list-group list-group-flush";
+    list.style.marginBottom = "0";
 
     songList.forEach(song => {
         const normalizedSong = normalizeSong(song);
-        const li = document.createElement("li");
-        li.className = "list-group-item";
-        li.style.listStyle = "none";
+        const item = document.createElement("div");
+        item.className = "list-group-item";
 
         const row = document.createElement("div");
         row.className = "d-flex align-items-center gap-2";
@@ -340,6 +339,7 @@ function renderSongList(songList) {
             link.style.display = "inline-flex";
             link.style.alignItems = "center";
             link.style.flexShrink = "0";
+            link.style.textDecoration = "none";
             link.appendChild(createYoutubeIcon());
             row.appendChild(link);
         }
@@ -348,11 +348,11 @@ function renderSongList(songList) {
         label.textContent = normalizedSong.title || "-";
         row.appendChild(label);
 
-        li.appendChild(row);
-        ul.appendChild(li);
+        item.appendChild(row);
+        list.appendChild(item);
     });
 
-    return ul;
+    return list;
 }
 
 function renderDetails(detailObj) {
