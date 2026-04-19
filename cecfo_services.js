@@ -251,6 +251,110 @@ function highlight_off(table) {
     });
 }
 
+function normalizeUrl(url) {
+    if(typeof url !== "string" || url.trim() === "") return "";
+
+    try {
+        const parsed = new URL(url);
+        return (parsed.protocol === "http:" || parsed.protocol === "https:") ? parsed.toString() : "";
+    } catch (error) {
+        return "";
+    }
+}
+
+function cleanSongTitle(title) {
+    if(typeof title !== "string") return "";
+    return title.replace(/^[\s]*[°•·]\s*/, "").trim();
+}
+
+function normalizeSong(song) {
+    if(typeof song === "string") {
+        return {
+            title: cleanSongTitle(song),
+            youtubeUrl: ""
+        };
+    }
+
+    if(!song || typeof song !== "object") {
+        return {
+            title: "",
+            youtubeUrl: ""
+        };
+    }
+
+    return {
+        title: cleanSongTitle(String(song.title ?? song.name ?? song.text ?? "")),
+        youtubeUrl: normalizeUrl(song.youtube_url ?? song.youtubeUrl ?? song.youtube ?? song.url ?? song.href ?? "")
+    };
+}
+
+function buildYoutubeSearchUrl(title) {
+    if(!title) return "";
+    return `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`;
+}
+
+function createYoutubeIcon() {
+    const svgNs = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNs, "svg");
+    svg.setAttribute("viewBox", "0 0 16 16");
+    svg.setAttribute("width", "16");
+    svg.setAttribute("height", "16");
+    svg.setAttribute("aria-hidden", "true");
+    svg.style.display = "block";
+
+    const path = document.createElementNS(svgNs, "path");
+    path.setAttribute("fill", "currentColor");
+    path.setAttribute("d", "M8.051 1.999h-.102C6.347 1.99 3.079 1.82 1.53 2.12A2.82 2.82 0 0 0 .467 3.01 2.78 2.78 0 0 0 .134 3.68 29 29 0 0 0 0 8a29 29 0 0 0 .134 4.32 2.78 2.78 0 0 0 .333.67 2.82 2.82 0 0 0 1.063.89c1.549.3 4.817.13 6.419.12h.102c1.602.01 4.87.18 6.419-.12a2.82 2.82 0 0 0 1.063-.89 2.78 2.78 0 0 0 .333-.67A29 29 0 0 0 16 8a29 29 0 0 0-.134-4.32 2.78 2.78 0 0 0-.333-.67 2.82 2.82 0 0 0-1.063-.89c-1.549-.3-4.817-.13-6.419-.12m-1.74 9.66V4.34L11.328 8z");
+    svg.appendChild(path);
+
+    return svg;
+}
+
+function renderSongList(songList) {
+    const ul = document.createElement("ul");
+    ul.className = "list-group list-group-flush";
+    ul.style.listStyle = "none";
+    ul.style.paddingLeft = "0";
+    ul.style.marginBottom = "0";
+
+    songList.forEach(song => {
+        const normalizedSong = normalizeSong(song);
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        li.style.listStyle = "none";
+
+        const row = document.createElement("div");
+        row.className = "d-flex align-items-center gap-2";
+
+        const songUrl = normalizedSong.youtubeUrl || buildYoutubeSearchUrl(normalizedSong.title);
+        if(songUrl) {
+            const link = document.createElement("a");
+            link.href = songUrl;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.title = normalizedSong.youtubeUrl
+                ? `打开 ${normalizedSong.title || "诗歌"} 的 YouTube 链接`
+                : `在 YouTube 搜索 ${normalizedSong.title || "这首诗歌"}`;
+            link.setAttribute("aria-label", link.title);
+            link.style.color = "#ff0000";
+            link.style.display = "inline-flex";
+            link.style.alignItems = "center";
+            link.style.flexShrink = "0";
+            link.appendChild(createYoutubeIcon());
+            row.appendChild(link);
+        }
+
+        const label = document.createElement("span");
+        label.textContent = normalizedSong.title || "-";
+        row.appendChild(label);
+
+        li.appendChild(row);
+        ul.appendChild(li);
+    });
+
+    return ul;
+}
+
 function renderDetails(detailObj) {
     let details_div = document.createElement("div");
     details_div.className = "card p-2 mt-5";
@@ -261,15 +365,7 @@ function renderDetails(detailObj) {
     details_div.appendChild(title);
 
     if(detailObj.song_list && detailObj.song_list.length > 0) {
-        let ul = document.createElement("ul");
-        ul.className = "list-group list-group-flush";
-        detailObj.song_list.forEach(song => {
-            let li = document.createElement("li");
-            li.className = "list-group-item";
-            li.textContent = song;
-            ul.appendChild(li);
-        });
-        details_div.appendChild(ul);
+        details_div.appendChild(renderSongList(detailObj.song_list));
     }
 
     if(detailObj.title && detailObj.title != "") {
