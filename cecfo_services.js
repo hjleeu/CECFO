@@ -23,10 +23,8 @@ const worship_headers = {
     "worship_vocal": "敬拜领唱"
 };
 
-const default_details_base_url = "./weekly_details";
-
-async function fetchDetails(detailsBaseUrl = default_details_base_url) {
-    const details_URL = `${detailsBaseUrl.replace(/\/$/, "")}/${getNextSundayDate()}.json`;
+async function fetchDetails() {
+    const details_URL = `https://cdn.jsdelivr.net/gh/hjleeu/CECFO@24f744e3e9e1970170a7a2da89faef753cfea922/weekly_details/${getNextSundayDate()}.json`;
 
     try {
         const response = await fetch(details_URL);
@@ -52,13 +50,13 @@ function getNextSundayDate() {
     return `${year}-${month}-${day}`;
 }
 
-async function loadData(id, objArray, detailsBaseUrl = default_details_base_url) {
+async function loadData(id, objArray) {
     const where = document.getElementById(id);
     where.innerHTML = '';
     const groupedData = groupByMonth(objArray);
     const months = Object.keys(groupedData);
 
-    const details = await fetchDetails(detailsBaseUrl);
+    const details = await fetchDetails();
 
     /** Services section. */
     let service_row = document.createElement("div");
@@ -253,119 +251,6 @@ function highlight_off(table) {
     });
 }
 
-function normalizeUrl(url) {
-    if(typeof url !== "string" || url.trim() === "") return "";
-
-    try {
-        const parsed = new URL(url);
-        return (parsed.protocol === "http:" || parsed.protocol === "https:") ? parsed.toString() : "";
-    } catch (error) {
-        return "";
-    }
-}
-
-function cleanSongTitle(title) {
-    if(typeof title !== "string") return "";
-    return title.replace(/^[\s]*[°•·]\s*/, "").trim();
-}
-
-function normalizeSong(song) {
-    if(typeof song === "string") {
-        return {
-            title: cleanSongTitle(song),
-            youtubeUrl: ""
-        };
-    }
-
-    if(!song || typeof song !== "object") {
-        return {
-            title: "",
-            youtubeUrl: ""
-        };
-    }
-
-    return {
-        title: cleanSongTitle(String(song.title ?? song.name ?? song.text ?? "")),
-        youtubeUrl: normalizeUrl(song.youtube_url ?? song.youtubeUrl ?? song.youtube ?? song.url ?? song.href ?? "")
-    };
-}
-
-function buildYoutubeSearchUrl(title) {
-    if(!title) return "";
-    return `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`;
-}
-
-function createYoutubeIcon() {
-    const svgMarkup = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-            <circle cx="16" cy="16" r="15" fill="#ff0000"/>
-            <rect x="8" y="10" width="16" height="12" rx="3" fill="#ffffff"/>
-            <path d="M14 12.5L19.5 16L14 19.5Z" fill="#ff0000"/>
-        </svg>
-    `;
-    const icon = document.createElement("img");
-    icon.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgMarkup)}`;
-    icon.alt = "";
-    icon.width = 20;
-    icon.height = 20;
-    icon.decoding = "async";
-    icon.loading = "lazy";
-    icon.setAttribute("aria-hidden", "true");
-    return icon;
-}
-
-function renderSongList(songList) {
-    const list = document.createElement("div");
-    list.className = "cecfo-song-list";
-    list.style.marginBottom = "0";
-
-    songList.forEach(song => {
-        const normalizedSong = normalizeSong(song);
-        const item = document.createElement("div");
-        item.className = "cecfo-song-item";
-        item.style.padding = "0.75rem 1rem";
-        item.style.borderTop = "1px solid rgba(0, 0, 0, 0.08)";
-        item.style.listStyle = "none";
-
-        const row = document.createElement("div");
-        row.className = "cecfo-song-row";
-        row.style.display = "flex";
-        row.style.alignItems = "center";
-        row.style.gap = "0.75rem";
-
-        const songUrl = normalizedSong.youtubeUrl || buildYoutubeSearchUrl(normalizedSong.title);
-        if(songUrl) {
-            const link = document.createElement("a");
-            link.href = songUrl;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-            link.title = normalizedSong.youtubeUrl
-                ? `打开 ${normalizedSong.title || "诗歌"} 的 YouTube 链接`
-                : `在 YouTube 搜索 ${normalizedSong.title || "这首诗歌"}`;
-            link.setAttribute("aria-label", link.title);
-            link.style.display = "inline-flex";
-            link.style.alignItems = "center";
-            link.style.justifyContent = "center";
-            link.style.flex = "0 0 20px";
-            link.style.width = "20px";
-            link.style.height = "20px";
-            link.style.textDecoration = "none";
-            link.appendChild(createYoutubeIcon());
-            row.appendChild(link);
-        }
-
-        const label = document.createElement("span");
-        label.className = "cecfo-song-label";
-        label.textContent = normalizedSong.title || "-";
-        row.appendChild(label);
-
-        item.appendChild(row);
-        list.appendChild(item);
-    });
-
-    return list;
-}
-
 function renderDetails(detailObj) {
     let details_div = document.createElement("div");
     details_div.className = "card p-2 mt-5";
@@ -376,7 +261,15 @@ function renderDetails(detailObj) {
     details_div.appendChild(title);
 
     if(detailObj.song_list && detailObj.song_list.length > 0) {
-        details_div.appendChild(renderSongList(detailObj.song_list));
+        let ul = document.createElement("ul");
+        ul.className = "list-group list-group-flush";
+        detailObj.song_list.forEach(song => {
+            let li = document.createElement("li");
+            li.className = "list-group-item";
+            li.textContent = song;
+            ul.appendChild(li);
+        });
+        details_div.appendChild(ul);
     }
 
     if(detailObj.title && detailObj.title != "") {

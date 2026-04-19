@@ -1,5 +1,4 @@
 (function () {
-    const currentScript = document.currentScript;
     const servicesHeaders = {
         "host": "主持人",
         "worship_pray": "敬拜祷告",
@@ -24,9 +23,9 @@
     };
 
     const defaultDataUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
-    const defaultDetailsBaseUrl = getDefaultDetailsBaseUrl(currentScript);
+    const defaultDetailsBaseUrl = "https://cdn.jsdelivr.net/gh/hjleeu/CECFO@24f744e3e9e1970170a7a2da89faef753cfea922/weekly_details";
     const bootstrapCssHref = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css";
-    const customStyleId = "cecfo-services-embed-style-v2";
+    const customStyleId = "cecfo-services-embed-style";
     const bootstrapLinkId = "cecfo-services-bootstrap-css";
 
     async function fetchJson(url, fallbackValue) {
@@ -37,21 +36,6 @@
         } catch (error) {
             console.error("Error fetching JSON:", url, error);
             return fallbackValue;
-        }
-    }
-
-    function getDefaultDetailsBaseUrl(scriptEl) {
-        const explicitBaseUrl = scriptEl && scriptEl.dataset ? scriptEl.dataset.detailsBaseUrl : "";
-        if (explicitBaseUrl) return explicitBaseUrl.replace(/\/$/, "");
-
-        const scriptSrc = scriptEl ? scriptEl.getAttribute("src") : "";
-        if (!scriptSrc) return "./weekly_details";
-
-        try {
-            const scriptUrl = new URL(scriptSrc, window.location.href);
-            return new URL("./weekly_details", scriptUrl).toString().replace(/\/$/, "");
-        } catch (error) {
-            return "./weekly_details";
         }
     }
 
@@ -72,48 +56,7 @@
 
         const style = document.createElement("style");
         style.id = customStyleId;
-        style.textContent = `
-            #${containerId} { color: #F2B94B; }
-            #${containerId} .cecfo-song-list {
-                margin: 0;
-                padding: 0;
-            }
-            #${containerId} .cecfo-song-item {
-                padding: 0.75rem 1rem;
-                border-top: 1px solid rgba(255, 255, 255, 0.08);
-                list-style: none;
-            }
-            #${containerId} .cecfo-song-item::before,
-            #${containerId} .cecfo-song-item::after,
-            #${containerId} .cecfo-song-item::marker {
-                content: none !important;
-                display: none !important;
-            }
-            #${containerId} .cecfo-song-row {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-            }
-            #${containerId} .cecfo-song-link {
-                color: #ff0000;
-                text-decoration: none;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                flex: 0 0 20px;
-                width: 20px;
-                height: 20px;
-                line-height: 0;
-            }
-            #${containerId} .cecfo-song-link img {
-                display: block;
-                width: 20px;
-                height: 20px;
-            }
-            #${containerId} .cecfo-song-label {
-                min-width: 0;
-            }
-        `;
+        style.textContent = `#${containerId} { color: #F2B94B; }`;
         document.head.appendChild(style);
     }
 
@@ -182,106 +125,6 @@
         });
     }
 
-    function normalizeUrl(url) {
-        if (typeof url !== "string" || url.trim() === "") return "";
-
-        try {
-            const parsed = new URL(url);
-            return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed.toString() : "";
-        } catch (error) {
-            return "";
-        }
-    }
-
-    function cleanSongTitle(title) {
-        if (typeof title !== "string") return "";
-        return title.replace(/^[\s]*[°•·]\s*/, "").trim();
-    }
-
-    function normalizeSong(song) {
-        if (typeof song === "string") {
-            return {
-                title: cleanSongTitle(song),
-                youtubeUrl: ""
-            };
-        }
-
-        if (!song || typeof song !== "object") {
-            return {
-                title: "",
-                youtubeUrl: ""
-            };
-        }
-
-        return {
-            title: cleanSongTitle(String(song.title ?? song.name ?? song.text ?? "")),
-            youtubeUrl: normalizeUrl(song.youtube_url ?? song.youtubeUrl ?? song.youtube ?? song.url ?? song.href ?? "")
-        };
-    }
-
-    function buildYoutubeSearchUrl(title) {
-        if (!title) return "";
-        return `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`;
-    }
-
-    function createYoutubeIcon() {
-        const svgMarkup = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                <circle cx="16" cy="16" r="15" fill="#ff0000"/>
-                <rect x="8" y="10" width="16" height="12" rx="3" fill="#ffffff"/>
-                <path d="M14 12.5L19.5 16L14 19.5Z" fill="#ff0000"/>
-            </svg>
-        `;
-        const icon = document.createElement("img");
-        icon.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgMarkup)}`;
-        icon.alt = "";
-        icon.width = 20;
-        icon.height = 20;
-        icon.decoding = "async";
-        icon.loading = "lazy";
-        icon.setAttribute("aria-hidden", "true");
-        return icon;
-    }
-
-    function renderSongList(songList) {
-        const list = document.createElement("div");
-        list.className = "cecfo-song-list";
-
-        songList.forEach(song => {
-            const normalizedSong = normalizeSong(song);
-            const item = document.createElement("div");
-            item.className = "cecfo-song-item";
-
-            const row = document.createElement("div");
-            row.className = "cecfo-song-row";
-
-            const songUrl = normalizedSong.youtubeUrl || buildYoutubeSearchUrl(normalizedSong.title);
-            if (songUrl) {
-                const link = document.createElement("a");
-                link.href = songUrl;
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
-                link.className = "cecfo-song-link";
-                link.title = normalizedSong.youtubeUrl
-                    ? `打开 ${normalizedSong.title || "诗歌"} 的 YouTube 链接`
-                    : `在 YouTube 搜索 ${normalizedSong.title || "这首诗歌"}`;
-                link.setAttribute("aria-label", link.title);
-                link.appendChild(createYoutubeIcon());
-                row.appendChild(link);
-            }
-
-            const label = document.createElement("span");
-            label.className = "cecfo-song-label";
-            label.textContent = normalizedSong.title || "-";
-            row.appendChild(label);
-
-            item.appendChild(row);
-            list.appendChild(item);
-        });
-
-        return list;
-    }
-
     function renderPoints(points, depth) {
         const ol = document.createElement("ol");
         ol.className = "list-group list-group-numbered";
@@ -312,7 +155,15 @@
         detailsDiv.appendChild(title);
 
         if (detailObj.song_list && detailObj.song_list.length > 0) {
-            detailsDiv.appendChild(renderSongList(detailObj.song_list));
+            const ul = document.createElement("ul");
+            ul.className = "list-group list-group-flush";
+            detailObj.song_list.forEach(song => {
+                const li = document.createElement("li");
+                li.className = "list-group-item";
+                li.textContent = song;
+                ul.appendChild(li);
+            });
+            detailsDiv.appendChild(ul);
         }
 
         if (detailObj.title && detailObj.title !== "") {
@@ -538,6 +389,7 @@
 
     window.initCecfoServicesTable = initCecfoServicesTable;
 
+    const currentScript = document.currentScript;
     if (currentScript && currentScript.dataset.autoRun !== "false") {
         const containerId = currentScript.dataset.containerId || "i_am_a_container";
         const dataUrl = currentScript.dataset.dataUrl || defaultDataUrl;
