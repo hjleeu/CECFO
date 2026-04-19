@@ -57,6 +57,11 @@
     },
     "worship": {
         "descr": "诗歌敬拜",
-        "song_list" : ["安静", "我们欢迎君王降临", "十字架的和传达者", "我的生命献给你"]
+        "song_list" : [
+            { "title": "安静" }, "youtube_url": "https://youtu.be/-YRgF25YBIg?si=vd3-TkChtyBa_03l" },
+            { "title": "我们欢迎君王降临" }, "youtube_url": "https://youtu.be/kp0nbIAnhn0?si=q4Cs51Vd5R5e_ylB" },
+            { "title": "十字架的和传达者" }, "youtube_url": "https://youtu.be/H4nt6WCuN6c?si=KGygVdIOCdOkL_ck" },
+            { "title": "我的生命献给你" }, "youtube_url": "https://youtu.be/x5elrTM-t6k?si=w5SZ1CL1o8qNAMjw" }
+        ]
     }
 }
