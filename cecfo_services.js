@@ -24,7 +24,7 @@ const worship_headers = {
 };
 
 async function fetchDetails() {
-    const details_URL = `https://cdn.jsdelivr.net/gh/hjleeu/CECFO@main/weekly_details/${getNextSundayDate()}.json`;
+    const details_URL = `https://cdn.jsdelivr.net/gh/hjleeu/CECFO@24f744e3e9e1970170a7a2da89faef753cfea922/weekly_details/${getNextSundayDate()}.json`;
 
     try {
         const response = await fetch(details_URL);
@@ -107,7 +107,7 @@ function renderSection(container, groupedData, months, headers, index) {
     nav.className = "d-flex m-2 gap-2";
 
     const prevMonth = document.createElement("button");
-    prevMonth.className = "btn btn-info btn-sm";
+    prevMonth.className = "btn btn-success btn-sm";
     prevMonth.textContent = '←' + (months[index - 1] ?? "");
     prevMonth.disabled = (index == 0);
     prevMonth.onclick = function () { renderSection(container, groupedData, months, headers, index - 1); };
@@ -116,7 +116,7 @@ function renderSection(container, groupedData, months, headers, index) {
     thisMonth.textContent = currentMonth;
 
     const nextMonth = document.createElement("button");
-    nextMonth.className = "btn btn-info btn-sm";
+    nextMonth.className = "btn btn-success btn-sm";
     nextMonth.textContent = '→' + (months[index + 1] ?? "");
     nextMonth.disabled = (index == months.length - 1);
     nextMonth.onclick = function () { renderSection(container, groupedData, months, headers, index + 1); };
@@ -256,7 +256,7 @@ function renderDetails(detailObj) {
     details_div.className = "card p-2 mt-5";
 
     let title = document.createElement("h5");
-    title.className = "card-title bg-success-subtle";
+    title.className = "card-title";
     title.textContent = detailObj.descr;
     details_div.appendChild(title);
 
@@ -275,7 +275,7 @@ function renderDetails(detailObj) {
     if(detailObj.title && detailObj.title != "") {
         let topic = document.createElement("h6");
         topic.className = "card-subtitle";
-        topic.textContent = detailObj.title;
+        topic.textContent = ` - ${detailObj.title   }`;;
         details_div.appendChild(topic);
     }
 
@@ -288,6 +288,10 @@ function renderDetails(detailObj) {
 
     if(detailObj.points && detailObj.points.length > 0) {
         details_div.appendChild(renderPoints(detailObj.points, 0));
+    }
+
+    if(detailObj.reflections && detailObj.reflections.length > 0) {
+        details_div.appendChild(renderPoints(detailObj.reflections, 0));
     }
 
     return details_div;
