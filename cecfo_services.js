@@ -296,50 +296,42 @@ function buildYoutubeSearchUrl(title) {
 }
 
 function createYoutubeIcon() {
-    const svgNs = "http://www.w3.org/2000/svg";
-    const svg = document.createElementNS(svgNs, "svg");
-    svg.setAttribute("viewBox", "0 0 32 32");
-    svg.setAttribute("width", "20");
-    svg.setAttribute("height", "20");
-    svg.setAttribute("aria-hidden", "true");
-    svg.style.display = "block";
-
-    const circle = document.createElementNS(svgNs, "circle");
-    circle.setAttribute("cx", "16");
-    circle.setAttribute("cy", "16");
-    circle.setAttribute("r", "15");
-    circle.setAttribute("fill", "#ff0000");
-    svg.appendChild(circle);
-
-    const plate = document.createElementNS(svgNs, "rect");
-    plate.setAttribute("x", "8");
-    plate.setAttribute("y", "10");
-    plate.setAttribute("width", "16");
-    plate.setAttribute("height", "12");
-    plate.setAttribute("rx", "3");
-    plate.setAttribute("fill", "#ffffff");
-    svg.appendChild(plate);
-
-    const play = document.createElementNS(svgNs, "path");
-    play.setAttribute("fill", "#ff0000");
-    play.setAttribute("d", "M14 12.5L19.5 16L14 19.5Z");
-    svg.appendChild(play);
-
-    return svg;
+    const svgMarkup = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+            <circle cx="16" cy="16" r="15" fill="#ff0000"/>
+            <rect x="8" y="10" width="16" height="12" rx="3" fill="#ffffff"/>
+            <path d="M14 12.5L19.5 16L14 19.5Z" fill="#ff0000"/>
+        </svg>
+    `;
+    const icon = document.createElement("img");
+    icon.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgMarkup)}`;
+    icon.alt = "";
+    icon.width = 20;
+    icon.height = 20;
+    icon.decoding = "async";
+    icon.loading = "lazy";
+    icon.setAttribute("aria-hidden", "true");
+    return icon;
 }
 
 function renderSongList(songList) {
     const list = document.createElement("div");
-    list.className = "list-group list-group-flush";
+    list.className = "cecfo-song-list";
     list.style.marginBottom = "0";
 
     songList.forEach(song => {
         const normalizedSong = normalizeSong(song);
         const item = document.createElement("div");
-        item.className = "list-group-item";
+        item.className = "cecfo-song-item";
+        item.style.padding = "0.75rem 1rem";
+        item.style.borderTop = "1px solid rgba(0, 0, 0, 0.08)";
+        item.style.listStyle = "none";
 
         const row = document.createElement("div");
-        row.className = "d-flex align-items-center gap-2";
+        row.className = "cecfo-song-row";
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.gap = "0.75rem";
 
         const songUrl = normalizedSong.youtubeUrl || buildYoutubeSearchUrl(normalizedSong.title);
         if(songUrl) {
@@ -351,16 +343,19 @@ function renderSongList(songList) {
                 ? `打开 ${normalizedSong.title || "诗歌"} 的 YouTube 链接`
                 : `在 YouTube 搜索 ${normalizedSong.title || "这首诗歌"}`;
             link.setAttribute("aria-label", link.title);
-            link.style.color = "#ff0000";
             link.style.display = "inline-flex";
             link.style.alignItems = "center";
-            link.style.flexShrink = "0";
+            link.style.justifyContent = "center";
+            link.style.flex = "0 0 20px";
+            link.style.width = "20px";
+            link.style.height = "20px";
             link.style.textDecoration = "none";
             link.appendChild(createYoutubeIcon());
             row.appendChild(link);
         }
 
         const label = document.createElement("span");
+        label.className = "cecfo-song-label";
         label.textContent = normalizedSong.title || "-";
         row.appendChild(label);
 

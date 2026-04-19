@@ -26,7 +26,7 @@
     const defaultDataUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
     const defaultDetailsBaseUrl = getDefaultDetailsBaseUrl(currentScript);
     const bootstrapCssHref = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css";
-    const customStyleId = "cecfo-services-embed-style";
+    const customStyleId = "cecfo-services-embed-style-v2";
     const bootstrapLinkId = "cecfo-services-bootstrap-css";
 
     async function fetchJson(url, fallbackValue) {
@@ -74,9 +74,44 @@
         style.id = customStyleId;
         style.textContent = `
             #${containerId} { color: #F2B94B; }
+            #${containerId} .cecfo-song-list {
+                margin: 0;
+                padding: 0;
+            }
+            #${containerId} .cecfo-song-item {
+                padding: 0.75rem 1rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                list-style: none;
+            }
+            #${containerId} .cecfo-song-item::before,
+            #${containerId} .cecfo-song-item::after,
+            #${containerId} .cecfo-song-item::marker {
+                content: none !important;
+                display: none !important;
+            }
+            #${containerId} .cecfo-song-row {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
             #${containerId} .cecfo-song-link {
                 color: #ff0000;
                 text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 20px;
+                width: 20px;
+                height: 20px;
+                line-height: 0;
+            }
+            #${containerId} .cecfo-song-link img {
+                display: block;
+                width: 20px;
+                height: 20px;
+            }
+            #${containerId} .cecfo-song-label {
+                min-width: 0;
             }
         `;
         document.head.appendChild(style);
@@ -190,50 +225,35 @@
     }
 
     function createYoutubeIcon() {
-        const svgNs = "http://www.w3.org/2000/svg";
-        const svg = document.createElementNS(svgNs, "svg");
-        svg.setAttribute("viewBox", "0 0 32 32");
-        svg.setAttribute("width", "20");
-        svg.setAttribute("height", "20");
-        svg.setAttribute("aria-hidden", "true");
-        svg.style.display = "block";
-
-        const circle = document.createElementNS(svgNs, "circle");
-        circle.setAttribute("cx", "16");
-        circle.setAttribute("cy", "16");
-        circle.setAttribute("r", "15");
-        circle.setAttribute("fill", "#ff0000");
-        svg.appendChild(circle);
-
-        const plate = document.createElementNS(svgNs, "rect");
-        plate.setAttribute("x", "8");
-        plate.setAttribute("y", "10");
-        plate.setAttribute("width", "16");
-        plate.setAttribute("height", "12");
-        plate.setAttribute("rx", "3");
-        plate.setAttribute("fill", "#ffffff");
-        svg.appendChild(plate);
-
-        const play = document.createElementNS(svgNs, "path");
-        play.setAttribute("fill", "#ff0000");
-        play.setAttribute("d", "M14 12.5L19.5 16L14 19.5Z");
-        svg.appendChild(play);
-
-        return svg;
+        const svgMarkup = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <circle cx="16" cy="16" r="15" fill="#ff0000"/>
+                <rect x="8" y="10" width="16" height="12" rx="3" fill="#ffffff"/>
+                <path d="M14 12.5L19.5 16L14 19.5Z" fill="#ff0000"/>
+            </svg>
+        `;
+        const icon = document.createElement("img");
+        icon.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgMarkup)}`;
+        icon.alt = "";
+        icon.width = 20;
+        icon.height = 20;
+        icon.decoding = "async";
+        icon.loading = "lazy";
+        icon.setAttribute("aria-hidden", "true");
+        return icon;
     }
 
     function renderSongList(songList) {
         const list = document.createElement("div");
-        list.className = "list-group list-group-flush";
-        list.style.marginBottom = "0";
+        list.className = "cecfo-song-list";
 
         songList.forEach(song => {
             const normalizedSong = normalizeSong(song);
             const item = document.createElement("div");
-            item.className = "list-group-item";
+            item.className = "cecfo-song-item";
 
             const row = document.createElement("div");
-            row.className = "d-flex align-items-center gap-2";
+            row.className = "cecfo-song-row";
 
             const songUrl = normalizedSong.youtubeUrl || buildYoutubeSearchUrl(normalizedSong.title);
             if (songUrl) {
@@ -246,15 +266,12 @@
                     ? `打开 ${normalizedSong.title || "诗歌"} 的 YouTube 链接`
                     : `在 YouTube 搜索 ${normalizedSong.title || "这首诗歌"}`;
                 link.setAttribute("aria-label", link.title);
-                link.style.display = "inline-flex";
-                link.style.alignItems = "center";
-                link.style.flexShrink = "0";
-                link.style.textDecoration = "none";
                 link.appendChild(createYoutubeIcon());
                 row.appendChild(link);
             }
 
             const label = document.createElement("span");
+            label.className = "cecfo-song-label";
             label.textContent = normalizedSong.title || "-";
             row.appendChild(label);
 
