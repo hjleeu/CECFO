@@ -63,7 +63,7 @@ async function loadData(id, objArray) {
     service_row.className = "d-flex flex-wrap";
 
     let services_container = document.createElement("div");
-    services_container.className = "flex-grow-1";
+    services_container.className = "flex-grow-1  table-responsive";
 
     let service_right_side = document.createElement("div");
     service_right_side.className = "d-flex flex-column m-2";
@@ -127,7 +127,7 @@ function renderSection(container, groupedData, months, headers, index) {
     container.append(nav);
 
     let services_table = document.createElement("table");
-    services_table.className = "table table-bordered text-center align-middle text-nowrap table-responsive";
+    services_table.className = "table table-bordered text-center align-middle text-nowrap";
 
     let services_table_head = document.createElement("thead");
     let services_table_body = document.createElement("tbody");
