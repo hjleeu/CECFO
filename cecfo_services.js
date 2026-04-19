@@ -127,7 +127,7 @@ function renderSection(container, groupedData, months, headers, index) {
     container.append(nav);
 
     let services_table = document.createElement("table");
-    services_table.className = "table table-bordered text-center align-middle";
+    services_table.className = "table table-bordered text-center align-middle text-nowrap table-responsive";
 
     let services_table_head = document.createElement("thead");
     let services_table_body = document.createElement("tbody");
