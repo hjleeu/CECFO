@@ -192,16 +192,32 @@
     function createYoutubeIcon() {
         const svgNs = "http://www.w3.org/2000/svg";
         const svg = document.createElementNS(svgNs, "svg");
-        svg.setAttribute("viewBox", "0 0 16 16");
-        svg.setAttribute("width", "16");
-        svg.setAttribute("height", "16");
+        svg.setAttribute("viewBox", "0 0 32 32");
+        svg.setAttribute("width", "20");
+        svg.setAttribute("height", "20");
         svg.setAttribute("aria-hidden", "true");
         svg.style.display = "block";
 
-        const path = document.createElementNS(svgNs, "path");
-        path.setAttribute("fill", "currentColor");
-        path.setAttribute("d", "M8.051 1.999h-.102C6.347 1.99 3.079 1.82 1.53 2.12A2.82 2.82 0 0 0 .467 3.01 2.78 2.78 0 0 0 .134 3.68 29 29 0 0 0 0 8a29 29 0 0 0 .134 4.32 2.78 2.78 0 0 0 .333.67 2.82 2.82 0 0 0 1.063.89c1.549.3 4.817.13 6.419.12h.102c1.602.01 4.87.18 6.419-.12a2.82 2.82 0 0 0 1.063-.89 2.78 2.78 0 0 0 .333-.67A29 29 0 0 0 16 8a29 29 0 0 0-.134-4.32 2.78 2.78 0 0 0-.333-.67 2.82 2.82 0 0 0-1.063-.89c-1.549-.3-4.817-.13-6.419-.12m-1.74 9.66V4.34L11.328 8z");
-        svg.appendChild(path);
+        const circle = document.createElementNS(svgNs, "circle");
+        circle.setAttribute("cx", "16");
+        circle.setAttribute("cy", "16");
+        circle.setAttribute("r", "15");
+        circle.setAttribute("fill", "#ff0000");
+        svg.appendChild(circle);
+
+        const plate = document.createElementNS(svgNs, "rect");
+        plate.setAttribute("x", "8");
+        plate.setAttribute("y", "10");
+        plate.setAttribute("width", "16");
+        plate.setAttribute("height", "12");
+        plate.setAttribute("rx", "3");
+        plate.setAttribute("fill", "#ffffff");
+        svg.appendChild(plate);
+
+        const play = document.createElementNS(svgNs, "path");
+        play.setAttribute("fill", "#ff0000");
+        play.setAttribute("d", "M14 12.5L19.5 16L14 19.5Z");
+        svg.appendChild(play);
 
         return svg;
     }
