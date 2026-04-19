@@ -42,10 +42,18 @@
     },
     "youth_comm": {
         "descr": "青年团契",
-        "title": "暂未提供相关信息...",
-        "scripture": "",
-        "points": [],
-        "reflections": []
+        "title": "",
+        "scripture": "约翰福音6章1-15节",
+        "points": [
+            { "text": "耶稣看顾我们的需要" },
+            { "text": "耶稣看重我们的摆上" },
+            { "text": "耶稣看透我们的心思" }
+        ],
+        "reflections": [
+            { "text": "为什么耶稣叫我们不要为吃喝忧愁" },
+            { "text": "为什么耶稣要我们与他同工" },
+            { "text": "在五饼二鱼神迹中，你还看见了哪些教训" }
+        ]
     },
     "worship": {
         "descr": "诗歌敬拜",
