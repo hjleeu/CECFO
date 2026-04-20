@@ -1,5 +1,19 @@
 {
-    "sermon": {},
-    "youth_comm": {},
-    "worship": {}
+    "sermon": {
+        "descr": "证道·信息分享",
+        "title": "",
+        "scripture": "",
+        "points": []
+    },
+    "youth_comm": {
+        "descr": "青年团契",
+        "title": "",
+        "scripture": "",
+        "points": [],
+        "reflections": []
+    },
+    "worship": {
+        "descr": "诗歌敬拜",
+        "song_list": []
+    }
 }

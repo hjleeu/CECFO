@@ -146,49 +146,64 @@
     }
 
     function renderDetails(detailObj) {
-        const detailsDiv = document.createElement("div");
-        detailsDiv.className = "card p-2 mt-5";
+        let details_div = document.createElement("div");
+        details_div.className = "card p-2 mt-5";
 
-        const title = document.createElement("h5");
+        let title = document.createElement("h5");
         title.className = "card-title";
         title.textContent = detailObj.descr;
-        detailsDiv.appendChild(title);
+        details_div.appendChild(title);
 
         if (detailObj.song_list && detailObj.song_list.length > 0) {
-            const ul = document.createElement("ul");
+            let ul = document.createElement("ul");
             ul.className = "list-group list-group-flush";
             detailObj.song_list.forEach(song => {
-                const li = document.createElement("li");
+                let li = document.createElement("li");
                 li.className = "list-group-item";
-                li.textContent = song;
+                li.innerHTML = `<a
+                            class="icon-link icon-link-hover link-underline link-underline-opacity-25 text-danger align-bottom"
+                            style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);"
+                            href="${song.youtube_url}">
+                            <i class="bi bi-youtube mb-2" aria-hidden="true">
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                            </i>
+                            ${song.title}
+                        </a>`;
                 ul.appendChild(li);
             });
-            detailsDiv.appendChild(ul);
+            details_div.appendChild(ul);
         }
 
-        if (detailObj.title && detailObj.title !== "") {
-            const topic = document.createElement("h6");
+        if (detailObj.title && detailObj.title != "") {
+            let topic = document.createElement("h6");
             topic.className = "card-subtitle";
             topic.textContent = ` - ${detailObj.title}`;
-            detailsDiv.appendChild(topic);
+            details_div.appendChild(topic);
         }
 
-        if (detailObj.scripture && detailObj.scripture !== "") {
-            const scripture = document.createElement("span");
+        if (detailObj.scripture && detailObj.scripture != "") {
+            let scripture = document.createElement("span");
             scripture.className = "list-group-item";
-            scripture.textContent = detailObj.scripture;
-            detailsDiv.appendChild(scripture);
+            scripture.innerHTML = `<i class="bi bi-book"></i>${detailObj.scripture}`;
+            details_div.appendChild(scripture);
         }
 
         if (detailObj.points && detailObj.points.length > 0) {
-            detailsDiv.appendChild(renderPoints(detailObj.points, 0));
+            details_div.appendChild(renderPoints(detailObj.points, 0));
         }
 
         if (detailObj.reflections && detailObj.reflections.length > 0) {
-            detailsDiv.appendChild(renderPoints(detailObj.reflections, 0));
+            let subsection = document.createElement("h6");
+            subsection.innerHTML = `<i class="bi bi-question"></i>讨论`;
+            details_div.appendChild(subsection);
+
+            details_div.appendChild(renderPoints(detailObj.reflections, 0));
         }
 
-        return detailsDiv;
+        return details_div;
     }
 
     function generateRow(obj, key, table) {
