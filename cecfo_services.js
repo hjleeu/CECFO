@@ -1,5 +1,3 @@
-/** Find BUG, TODO to complete the code. */
-
 const services_headers = {
     "host": "主持人",
     "worship_pray": "敬拜祷告",
@@ -24,7 +22,7 @@ const worship_headers = {
 };
 
 async function fetchDetails() {
-    const details_URL = `https://cdn.jsdelivr.net/gh/hjleeu/CECFO@24f744e3e9e1970170a7a2da89faef753cfea922/weekly_details/${getNextSundayDate()}.json`;
+    const details_URL = `https://cdn.jsdelivr.net/gh/hjleeu/CECFO@main/weekly_details/${getNextSundayDate()}.json`;
 
     try {
         const response = await fetch(details_URL);
