@@ -49,6 +49,15 @@
         link.integrity = "sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB";
         link.crossOrigin = "anonymous";
         document.head.appendChild(link);
+
+        const iconsId = "cecfo-bootstrap-icons";
+        if (!document.getElementById(iconsId)) {
+            const iconsLink = document.createElement("link");
+            iconsLink.id = iconsId;
+            iconsLink.rel = "stylesheet";
+            iconsLink.href = "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css";
+            document.head.appendChild(iconsLink);
+        }
     }
 
     function ensureCustomStyle(containerId) {
@@ -400,9 +409,6 @@
             dataUrl: defaultDataUrl,
             detailsBaseUrl: defaultDetailsBaseUrl
         }, options || {});
-
-        ensureBootstrapCss();
-        ensureCustomStyle(config.containerId);
 
         const mount = document.getElementById(config.containerId) || ensureContainer(null, config.containerId);
         if (!mount) return;
