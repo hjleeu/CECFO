@@ -1,9 +1,13 @@
 {
     "sermon": {
         "descr": "证道·信息分享",
-        "title": "",
-        "scripture": "",
-        "points": []
+        "title": "耶稣 是一语解千愁的主",
+        "scripture": "约翰福音4章43-54节",
+        "points": [
+            { "text": "乐意施恩给谦卑接受的人" },
+            { "text": "期待大家的信心能够成长" },
+            { "text": "成全凭信心而回应的行动" }
+        ]
     },
     "youth_comm": {
         "descr": "青年团契",
@@ -14,6 +18,10 @@
     },
     "worship": {
         "descr": "诗歌敬拜",
-        "song_list": []
+        "song_list": [
+            { "title": "我在这里赞美", "youtube_url": "https://www.youtube.com/results?search_query=%E6%88%91%E5%9C%A8%E8%BF%99%E9%87%8C%E8%B5%9E%E7%BE%8E" },
+            { "title": "唯有耶稣", "youtube_url": "https://youtu.be/cMFGl4jAp_w?si=UqE5AbEl3mk2a5Up" },
+            { "title": "献上自己为祭", "youtube_url": "https://youtu.be/s3nj5tff6HU?si=oVxPbQP21bR3E1tB" }
+        ]
     }
 }
