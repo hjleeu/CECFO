@@ -23,7 +23,7 @@
     };
 
     const defaultDataUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
-    const defaultDetailsBaseUrl = "https://cdn.jsdelivr.net/gh/hjleeu/CECFO@main/weekly_details";
+    const defaultDetailsBaseUrl = "https://raw.githubusercontent.com/hjleeu/CECFO/main/weekly_details";
     const bootstrapCssHref = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css";
     const customStyleId = "cecfo-services-embed-style";
     const bootstrapLinkId = "cecfo-services-bootstrap-css";
