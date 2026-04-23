@@ -76,6 +76,7 @@
         container = document.createElement("div");
         container.id = containerId;
         container.className = "container-fluid";
+        container.style.minHeight = "100vh";
         container.innerHTML = `
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
