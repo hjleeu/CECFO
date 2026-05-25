@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CECFO | DASHBOARD</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&family=ZCOOL+XiaoWei&display=swap');
+
+        :root {
+            --bg: #080A0F;
+            --surface: #0F1118;
+            --border: #1E2230;
+            --text: #D8DAE8;
+            --highlight: #6b6f78;
+            --online: #5AB87A;
+            --offline: #E05A5A;
+            --muted: #4A4F6A;
+            --blue: #5B8FFF;
+            --gold: #E8C97A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Noto Serif SC";
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 0.37rem 0.73rem; /* Top/Bottom Left/Right. */
+            align-items: center;
+            font-size: 1.88rem;
+        }
+
+        .header-left {
+            background-image: linear-gradient(to bottom right, var(--gold), var(--blue));
+            color: transparent;
+            background-clip: text;
+        }
+
+        .header-center {
+            color: var(--gold);
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            padding: 0.37rem;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .header-right {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .header-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            color: var(--muted);
+            padding: 0.15rem 0.35rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .header-btn:hover {
+            color: var(--highlight);
+            border-color: var(--highlight);
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: row;
+            font-size: 1rem;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            min-width: 15rem;
+            border-right: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .sidebar div {
+            padding: 0.66rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            overflow: auto;
+            flex: 1;
+            align-content: flex-start;
+        }
+
+        .main-container::-webkit-scrollbar {
+            width: 5.37px;
+            height: 5.37px;
+        }
+
+        .main-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .main-container::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .main-container::-webkit-scrollbar-thumb:hover {
+            background: var(--highlight);
+        }
+
+        .main-container > div {
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            margin: 0.66rem 0.37rem; /* Top/Bottom Left/Right. */
+            padding: 0.5rem;
+        }
+
+        .service_list-container {
+            min-width: 18rem;
+            min-height: 18rem;
+        }
+
+        .worship-container {
+            flex-grow: 1;
+            min-height: 15rem;
+        }
+
+        .sermon-container {
+            min-width: 37rem;
+            min-height: 15rem;
+        }
+
+        .notes-container {
+            min-width: 15rem;
+            min-height: 15rem;
+        }
+
+        .todo-container {
+            min-width: 18rem;
+            min-height: 15rem;
+        }
+
+        .other_songs-container {
+            min-width: 18rem;
+            min-height: 15rem;
+        }
+
+        .container-heading {
+            font-size: 1.37rem;
+            display: block;
+            margin-bottom: 0.66rem;
+        }
+
+        .identity-card {
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 0.37rem;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin: 0.15rem;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            position: absolute;
+            z-index: 1;
+            background: var(--surface);
+            color: var(--highlight);
+            padding: 0.37rem;
+            border-radius: 7px;
+            top: 101%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-wrap-mode: nowrap;
+        }
+
+        .identity-card:hover .tooltip-text {
+            visibility: visible;
+        }
+
+        .song-card {
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: row;
+        }
+
+        .song-card > * {
+            border: 1px solid var(--border);
+        }
+
+        .song-card .song-name {
+            flex-grow: 1;
+            padding-left: 0.37rem;
+        }
+
+        .song-card .song-btn {
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <span>CECFO | DASHBOARD</span>
+        </div>
+        <div class="header-center" id="header-clock"></div>
+        <div class="header-right">
+            <button class="header-btn">⛶</button>
+        </div>
+    </div>
+    <div class="content-area">
+        <div class="sidebar">
+            <div>
+                <span>总览 | Overview</span>
+            </div>
+            <div>
+                <span>资源 | Resources</span>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="service_list-container">
+                <span class="container-heading">本周服事人员</span>
+            </div>
+            <div class="worship-container" id="worship-container">
+                <span class="container-heading">本周敬拜团</span>
+            </div>
+            <div class="sermon-container">
+                <span class="container-heading">本周证道·信息分享</span>
+            </div>
+            <div class="notes-container">
+                <span class="container-heading">备注</span>
+            </div>
+            <div class="todo-container"></div>
+            <div class="other_songs-container"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Demo for testing.
+        const demo_worship = [
+            { "icon": "🔰", "role": "主领", "assigned": "柯铭" },
+            { "icon": "🎹", "role": "琴", "assigned": "柳安琪" },
+            { "icon": "🥁", "role": "鼓", "assigned": "陈恩德" },
+            { "icon": "🎸", "role": "吉他", "assigned": "" },
+            { "icon": "🎸", "role": "贝斯", "assigned": "" },
+            { "icon": "🎤", "role": "领唱", "assigned": "季凯静" },
+            { "icon": "🎤", "role": "领唱", "assigned": "吴佳怡" },
+            { "icon": "🎤", "role": "领唱", "assigned": "吴优" }
+        ]
+        
+        const demo_song = [
+            { "name": "永不回头 | No Turning Back", "yt_url": "", img: "" },
+            { "name": "我信靠祢 | I Trust In You", "yt_url": "", img: "" },
+            { "name": "当我抬头仰望 | When I Look at the Sky", "yt_url": "", img: "" },
+            { "name": "日日夜夜 | Day and Night", "yt_url": "", img: "" }
+        ]
+
+        let worship_container = document.getElementById("worship-container");
+
+        /* TODO: make it cleaner. */
+        demo_worship.forEach(e => {
+            if(e.assigned !== "") {
+                let el = document.createElement("span");
+                el.className = "identity-card";
+                el.textContent = e.icon + " " + e.assigned;
+                let tooltip_text = document.createElement("span");
+                tooltip_text.className = "tooltip-text";
+                tooltip_text.textContent = e.role;
+                el.appendChild(tooltip_text);
+                worship_container.appendChild(el);
+            }
+        });
+
+        /* TODO: make it cleaner. */
+        demo_song.forEach(e => {
+            let new_song = document.createElement("div");
+            new_song.className = "song-card";
+
+            let song_name = document.createElement("span");
+            song_name.className = "song-name";
+            song_name.textContent = e.name;
+            let song_yt_url = document.createElement("a");
+            song_yt_url.className = "song-btn";
+            song_yt_url.href = e.yt_url;
+            song_yt_url.textContent = "🎵";
+            let song_img_url = document.createElement("a");
+            song_img_url.className = "song-btn";
+            song_img_url.href = e.img;
+            song_img_url.textContent = "🖼️";
+
+            new_song.appendChild(song_name);
+            new_song.appendChild(song_yt_url);
+            new_song.appendChild(song_img_url);
+            worship_container.appendChild(new_song);
+        })
+
+        function updateClock() {
+            let now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+            document.getElementById("header-clock").textContent = now;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
