@@ -51,6 +51,7 @@
             background-image: linear-gradient(to bottom right, var(--gold), var(--blue));
             color: transparent;
             background-clip: text;
+            cursor:default;
         }
 
         .header-center {
@@ -60,6 +61,7 @@
             padding: 0.37rem;
             border-radius: 5px;
             font-size: 1rem;
+            cursor: default;
         }
 
         .header-right {
@@ -95,19 +97,21 @@
             flex-direction: column;
             min-width: 15rem;
             border-right: 1px solid var(--border);
-            color: var(--muted);
+            color: var(--highlight);
         }
 
         .sidebar div {
             padding: 0.66rem;
             border-bottom: 1px solid var(--border);
+            cursor: pointer;
         }
 
         .main-container {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: row;
             overflow: auto;
             flex: 1;
+            align-items: flex-start;
             align-content: flex-start;
         }
 
@@ -129,47 +133,51 @@
             background: var(--highlight);
         }
 
-        .main-container > div {
+        .column > div {
             border: 1px solid var(--border);
             border-radius: 7px;
             margin: 0.66rem 0.37rem; /* Top/Bottom Left/Right. */
             padding: 0.5rem;
         }
 
-        .service_list-container {
-            min-width: 18rem;
-            min-height: 18rem;
-        }
-
         .worship-container {
-            flex-grow: 1;
-            min-height: 15rem;
-        }
-
-        .sermon-container {
-            min-width: 37rem;
-            min-height: 15rem;
-        }
-
-        .notes-container {
-            min-width: 15rem;
-            min-height: 15rem;
+            display: flex;
+            flex-direction: column;
         }
 
         .todo-container {
-            min-width: 18rem;
-            min-height: 15rem;
+            padding: 0 !important;
         }
 
         .other_songs-container {
-            min-width: 18rem;
-            min-height: 15rem;
+            padding: 0 !important;
+        }
+
+        .live-container {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .live-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 7px;
+            pointer-events: none;
+            user-select: none;
         }
 
         .container-heading {
             font-size: 1.37rem;
             display: block;
             margin-bottom: 0.66rem;
+            color: var(--gold);
+            cursor: default;
         }
 
         .identity-card {
@@ -180,6 +188,7 @@
             display: inline-block;
             cursor: pointer;
             margin: 0.15rem;
+            background: var(--surface);
         }
 
         .tooltip-text {
@@ -194,6 +203,12 @@
             left: 50%;
             transform: translateX(-50%);
             text-wrap-mode: nowrap;
+            font-size: 0.73rem;
+        }
+
+        .identity-card:hover {
+            transform: translateY(-1px);
+            border-color: var(--highlight);
         }
 
         .identity-card:hover .tooltip-text {
@@ -201,13 +216,15 @@
         }
 
         .song-card {
-            border: 1px solid var(--border);
+            border-block: 1px solid var(--border);
             display: flex;
             flex-direction: row;
+            flex: 1;
+            align-items: center;
         }
 
         .song-card > * {
-            border: 1px solid var(--border);
+            border-inline: 1px solid var(--border);
         }
 
         .song-card .song-name {
@@ -218,6 +235,84 @@
         .song-card .song-btn {
             cursor: pointer;
             text-decoration: none;
+        }
+
+        .switch-head {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .switch-head > span {
+            border: 1px solid var(--border);
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.15s;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .switch-head > span.active {
+            opacity: 1;
+            border-color: var(--gold);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .scripture {
+            color: var(--blue);
+        }
+
+        .no-data {
+            color: var(--muted);
+        }
+
+        #main-container-left {
+            width: 18rem;
+        }
+
+        #main-container-center {
+            flex-grow: 1;
+        }
+
+        #main-container-right {
+            width: 18rem;
+        }
+
+        #worship_teammates {
+            margin: 0.37rem;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        #worship_song_list {
+            flex: 1;
+            align-items: stretch;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #notes-area {
+            outline: none;
+            width: 100%;
+            min-height: 7rem;
+            resize: none;
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 0.15rem;
+        }
+
+        #notes-area:focus {
+            border-color: var(--highlight);
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar { display: none; }
+            .main-container { flex-wrap: wrap; }
         }
     </style>
 </head>
@@ -236,94 +331,290 @@
             <div>
                 <span>总览 | Overview</span>
             </div>
-            <div>
-                <span>资源 | Resources</span>
-            </div>
         </div>
         <div class="main-container">
-            <div class="service_list-container">
-                <span class="container-heading">本周服事人员</span>
+            <div class="column" id="main-container-left">
+                <div class="service_list-container" id="service_list-container">
+                    <span class="container-heading">本周服事人员</span>
+                </div>
+                <div class="notes-container">
+                    <span class="container-heading">备注</span>
+                    <textarea id="notes-area" placeholder="备注事件"></textarea>
+                </div>
             </div>
-            <div class="worship-container" id="worship-container">
-                <span class="container-heading">本周敬拜团</span>
+            <div class="column" id="main-container-center">
+                <div class="live-container" id="live-container"></div>
+                <div class="worship-container" id="worship-container">
+                    <span class="container-heading">本周敬拜团</span>
+                </div>
+                <div class="sermon-container" id="sermon-container">
+                    <span class="container-heading">本周证道·信息分享</span>
+                </div>
             </div>
-            <div class="sermon-container">
-                <span class="container-heading">本周证道·信息分享</span>
+            <div class="column" id="main-container-right">
+                <div class="todo-container">
+                    <div class="switch-head" id="switch-head-todo">
+                        <span class="container-heading active" data-tab="todo-pre" style="border-radius: 7px 0 0 0;">准备工作</span>
+                        <span class="container-heading" data-tab="todo-post" style="border-radius: 0 7px 0 0;">收尾工作</span>
+                    </div>
+                    <div class="tab-content" id="tab-todo-pre"></div>
+                    <div class="tab-content" id="tab-todo-post"></div>
+                </div>
+                <div class="other_songs-container">
+                    <div class="switch-head" id="switch-head-other_songs">
+                        <span class="container-heading active" data-tab="emcee" style="border-radius: 7px 0 0 0;">主持</span>
+                        <span class="container-heading" data-tab="choir" style="border-radius: 0 7px 0 0;">献诗</span>
+                    </div>
+                    <div class="tab-content" id="tab-emcee"></div>
+                    <div class="tab-content" id="tab-choir"></div>
+                </div>
             </div>
-            <div class="notes-container">
-                <span class="container-heading">备注</span>
-            </div>
-            <div class="todo-container"></div>
-            <div class="other_songs-container"></div>
         </div>
     </div>
     
     <script>
         // Demo for testing.
-        const demo_worship = [
-            { "icon": "🔰", "role": "主领", "assigned": "柯铭" },
-            { "icon": "🎹", "role": "琴", "assigned": "柳安琪" },
-            { "icon": "🥁", "role": "鼓", "assigned": "陈恩德" },
-            { "icon": "🎸", "role": "吉他", "assigned": "" },
-            { "icon": "🎸", "role": "贝斯", "assigned": "" },
-            { "icon": "🎤", "role": "领唱", "assigned": "季凯静" },
-            { "icon": "🎤", "role": "领唱", "assigned": "吴佳怡" },
-            { "icon": "🎤", "role": "领唱", "assigned": "吴优" }
-        ]
-        
-        const demo_song = [
-            { "name": "永不回头 | No Turning Back", "yt_url": "", img: "" },
-            { "name": "我信靠祢 | I Trust In You", "yt_url": "", img: "" },
-            { "name": "当我抬头仰望 | When I Look at the Sky", "yt_url": "", img: "" },
-            { "name": "日日夜夜 | Day and Night", "yt_url": "", img: "" }
-        ]
+        const demo = {
+            "worship_team": [
+                { "icon": "🔰", "role": "主领", "assigned": "柯铭" },
+                { "icon": "🎹", "role": "琴", "assigned": "柳安琪" },
+                { "icon": "🥁", "role": "鼓", "assigned": "陈佳怡" },
+                { "icon": "🎸", "role": "吉他", "assigned": "" },
+                { "icon": "🎸", "role": "贝斯", "assigned": "" },
+                { "icon": "🎤", "role": "领唱", "assigned": "季凯静" },
+                { "icon": "🎤", "role": "领唱", "assigned": "吴佳怡" },
+                { "icon": "🎤", "role": "领唱", "assigned": "吴优" }
+            ],
+            "worship_song": [
+                { "name": "弹琴歌唱赞美祢 | Praise Him", "yt_url": "https://youtu.be/homljdAOovs?si=OGe6_6r9wk1rUC6Q", "img_url": "https://cloud.aleleeu.it/s/H92gg9iRE2R3tgd" },
+                { "name": "因祂活着 | Because He lives", "yt_url": "https://youtu.be/Mk_wb6RvHM8?si=rqKLAhbD8KSAG2wI", "img_url": "https://cloud.aleleeu.it/s/cxYAbxT7Hx7NZF4" },
+                { "name": "在耶稣里彼此相爱 | Let Us Love", "yt_url": "https://youtu.be/w7LiijVv_R8?si=gr6iEpVRnvbX3psr", "img_url": "https://cloud.aleleeu.it/s/Ja8FmsqWzpQwE7Q" }
+            ],
+            "service_list": [
+                { "icon": "👨🏻‍💼", "role": "主持人", "assigned": "陈章" },
+                { "icon": "🙏🏻", "role": "敬拜祷告", "assigned": "" },
+                { "icon": "🙏🏻", "role": "记念祷告", "assigned": "胡莉莉" },
+                { "icon": "📖", "role": "读经", "assigned": "胡杰 | 彼前4:1-19节" },
+                { "icon": "🏫", "role": "主日学大班", "assigned": "柳徐康" },
+                { "icon": "🏫", "role": "主日学中班", "assigned": "季凯伦" },
+                { "icon": "🏫", "role": "主日学小班", "assigned": "季艳芬" },
+                { "icon": "🧹", "role": "值日", "assigned": "陈章" },
+                { "icon": "🧹", "role": "值日", "assigned": "张雪琴" },
+                { "icon": "🤝🏻", "role": "接待", "assigned": "厉子浩" },
+                { "icon": "🤝🏻", "role": "接待", "assigned": "柳美灵" },
+            ],
+            "live_url": "https://www.youtube.com/embed/gn1lR4QgTAc",
+            "sermon_outline": {
+                "pastor": "潘胜洁",
+                "title": "耶稣，是超越一切的主",
+                "scripture": "约翰福音5章1-8节",
+                "points": [
+                    { "text": "超越外在的物质" },
+                    { "text": "超越世间的冷漠" },
+                    { "text": "超越短暂的今生" },
+                    { "text": "超越狭隘的观念" },
+                    
+                ]
+            },
+            "todo_pre": [
+                { "text": "打开调音桌电闸" },
+                { "text": "开启调音桌所有电源开关" },
+                { "text": "开启调音台" },
+                { "text": "打开音箱电闸" },
+                { "text": "开启其他设备" },
+                { "text": "准备PPT" },
+                { "text": "准备练习所需设备" },
+                { "text": "准备直播" }
+            ],
+            "todo_post": [
+                { "text": "关闭直播" },
+                { "text": "回收设备" },
+                { "text": "关旁听/音箱" },
+                { "text": "关调音台" },
+                { "text": "关其他设备" },
+                { "text": "关调音桌电板开关" },
+                { "text": "关调音桌电闸" },
+            ],
+            "emcee_song": [],
+            "choir_song": []
+        };
 
-        let worship_container = document.getElementById("worship-container");
+        /**
+         * @param id Container id.
+         * @param team Array containing the team data for fill up.
+         * @param songs Array containing the song data for fill up.
+        */
+        function fillWorshipContainer(id, team, songs) {
+            let container = document.getElementById(id);
 
-        /* TODO: make it cleaner. */
-        demo_worship.forEach(e => {
-            if(e.assigned !== "") {
-                let el = document.createElement("span");
-                el.className = "identity-card";
-                el.textContent = e.icon + " " + e.assigned;
-                let tooltip_text = document.createElement("span");
-                tooltip_text.className = "tooltip-text";
-                tooltip_text.textContent = e.role;
-                el.appendChild(tooltip_text);
-                worship_container.appendChild(el);
+            let teammates = document.createElement("div");
+            teammates.id = "worship_teammates";
+
+            team.forEach(e => {
+                if(e.assigned !== "" && e.assigned !== null) {
+                    let teammate = document.createElement("span");
+                    teammate.className = "identity-card";
+                    teammate.textContent = e.icon + " " + e.assigned;
+
+                    let tooltip = document.createElement("span");
+                    tooltip.className = "tooltip-text";
+                    tooltip.textContent = e.role;
+                    teammate.appendChild(tooltip);
+
+                    teammates.appendChild(teammate);
+                }
+            });
+            container.appendChild(teammates);
+
+            container.appendChild(renderSongList(songs));
+        }
+
+        /**
+         * @param id Container id.
+         * @param data Array of data for fill up.
+        */
+        function fillServiceListContainer(id, data) {
+            let container = document.getElementById(id);
+
+            data.forEach(e => {
+                let staff = document.createElement("span");
+                staff.className = "identity-card";
+                staff.textContent = e.icon + " " +e.role + ": " + (e.assigned !== "" ? e.assigned : "-");
+                container.appendChild(staff);
+            });
+        }
+
+        function fillLiveContainer(id, url) {
+            let container = document.getElementById(id);
+
+            container.innerHTML = `
+                <iframe src="${url}?autoplay=1&mute=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            `;
+        }
+
+        function fillSermonContainer(id, data) {
+            let container = document.getElementById(id);
+
+            let pastor = document.createElement("span");
+            pastor.className = "identity-card";
+            pastor.textContent = "👨🏻‍💼 " + data.pastor;
+            pastor.style.display = "table";
+            container.appendChild(pastor);
+            
+            let title = document.createElement("span");
+            title.textContent = data.title + " | ";
+
+            let scripture = document.createElement("span");
+            scripture.className = "scripture";
+            scripture.textContent = data.scripture;
+            container.appendChild(title);
+            container.appendChild(scripture);
+            container.appendChild(renderSermonPoints(data.points));
+        }
+
+        function fillToDoContainer(tab_pre_id, tab_post_id, todo_pre, todo_post) {
+            let tab_pre = document.getElementById(tab_pre_id);
+            let tab_post = document.getElementById(tab_post_id);
+
+            tab_pre.appendChild(renderSermonPoints(todo_pre));
+            tab_post.appendChild(renderSermonPoints(todo_post));
+        }
+
+        function fillOtherSongsContainer(tab_emcee_id, tab_choir_id, emcee_data, choir_data) {
+            let tab_emcee = document.getElementById(tab_emcee_id);
+            let tab_choir = document.getElementById(tab_choir_id);
+
+            tab_emcee.appendChild(renderSongList(emcee_data));
+            tab_choir.appendChild(renderSongList(choir_data));
+        }
+
+        function renderSermonPoints(points) {
+            const ol = document.createElement("ol");
+            ol.style.paddingLeft = "1.37rem"
+
+            points.forEach(point => {
+                const li = document.createElement("li");
+                li.textContent = point.text;
+
+                if (point.points && point.points.length > 0) {
+                    li.appendChild(renderSermonPoints(point.points));
+                }
+
+                ol.appendChild(li);
+            });
+
+            return ol;
+        }
+
+        function renderSongList(songs) {
+            let song_list = document.createElement("div");
+            song_list.id = "worship_song_list";
+
+            if(songs.length > 0) {
+                songs.forEach(e => {
+                    let song = document.createElement("div");
+                    song.className = "song-card";
+
+                    let name = document.createElement("span");
+                    name.className = "song-name";
+                    name.textContent = "♫ " + e.name;
+
+                    let music = document.createElement("a");
+                    music.className = "song-btn";
+                    music.textContent = "🔊";
+                    music.href = e.yt_url;
+
+                    let image = document.createElement("a");
+                    image.className = "song-btn";
+                    image.textContent = "📜";
+                    image.href = e.img_url;
+
+                    song.appendChild(name);
+                    song.appendChild(music);
+                    song.appendChild(image);
+
+                    song_list.appendChild(song);
+                });
+            } else {
+                song_list.className = "no-data";
+                song_list.textContent = "暂无数据";
             }
-        });
-
-        /* TODO: make it cleaner. */
-        demo_song.forEach(e => {
-            let new_song = document.createElement("div");
-            new_song.className = "song-card";
-
-            let song_name = document.createElement("span");
-            song_name.className = "song-name";
-            song_name.textContent = e.name;
-            let song_yt_url = document.createElement("a");
-            song_yt_url.className = "song-btn";
-            song_yt_url.href = e.yt_url;
-            song_yt_url.textContent = "🎵";
-            let song_img_url = document.createElement("a");
-            song_img_url.className = "song-btn";
-            song_img_url.href = e.img;
-            song_img_url.textContent = "🖼️";
-
-            new_song.appendChild(song_name);
-            new_song.appendChild(song_yt_url);
-            new_song.appendChild(song_img_url);
-            worship_container.appendChild(new_song);
-        })
+            return song_list;
+        }
 
         function updateClock() {
             let now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
             document.getElementById("header-clock").textContent = now;
         }
 
+        function initSwitchHeader(id, tabs) {
+            let switchHead = document.getElementById(id);
+
+            document.getElementById("tab-" + switchHead.querySelector("span.active").dataset.tab).style.display = "block";
+
+            switchHead.querySelectorAll("span").forEach(tab => {
+                tab.addEventListener("click", () => {
+                    switchHead.querySelectorAll("span").forEach(t => t.classList.remove("active"));
+                    tab.classList.add("active");
+
+                    tabs.forEach(t => document.getElementById(t).style.display = "none");
+                    document.getElementById("tab-" + tab.dataset.tab).style.display = "block";
+                });
+            });
+        }
+
         updateClock();
         setInterval(updateClock, 1000);
+
+        initSwitchHeader("switch-head-todo", ["tab-todo-pre", "tab-todo-post"]);
+        initSwitchHeader("switch-head-other_songs", ["tab-emcee", "tab-choir"]);
+
+        fillWorshipContainer("worship-container", demo.worship_team, demo.worship_song);
+        fillServiceListContainer("service_list-container", demo.service_list);
+        fillLiveContainer("live-container", demo.live_url);
+        fillSermonContainer("sermon-container", demo.sermon_outline);
+        fillToDoContainer("tab-todo-pre", "tab-todo-post", demo.todo_pre, demo.todo_post);
+        fillOtherSongsContainer("tab-emcee", "tab-choir", demo.emcee_song, demo.choir_song);
     </script>
 </body>
 </html>
