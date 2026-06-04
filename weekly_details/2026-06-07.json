@@ -1,0 +1,44 @@
+{
+    "live_id": "k4ycSEly2sI",
+    "worship_team": [],
+    "worship_songs": [],
+    "services_list": [
+        { "icon": "👨🏻‍💼", "role": "主持人", "assigned": "季育林" },
+        { "icon": "🙏🏻", "role": "敬拜祷告", "assigned": "吴荣良" },
+        { "icon": "🙏🏻", "role": "记念祷告", "assigned": "陈兴雪" },
+        { "icon": "📖", "role": "读经", "assigned": "胡杰 - 彼前5:1-14节" },
+        { "icon": "🏫", "role": "主日学大班", "assigned": "柯铭" },
+        { "icon": "🏫", "role": "主日学中班", "assigned": "应月珍" },
+        { "icon": "🏫", "role": "主日学小班", "assigned": "杨金爱" },
+        { "icon": "🤝🏻", "role": "接待", "assigned": "吴雨乐" },
+        { "icon": "🤝🏻", "role": "接待", "assigned": "朱炫毅" },
+        { "icon": "🧹", "role": "值日", "assigned": "廖珍云" }
+    ],
+    "sermon_outline": {
+        "pastor": "陈灵雅"
+    },
+    "emcee": {
+        "icon": "👨🏻‍💼", "role": "主持人", "assigned": "季育林",
+        "songs": []
+    },
+    "choir": {},
+    "todo_pre": [
+        { "text": "打开调音桌电闸", "it": "Accendere interuttore di corrente dell'area mix." },
+        { "text": "开启调音桌所有电源开关", "it": "Accendere le ciabatte." },
+        { "text": "开启调音台", "it": "Accendere il mixer." },
+        { "text": "打开音箱电闸", "it": "Accendere l'interuttore di corrente delle casse." },
+        { "text": "开启其他设备", "it": "Accendere tutti i dispositivi" },
+        { "text": "准备PPT", "it": "Preparare i PPT." },
+        { "text": "准备练习所需设备", "it": "Preparare i dispositivi per l'allenamento." },
+        { "text": "准备OBS Studio", "it": "Preparare OBS Studio." }
+    ],
+    "todo_post": [
+        { "text": "关闭直播", "it": "Terminare la diretta." },
+        { "text": "回收设备", "it": "Recuperare i dispositivi." },
+        { "text": "关旁听/音箱", "it": "Spegnere le casse." },
+        { "text": "关调音台", "it": "Spegnere il mixer." },
+        { "text": "关其他设备", "it": "Spegnere tutti i dispositivi." },
+        { "text": "关调音桌电板开关", "it": "Spegnere le ciabatte." },
+        { "text": "关调音桌电闸", "it": "Spegnere l'interrutore di corrente dell'area mix." }
+    ]
+}
