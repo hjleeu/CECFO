@@ -154,22 +154,53 @@
         }
 
         .live-container {
-            position: relative;
-            aspect-ratio: 16 / 9;
-            padding: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 0 !important;
             overflow: hidden;
         }
 
-        .live-container iframe {
+        #live-preview {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        #live-preview iframe {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
             border: none;
-            border-radius: 7px;
-            pointer-events: none;
-            user-select: none;
+        }
+
+        .live-controls {
+            display: flex;
+            flex-direction: row;
+            border-top: 1px solid var(--border);
+        }
+
+        .live-controls button {
+            flex: 1;
+            background-color: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            padding: 0.37rem 0.73rem;
+            transition: all 0.15s;
+        }
+
+        .live-controls button:first-child {
+            border-radius: 0 0 0 7px;
+        }
+
+        .live-controls button:last-child {
+            border-radius: 0 0 7px 0;
+        }
+
+        .live-controls button:hover {
+            border-color: var(--highlight);
         }
 
         .container-heading {
@@ -225,6 +256,7 @@
 
         .song-card > * {
             border-inline: 1px solid var(--border);
+            padding: 0.15rem;
         }
 
         .song-card .song-name {
@@ -323,7 +355,7 @@
         </div>
         <div class="header-center" id="header-clock"></div>
         <div class="header-right">
-            <button class="header-btn">⛶</button>
+            <button class="header-btn" id="fullscreen-btn">⛶</button>
         </div>
     </div>
     <div class="content-area">
@@ -343,7 +375,14 @@
                 </div>
             </div>
             <div class="column" id="main-container-center">
-                <div class="live-container" id="live-container"></div>
+                <div class="live-container" id="live-container">
+                    <div id="live-preview"></div>
+                    <div class="live-controls">
+                        <button id="liveMuteBtn" onclick="liveMute()">🔊</button>
+                        <button id="livePlayBtn" onclick="livePlay()">▶</button>
+                        <button id="liveUrlBtn" onclick="liveShareUrl()">🔗</button>
+                    </div>
+                </div>
                 <div class="worship-container" id="worship-container">
                     <span class="container-heading">本周敬拜团</span>
                 </div>
@@ -372,72 +411,9 @@
         </div>
     </div>
     
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Demo for testing.
-        const demo = {
-            "worship_team": [
-                { "icon": "🔰", "role": "主领", "assigned": "柯铭" },
-                { "icon": "🎹", "role": "琴", "assigned": "柳安琪" },
-                { "icon": "🥁", "role": "鼓", "assigned": "陈佳怡" },
-                { "icon": "🎸", "role": "吉他", "assigned": "" },
-                { "icon": "🎸", "role": "贝斯", "assigned": "" },
-                { "icon": "🎤", "role": "领唱", "assigned": "季凯静" },
-                { "icon": "🎤", "role": "领唱", "assigned": "吴佳怡" },
-                { "icon": "🎤", "role": "领唱", "assigned": "吴优" }
-            ],
-            "worship_song": [
-                { "name": "弹琴歌唱赞美祢 | Praise Him", "yt_url": "https://youtu.be/homljdAOovs?si=OGe6_6r9wk1rUC6Q", "img_url": "https://cloud.aleleeu.it/s/H92gg9iRE2R3tgd" },
-                { "name": "因祂活着 | Because He lives", "yt_url": "https://youtu.be/Mk_wb6RvHM8?si=rqKLAhbD8KSAG2wI", "img_url": "https://cloud.aleleeu.it/s/cxYAbxT7Hx7NZF4" },
-                { "name": "在耶稣里彼此相爱 | Let Us Love", "yt_url": "https://youtu.be/w7LiijVv_R8?si=gr6iEpVRnvbX3psr", "img_url": "https://cloud.aleleeu.it/s/Ja8FmsqWzpQwE7Q" }
-            ],
-            "service_list": [
-                { "icon": "👨🏻‍💼", "role": "主持人", "assigned": "陈章" },
-                { "icon": "🙏🏻", "role": "敬拜祷告", "assigned": "" },
-                { "icon": "🙏🏻", "role": "记念祷告", "assigned": "胡莉莉" },
-                { "icon": "📖", "role": "读经", "assigned": "胡杰 | 彼前4:1-19节" },
-                { "icon": "🏫", "role": "主日学大班", "assigned": "柳徐康" },
-                { "icon": "🏫", "role": "主日学中班", "assigned": "季凯伦" },
-                { "icon": "🏫", "role": "主日学小班", "assigned": "季艳芬" },
-                { "icon": "🧹", "role": "值日", "assigned": "陈章" },
-                { "icon": "🧹", "role": "值日", "assigned": "张雪琴" },
-                { "icon": "🤝🏻", "role": "接待", "assigned": "厉子浩" },
-                { "icon": "🤝🏻", "role": "接待", "assigned": "柳美灵" },
-            ],
-            "live_url": "https://www.youtube.com/embed/gn1lR4QgTAc",
-            "sermon_outline": {
-                "pastor": "潘胜洁",
-                "title": "耶稣，是超越一切的主",
-                "scripture": "约翰福音5章1-8节",
-                "points": [
-                    { "text": "超越外在的物质" },
-                    { "text": "超越世间的冷漠" },
-                    { "text": "超越短暂的今生" },
-                    { "text": "超越狭隘的观念" },
-                    
-                ]
-            },
-            "todo_pre": [
-                { "text": "打开调音桌电闸" },
-                { "text": "开启调音桌所有电源开关" },
-                { "text": "开启调音台" },
-                { "text": "打开音箱电闸" },
-                { "text": "开启其他设备" },
-                { "text": "准备PPT" },
-                { "text": "准备练习所需设备" },
-                { "text": "准备直播" }
-            ],
-            "todo_post": [
-                { "text": "关闭直播" },
-                { "text": "回收设备" },
-                { "text": "关旁听/音箱" },
-                { "text": "关调音台" },
-                { "text": "关其他设备" },
-                { "text": "关调音桌电板开关" },
-                { "text": "关调音桌电闸" },
-            ],
-            "emcee_song": [],
-            "choir_song": []
-        };
+        const DATA_URL = "https://raw.githubusercontent.com/hjleeu/CECFO/refs/heads/main/weekly_details/2026-06-07.json";
 
         /**
          * @param id Container id.
@@ -476,7 +452,7 @@
         function fillServiceListContainer(id, data) {
             let container = document.getElementById(id);
 
-            data.forEach(e => {
+            if(data) data.forEach(e => {
                 let staff = document.createElement("span");
                 staff.className = "identity-card";
                 staff.textContent = e.icon + " " +e.role + ": " + (e.assigned !== "" ? e.assigned : "-");
@@ -484,12 +460,38 @@
             });
         }
 
-        function fillLiveContainer(id, url) {
-            let container = document.getElementById(id);
+        let live_player;
 
-            container.innerHTML = `
-                <iframe src="${url}?autoplay=1&mute=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            `;
+        function fillLiveContainer(videoId) {
+            live_player = new YT.Player("live-preview", {
+                videoId: videoId,
+                playerVars: {
+                    "controls": 0,
+                    "disablekb": 1, // Disable keyboard.
+                    "fs": 0, // Disable full screen button.
+                    "rel": 0, // Will display related videos only from the same channel.
+                },
+                events: {
+                    onReady: (e) => e.target.playVideo()
+                }
+            });
+        }
+
+        function liveMute() {
+            live_player.isMuted() ? live_player.unMute() : live_player.mute();
+        }
+
+        function livePlay() {
+            live_player.getPlayerState() === YT.PlayerState.PLAYING ? live_player.pauseVideo() : live_player.playVideo();
+        }
+
+        function liveShareUrl() {
+            const url = `https://www.youtube.com/watch?v=${live_id}`;
+            navigator.clipboard.writeText(url);
+
+            const btn = document.getElementById("liveUrlBtn");
+            btn.textContent = "✅";
+            setTimeout(() => btn.textContent = "🔗", 1500);
         }
 
         function fillSermonContainer(id, data) {
@@ -509,35 +511,35 @@
             scripture.textContent = data.scripture;
             container.appendChild(title);
             container.appendChild(scripture);
-            container.appendChild(renderSermonPoints(data.points));
+            container.appendChild(renderPoints(data.points));
         }
 
         function fillToDoContainer(tab_pre_id, tab_post_id, todo_pre, todo_post) {
             let tab_pre = document.getElementById(tab_pre_id);
             let tab_post = document.getElementById(tab_post_id);
 
-            tab_pre.appendChild(renderSermonPoints(todo_pre));
-            tab_post.appendChild(renderSermonPoints(todo_post));
+            tab_pre.appendChild(renderPoints(todo_pre));
+            tab_post.appendChild(renderPoints(todo_post));
         }
 
         function fillOtherSongsContainer(tab_emcee_id, tab_choir_id, emcee_data, choir_data) {
             let tab_emcee = document.getElementById(tab_emcee_id);
             let tab_choir = document.getElementById(tab_choir_id);
 
-            tab_emcee.appendChild(renderSongList(emcee_data));
-            tab_choir.appendChild(renderSongList(choir_data));
+            if(emcee_data !== null) tab_emcee.appendChild(renderSongList(emcee_data));
+            if(choir_data !== null) tab_choir.appendChild(renderSongList(choir_data));
         }
 
-        function renderSermonPoints(points) {
+        function renderPoints(points) {
             const ol = document.createElement("ol");
-            ol.style.paddingLeft = "1.37rem"
+            ol.style.paddingLeft = "1.66rem"
 
-            points.forEach(point => {
+            if(points) points.forEach(point => {
                 const li = document.createElement("li");
-                li.textContent = point.text;
+                li.textContent = point.text + (point.it != null ? " | " + point.it : "");
 
                 if (point.points && point.points.length > 0) {
-                    li.appendChild(renderSermonPoints(point.points));
+                    li.appendChild(renderPoints(point.points));
                 }
 
                 ol.appendChild(li);
@@ -550,24 +552,26 @@
             let song_list = document.createElement("div");
             song_list.id = "worship_song_list";
 
-            if(songs.length > 0) {
+            if(songs && songs.length > 0) {
                 songs.forEach(e => {
                     let song = document.createElement("div");
                     song.className = "song-card";
 
                     let name = document.createElement("span");
                     name.className = "song-name";
-                    name.textContent = "♫ " + e.name;
+                    name.textContent = "🎶 " + e.name;
 
                     let music = document.createElement("a");
                     music.className = "song-btn";
-                    music.textContent = "🔊";
+                    music.textContent = "🎵";
                     music.href = e.yt_url;
+                    music.title = `Youtube链接 - ${e.name}`;
 
                     let image = document.createElement("a");
                     image.className = "song-btn";
-                    image.textContent = "📜";
+                    image.textContent = "🖼️";
                     image.href = e.img_url;
+                    image.title = `歌谱链接 - ${e.name}`;
 
                     song.appendChild(name);
                     song.appendChild(music);
@@ -603,18 +607,45 @@
             });
         }
 
+        let live_id = null;
+        function onYouTubeIframeAPIReady() {
+            if(live_id) fillLiveContainer(live_id);
+        }
+
+        document.getElementById("fullscreen-btn").addEventListener("click", () => {
+            if(!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                document.getElementById("fullscreen-btn").textContent = "✕";
+            } else {
+                document.exitFullscreen();
+                document.getElementById("fullscreen-btn").textContent = "⛶";
+            }
+        });
+
         updateClock();
         setInterval(updateClock, 1000);
 
-        initSwitchHeader("switch-head-todo", ["tab-todo-pre", "tab-todo-post"]);
-        initSwitchHeader("switch-head-other_songs", ["tab-emcee", "tab-choir"]);
+        window.onload = async function () {
+            await fetch(DATA_URL)
+                .then(res => res.json())
+                .then(data => {
+                    live_id = data.live_id;
 
-        fillWorshipContainer("worship-container", demo.worship_team, demo.worship_song);
-        fillServiceListContainer("service_list-container", demo.service_list);
-        fillLiveContainer("live-container", demo.live_url);
-        fillSermonContainer("sermon-container", demo.sermon_outline);
-        fillToDoContainer("tab-todo-pre", "tab-todo-post", demo.todo_pre, demo.todo_post);
-        fillOtherSongsContainer("tab-emcee", "tab-choir", demo.emcee_song, demo.choir_song);
+                    if (typeof YT !== "undefined" && YT.Player) {
+                        fillLiveContainer(data.live_id);
+                    }
+
+                    fillWorshipContainer("worship-container", data.worship_team, data.worship_songs);
+                    fillServiceListContainer("service_list-container", data.services_list);
+                    fillSermonContainer("sermon-container", data.sermon_outline);
+                    fillToDoContainer("tab-todo-pre", "tab-todo-post", data.todo_pre, data.todo_post);
+                    fillOtherSongsContainer("tab-emcee", "tab-choir", data.emcee, data.choir);
+
+                    initSwitchHeader("switch-head-todo", ["tab-todo-pre", "tab-todo-post"]);
+                    initSwitchHeader("switch-head-other_songs", ["tab-emcee", "tab-choir"]);
+                })
+                .catch(err => console.log("Failed to load data: ", err));
+        }
     </script>
 </body>
 </html>
