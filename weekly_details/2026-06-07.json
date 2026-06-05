@@ -21,24 +21,47 @@
         "icon": "👨🏻‍💼", "role": "主持人", "assigned": "季育林",
         "songs": []
     },
-    "choir": {},
+    "choir": {
+        "icon": "👩‍👩‍👧‍👦", "role": "团队", "assigned": "诗班"
+    },
     "todo_pre": [
-        { "text": "打开调音桌电闸", "it": "Accendere interuttore di corrente dell'area mix." },
-        { "text": "开启调音桌所有电源开关", "it": "Accendere le ciabatte." },
-        { "text": "开启调音台", "it": "Accendere il mixer." },
-        { "text": "打开音箱电闸", "it": "Accendere l'interuttore di corrente delle casse." },
-        { "text": "开启其他设备", "it": "Accendere tutti i dispositivi" },
-        { "text": "准备PPT", "it": "Preparare i PPT." },
-        { "text": "准备练习所需设备", "it": "Preparare i dispositivi per l'allenamento." },
-        { "text": "准备OBS Studio", "it": "Preparare OBS Studio." }
+        {
+            "text": "前置准备", "it": "Preparativi",
+            "points": [
+                { "text": "开启调音区电闸", "it": "Accendere l'interuttore di corrente per l'area mix." },
+                { "text": "开启调音区所有设备", "it": "Accendere tutti i dispositivi dell'area mix." },
+                { "text": "开启音箱", "it": "Accendere le casse." }
+            ]
+        },
+        {
+            "text": "练习前", "it": "Per l'esercitazione",
+            "points": [
+                { "text": "准备话筒", "it": "Preparare i microfoni." },
+                { "text": "准备监听设备", "it": "Preparare i dispositivi da monitor." }
+            ]
+        },
+        {
+            "text": "聚会前", "it": "Per la riunione",
+            "points": [
+                { "text": "导入所需文件", "it": "Caricare i file necessari." },
+                { "text": "确认OBS Studio设置", "it": "Controllare lo setup di OBS Studio." }
+            ]
+        }
     ],
     "todo_post": [
-        { "text": "关闭直播", "it": "Terminare la diretta." },
-        { "text": "回收设备", "it": "Recuperare i dispositivi." },
-        { "text": "关旁听/音箱", "it": "Spegnere le casse." },
-        { "text": "关调音台", "it": "Spegnere il mixer." },
-        { "text": "关其他设备", "it": "Spegnere tutti i dispositivi." },
-        { "text": "关调音桌电板开关", "it": "Spegnere le ciabatte." },
-        { "text": "关调音桌电闸", "it": "Spegnere l'interrutore di corrente dell'area mix." }
+        {
+            "text": "敬拜后", "it": "Dopo worship",
+            "points": [
+                { "text": "回收设备", "it": "Recuperare i microfoni e i dispositivi in generale." }
+            ]
+        },
+        {
+            "text": "聚会后", "it": "Dopo riunione",
+            "points": [
+                { "text": "关闭音箱", "it": "Spegnere le casse." },
+                { "text": "关闭调音区设备", "it": "Spegnere i dispositivi dell'area mix." },
+                { "text": "关闭调音区电闸", "it": "Spegnere l'interuttore di corrente per l'area mix." }
+            ]
+        }
     ]
 }
