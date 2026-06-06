@@ -1,7 +1,19 @@
 {
     "live_id": "k4ycSEly2sI",
-    "worship_team": [],
-    "worship_songs": [],
+    "worship_team": [
+        { "icon": "🔰", "role": "主领", "assigned": "季霜双" },
+        { "icon": "🎹", "role": "电钢", "assigned": "吴优" },
+        { "icon": "🥁", "role": "电鼓", "assigned": "" },
+        { "icon": "🎤", "role": "领唱", "assigned": "陈佳怡" },
+        { "icon": "🎤", "role": "领唱", "assigned": "吴家乐" },
+        { "icon": "🎤", "role": "领唱", "assigned": "吴嘉翔" }
+    ],
+    "worship_songs": [
+        { "name": "你真伟大（改编版）", "yt_url": "https://youtu.be/7ndjx3iBN40", "img_url": "https://cloud.aleleeu.it/s/dDMPbQa3Sx7HZg6" },
+        { "name": "轻轻听", "yt_url": "https://youtu.be/hIGtN2xHWsw", "img_url": "https://cloud.aleleeu.it/s/AoSAJgWwGS3mDKc" },
+        { "name": "如鹰展翅上腾", "yt_url": "https://youtu.be/qF3RADPSlDs", "img_url": "https://cloud.aleleeu.it/s/HEgQyKR5THKooxT" },
+        { "name": "你的爱不离不弃", "yt_url": "https://youtu.be/PNLyM3gCoIU", "img_url": "https://cloud.aleleeu.it/s/WtgLnKDkNjTdcPn" }
+    ],
     "services_list": [
         { "icon": "👨🏻‍💼", "role": "主持人", "assigned": "季育林" },
         { "icon": "🙏🏻", "role": "敬拜祷告", "assigned": "吴荣良" },
@@ -15,14 +27,25 @@
         { "icon": "🧹", "role": "值日", "assigned": "廖珍云" }
     ],
     "sermon_outline": {
-        "pastor": "陈灵雅"
+        "pastor": "陈灵雅",
+        "title": "信心的三个命令",
+        "scripture": "出埃及记14章10-18节",
+        "points": [
+            { "text": "不要惧怕 —— 面对危机" },
+            { "text": "只管站住 —— 等候仰望" },
+            { "text": "要往前走 —— 顺服引领" }
+        ]
     },
     "emcee": {
-        "icon": "👨🏻‍💼", "role": "主持人", "assigned": "季育林",
+        "assigned": "季育林",
         "songs": []
     },
     "choir": {
-        "icon": "👩‍👩‍👧‍👦", "role": "团队", "assigned": "诗班"
+        "assigned": "诗班",
+        "songs": [
+            { "name": "红本124 - 神圣纯爱", "yt_url": "https://youtu.be/LpBkllhE2E4", "img_url": "" },
+            { "name": "红本1347 - 我的心你要称颂耶和华", "yt_url": "https://youtu.be/GTbSQh0LOnE", "img_url": "" }
+        ]
     },
     "todo_pre": [
         {
