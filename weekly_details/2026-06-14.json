@@ -1,0 +1,87 @@
+{
+    "live_id": "2p2MqmElz9Y",
+    "worship_team": [
+        { "icon": "🔰", "role": "主领", "assigned": "陈佳怡" },
+        { "icon": "🎹", "role": "电钢", "assigned": "柳安琪" },
+        { "icon": "🥁", "role": "电鼓", "assigned": "留宇泽" },
+        { "icon": "🎤", "role": "领唱", "assigned": "陈曦" },
+        { "icon": "🎤", "role": "领唱", "assigned": "吴嘉翔" },
+        { "icon": "🎤", "role": "领唱", "assigned": "吴佳怡" }
+    ],
+    "worship_songs": [
+        { "name": "有一天", "yt_url": "https://youtu.be/96WDXhk6qjU", "img_url": "https://cloud.aleleeu.it/s/mfG8LpSzx46zdAi" },
+        { "name": "将天敞开", "yt_url": "https://youtu.be/OVUPLFLdmpE", "img_url": "https://cloud.aleleeu.it/s/XzxgXr9Fr64ZZGB" },
+        { "name": "我们欢迎君王降临", "yt_url": "https://youtu.be/kp0nbIAnhn0", "img_url": "https://cloud.aleleeu.it/s/a938TsAENTnHZkf" },
+        { "name": "平安", "yt_url": "https://youtu.be/VJTtPXR-pUE", "img_url": "https://cloud.aleleeu.it/s/R5Gz2RWbga393rz" }
+    ],
+    "services_list": [
+        { "icon": "👨🏻‍💼", "role": "主持人", "assigned": "" },
+        { "icon": "🙏🏻", "role": "敬拜祷告", "assigned": "裘先平" },
+        { "icon": "🙏🏻", "role": "记念祷告", "assigned": "廖珍云" },
+        { "icon": "📖", "role": "读经", "assigned": "柳安琪 | 彼后1:1-21节" },
+        { "icon": "🏫", "role": "主日学大班", "assigned": "陈章" },
+        { "icon": "🏫", "role": "主日学中班", "assigned": "应月珍" },
+        { "icon": "🏫", "role": "主日学小班", "assigned": "周青青" },
+        { "icon": "🤝🏻", "role": "接待", "assigned": "季妍" },
+        { "icon": "🤝🏻", "role": "接待", "assigned": "厉子浩" },
+        { "icon": "🧹", "role": "值日", "assigned": "陈兴雪" },
+        { "icon": "🧹", "role": "值日", "assigned": "裘先平" }
+    ],
+    "sermon_outline": {
+        "pastor": "邱冠民",
+        "title": "",
+        "scripture": "",
+        "points": []
+    },
+    "emcee": {
+        "assigned": "",
+        "songs": []
+    },
+    "choir": {
+        "assigned": "主日学大班",
+        "songs": [
+            { "name": "无以回报", "yt_url": "https://youtu.be/WfOE7cBT6Lw", "img_url": "https://cloud.aleleeu.it/s/267bWZYCd7xK92c" },
+            { "name": "我们爱 让世界不一样", "yt_url": "https://youtu.be/fUijjKO3lYU", "img_url": "https://cloud.aleleeu.it/s/7jaHkqCk3SkFbGn" }
+        ]
+    },
+    "todo_pre": [
+        {
+            "text": "前置准备", "it": "Preparativi",
+            "points": [
+                { "text": "开启调音区电闸", "it": "Accendere l'interuttore di corrente per l'area mix." },
+                { "text": "开启调音区所有设备", "it": "Accendere tutti i dispositivi dell'area mix." },
+                { "text": "开启音箱", "it": "Accendere le casse." }
+            ]
+        },
+        {
+            "text": "练习前", "it": "Per l'esercitazione",
+            "points": [
+                { "text": "准备话筒", "it": "Preparare i microfoni." },
+                { "text": "准备监听设备", "it": "Preparare i dispositivi da monitor." }
+            ]
+        },
+        {
+            "text": "聚会前", "it": "Per la riunione",
+            "points": [
+                { "text": "导入所需文件", "it": "Caricare i file necessari." },
+                { "text": "确认OBS Studio设置", "it": "Controllare lo setup di OBS Studio." }
+            ]
+        }
+    ],
+    "todo_post": [
+        {
+            "text": "敬拜后", "it": "Dopo worship",
+            "points": [
+                { "text": "回收设备", "it": "Recuperare i microfoni e i dispositivi in generale." }
+            ]
+        },
+        {
+            "text": "聚会后", "it": "Dopo riunione",
+            "points": [
+                { "text": "关闭音箱", "it": "Spegnere le casse." },
+                { "text": "关闭调音区设备", "it": "Spegnere i dispositivi dell'area mix." },
+                { "text": "关闭调音区电闸", "it": "Spegnere l'interuttore di corrente per l'area mix." }
+            ]
+        }
+    ]
+}

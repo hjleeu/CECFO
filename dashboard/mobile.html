@@ -413,7 +413,7 @@
     
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        const DATA_URL = "https://raw.githubusercontent.com/hjleeu/CECFO/refs/heads/main/weekly_details/" + getNextSundayDate() + ".json";
+        const DATA_URL = "https://raw.githubusercontent.com/hjleeu/CECFO/refs/heads/main/weekly_details/2026-06-07.json";
 
         /**
          * @param id Container id.
@@ -589,19 +589,6 @@
         function updateClock() {
             let now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
             document.getElementById("header-clock").textContent = now;
-        }
-
-        function getNextSundayDate() {
-            const today = new Date();
-            const dayNumber = today.getDay();
-            const daysUntilSunday = dayNumber === 0 ? 0 : 7 - dayNumber;
-            const sunday = new Date(today);
-            sunday.setDate(today.getDate() + daysUntilSunday);
-
-            const year = sunday.getFullYear();
-            const month = String(sunday.getMonth() + 1).padStart(2, "0");
-            const day = String(sunday.getDate()).padStart(2, "0");
-            return `${year}-${month}-${day}`;
         }
 
         function initSwitchHeader(id, tabs) {
