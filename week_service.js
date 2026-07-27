@@ -1,6 +1,5 @@
 (function () {
     const defaultDataUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
-    const VAPID_PUBLIC_KEY = "BFNWckOeAM7T9VeE3zxC7kKNzbDEIhQ8NjsTSJGSfE3fVlkKSOHCGsi-tCb7zVChrIwgVp-4KTetK-YuWS2h9_c";
     const storageKey = "cecfo_my_name";
 
     const DISPLAY_LABELS = {
@@ -330,56 +329,10 @@
         container.appendChild(section);
     }
 
-    async function subscribeToNotifications(name, onStatus) {
-       if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-            onStatus('error', '此浏览器不支持推送通知');
-            return false;
-        }
-
-        try {
-            const reg = await navigator.serviceWorker.ready;
-            const permission = await Notification.requestPermission();
-
-            if (permission !== 'granted') {
-                onStatus('denied', '未授权通知权限，稍后可在浏览器设置中开启');
-                return false;
-            }
-
-            const sub = await reg.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-            });
-
-            const res = await fetch('/subscribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, subscription: sub })
-            });
-
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-
-            localStorage.setItem(storageKey, name);
-            onStatus('success', '订阅成功！本周有安排时会通知你');
-            return true;
-        } catch (err) {
-            console.error('Subscribe failed:', err);
-            onStatus('error', '订阅失败，请重试');
-            return false;
-        }
-    }
-
-    function urlBase64ToUint8Array(base64String) {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-        const rawData = atob(base64);
-        return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
-    }
-
     function renderSubscribeSection(container) {
         const section = document.createElement("div");
         section.className = "cecfo-subscribe";
 
-        const storageKey = "cecfo_subscriber_name";
         const existingName = localStorage.getItem(storageKey);
 
         function renderSubscribedState(name) {
@@ -431,11 +384,12 @@
                 button.disabled = true;
                 button.textContent = "订阅中...";
 
-                // Safely handle OneSignal prompt without throwing top-level syntax/async errors
-                (async () => {
+                // Safely handle OneSignal prompt using OneSignalDeferred
+                window.OneSignalDeferred = window.OneSignalDeferred || [];
+                window.OneSignalDeferred.push(async function(OneSignal) {
                     try {
-                        if (window.OneSignal && window.OneSignal.Slidedown) {
-                            await window.OneSignal.Slidedown.promptPush();
+                        if (OneSignal && OneSignal.Slidedown) {
+                            await OneSignal.Slidedown.promptPush();
                         }
 
                         // Save name locally
@@ -449,7 +403,7 @@
                         statusMsg.textContent = "订阅遇到问题，请重试";
                         section.appendChild(statusMsg);
                     }
-                })();
+                });
             };
 
             section.appendChild(form);
