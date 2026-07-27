@@ -384,15 +384,13 @@
                 button.disabled = true;
                 button.textContent = "订阅中...";
 
-                // Safely handle OneSignal prompt using OneSignalDeferred
                 window.OneSignalDeferred = window.OneSignalDeferred || [];
-                window.OneSignalDeferred.push(async function(OneSignal) {
+                window.OneSignalDeferred.push(function(OneSignal) {
                     try {
                         if (OneSignal && OneSignal.Slidedown) {
-                            await OneSignal.Slidedown.promptPush();
+                            OneSignal.Slidedown.promptPush({ force: true });
                         }
 
-                        // Save name locally
                         localStorage.setItem(storageKey, name);
                         renderSubscribedState(name);
                     } catch (err) {
