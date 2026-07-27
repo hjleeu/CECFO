@@ -429,10 +429,23 @@
                 button.disabled = true;
                 button.textContent = "订阅中...";
 
+                let isTimedOut = false;
+                const safetyTimer = setTimeout(() => {
+                    isTimedOut = true;
+                    button.disabled = false;
+                    button.textContent = "订阅";
+                    statusMsg.className = 'cecfo-alert';
+                    statusMsg.textContent = "请求超时，请检查网络或在浏览器中打开。";
+                    form.appendChild(statusMsg);
+                }, 5000);
+
                 const success = await subscribeToNotifications(name, (type, message) => {
                     statusMsg.className = type === 'success' ? 'cecfo-alert' : 'cecfo-alert';
                     statusMsg.textContent = message;
                 });
+
+                clearTimeout(safetyTimer);
+                if (isTimedOut) return;
 
                 if (success) {
                     renderSubscribedState(name);
