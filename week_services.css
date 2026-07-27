@@ -1,5 +1,36 @@
-.cecfo-service-list {
+/* CECFO Service Widget — standalone styles, no framework dependency */
+
+.cecfo-widget {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #222;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Reset any list styling the host theme (Halo) might impose on li/ul globally */
+.cecfo-widget ul,
+.cecfo-widget li {
   list-style: none !important;
+  list-style-type: none !important;
+  list-style-image: none !important;
+}
+
+.cecfo-widget li::marker,
+.cecfo-widget li::before {
+  content: none !important;
+}
+
+/* Section headers */
+.cecfo-section-header {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  color: #f5f5f5 !important;
+}
+
+/* This week's service list */
+.cecfo-service-list {
   margin: 0 0 1.5rem;
   padding: 0;
   border: 1px solid #e2e2e2;
@@ -7,19 +38,140 @@
   overflow: hidden;
 }
 
-.cecfo-service-list li,
 .cecfo-service-item {
-  list-style: none !important;
-  list-style-type: none !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
 }
 
-.cecfo-service-item::marker {
-  content: none !important;
+.cecfo-service-item:last-child {
+  border-bottom: none;
 }
 
-.cecfo-section-header {
-  font-size: 1.15rem;
+.cecfo-service-item:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.cecfo-service-role {
+  color: #666;
+  font-weight: 500;
+}
+
+.cecfo-service-person {
+  color: #111;
   font-weight: 600;
-  margin: 0 0 0.75rem;
-  color: #f5f5f5 !important;
+}
+
+/* Info / empty state alert */
+.cecfo-alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background-color: #fff8e6;
+  border: 1px solid #f2d98a;
+  color: #6b5300;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* Name entry form */
+.cecfo-name-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cecfo-name-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.cecfo-name-input:focus {
+  outline: none;
+  border-color: #F2B94B;
+  box-shadow: 0 0 0 3px rgba(242, 185, 75, 0.25);
+}
+
+/* Buttons */
+.cecfo-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.cecfo-btn-primary {
+  background-color: #F2B94B;
+  color: #1a1a1a;
+}
+
+.cecfo-btn-primary:hover {
+  background-color: #e0a935;
+}
+
+.cecfo-btn-secondary {
+  background-color: transparent;
+  color: #ccc;
+  border: 1px solid #666;
+  margin-bottom: 0.75rem;
+}
+
+.cecfo-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Subscribe section wrapper */
+.cecfo-subscribe {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #444;
+}
+
+.cecfo-subscribe p {
+  color: #ddd;
+}
+
+/* Personal schedule section */
+.cecfo-my-schedule {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e2e2;
+}
+
+.cecfo-schedule-list {
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cecfo-schedule-item {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.cecfo-schedule-item:last-child {
+  border-bottom: none;
+}
+
+.cecfo-schedule-item:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Loading state */
+.cecfo-loading {
+  text-align: center;
+  color: #999;
+  padding: 2rem 0;
+  font-size: 0.9rem;
 }
