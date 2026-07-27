@@ -379,6 +379,7 @@
         const section = document.createElement("div");
         section.className = "cecfo-subscribe";
 
+        const storageKey = "cecfo_subscriber_name";
         const existingName = localStorage.getItem(storageKey);
 
         function renderSubscribedState(name) {
@@ -412,10 +413,11 @@
 
             const form = document.createElement("form");
             form.className = "cecfo-name-form";
+            form.action = "";
             form.innerHTML = `
-                <input type="text" class="cecfo-name-input" placeholder="请输入你的名字" required>
-                <button type="submit" class="cecfo-btn cecfo-btn-primary">订阅</button>
-            `;
+            <input type="text" class="cecfo-name-input" placeholder="请输入你的名字" required autocomplete="name">
+            <button type="submit" class="cecfo-btn cecfo-btn-primary">订阅</button>
+        `;
 
             const statusMsg = document.createElement("div");
 
@@ -429,29 +431,19 @@
                 button.disabled = true;
                 button.textContent = "订阅中...";
 
-                let isTimedOut = false;
-                const safetyTimer = setTimeout(() => {
-                    isTimedOut = true;
+                try {
+                    // Triggers OneSignal's safe mobile/desktop prompt
+                    await window.OneSignal.Slidedown.promptPush();
+
+                    // Save name locally
+                    localStorage.setItem(storageKey, name);
+
+                    renderSubscribedState(name);
+                } catch (err) {
                     button.disabled = false;
                     button.textContent = "订阅";
                     statusMsg.className = 'cecfo-alert';
-                    statusMsg.textContent = "请求超时，请检查网络或在浏览器中打开。";
-                    form.appendChild(statusMsg);
-                }, 5000);
-
-                const success = await subscribeToNotifications(name, (type, message) => {
-                    statusMsg.className = type === 'success' ? 'cecfo-alert' : 'cecfo-alert';
-                    statusMsg.textContent = message;
-                });
-
-                clearTimeout(safetyTimer);
-                if (isTimedOut) return;
-
-                if (success) {
-                    renderSubscribedState(name);
-                } else {
-                    button.disabled = false;
-                    button.textContent = "订阅";
+                    statusMsg.textContent = "订阅遇到问题，请重试";
                     section.appendChild(statusMsg);
                 }
             };
