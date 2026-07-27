@@ -60,7 +60,6 @@
             background-color: transparent;
             }
 
-            /* Reset any list styling the host theme (Halo) might impose on li/ul globally */
             .cecfo-widget ul,
             .cecfo-widget li {
             list-style: none !important;
@@ -75,7 +74,6 @@
             content: none !important;
             }
 
-            /* Section headers */
             .cecfo-widget h5.cecfo-section-header,
             .cecfo-section-header {
             font-size: 1.15rem !important;
@@ -85,7 +83,6 @@
             background: none !important;
             }
 
-            /* This week's service list */
             .cecfo-service-list {
             margin: 0 0 1.5rem !important;
             padding: 0 !important;
@@ -122,7 +119,6 @@
             font-weight: 600 !important;
             }
 
-            /* Info / empty state alert - adjusted for dark theme readability */
             .cecfo-alert {
             padding: 0.75rem 1rem !important;
             border-radius: 8px !important;
@@ -133,7 +129,6 @@
             margin-bottom: 1rem !important;
             }
 
-            /* Name entry form */
             .cecfo-name-form {
             display: flex !important;
             gap: 0.5rem !important;
@@ -160,7 +155,6 @@
             box-shadow: 0 0 0 3px rgba(242, 185, 75, 0.25) !important;
             }
 
-            /* Buttons */
             .cecfo-btn {
             padding: 0.5rem 1rem !important;
             border: none !important;
@@ -192,7 +186,6 @@
             color: #fff !important;
             }
 
-            /* Subscribe section wrapper */
             .cecfo-subscribe {
             margin-top: 1.5rem !important;
             padding-top: 1.5rem !important;
@@ -203,38 +196,6 @@
             color: #ddd !important;
             }
 
-            /* Personal schedule section */
-            .cecfo-my-schedule {
-            margin-top: 1.5rem !important;
-            padding-top: 1.5rem !important;
-            border-top: 1px solid #444 !important;
-            }
-
-            .cecfo-schedule-list {
-            margin: 0 !important;
-            padding: 0 !important;
-            border: 1px solid #444 !important;
-            border-radius: 8px !important;
-            overflow: hidden !important;
-            }
-
-            .cecfo-schedule-item {
-            padding: 0.6rem 1rem !important;
-            border-bottom: 1px solid #3a3a3a !important;
-            font-size: 0.9rem !important;
-            background-color: #1c1c1c !important;
-            color: #f5f5f5 !important;
-            }
-
-            .cecfo-schedule-item:last-child {
-            border-bottom: none !important;
-            }
-
-            .cecfo-schedule-item:nth-child(even) {
-            background-color: #2a2a2a !important;
-            }
-
-            /* Loading state */
             .cecfo-loading {
             text-align: center !important;
             color: #999 !important;
@@ -245,17 +206,10 @@
         document.head.appendChild(st);
     }
 
-    /**
-     * Ensure the container exist. If not create it.
-     * @param {*} scriptEl 
-     * @param {*} containerId container id
-     * @returns 
-     */
     function ensureContainer(scriptEl, containerId) {
         let container = document.getElementById(containerId);
         if (container) return container;
 
-        // If the container does not exist, create it.
         container = document.createElement("div");
         container.id = containerId;
         container.className = "cecfo-widget";
@@ -268,10 +222,6 @@
         return container;
     }
 
-    /**
-     * Return the date in a well formatted string.
-     * @returns a formatted string rapresenting the date label
-     */
     function getCurrentWeekLabel() {
         const today = new Date();
         const dayNumber = today.getDay();
@@ -280,7 +230,7 @@
         sunday.setDate(today.getDate() + daysUntilSunday);
 
         const year = sunday.getFullYear();
-        const month = sunday.getMonth() + 1; // Zero-based.
+        const month = sunday.getMonth() + 1;
         const dayOfMonth = sunday.getDate();
         const weekOfMonth = Math.ceil(dayOfMonth / 7);
 
@@ -368,9 +318,9 @@
             form.className = "cecfo-name-form";
             form.action = "";
             form.innerHTML = `
-            <input type="text" class="cecfo-name-input" placeholder="请输入你的名字" required autocomplete="name">
-            <button type="submit" class="cecfo-btn cecfo-btn-primary">订阅</button>
-        `;
+                <input type="text" class="cecfo-name-input" placeholder="请输入你的名字" required autocomplete="name">
+                <button type="submit" class="cecfo-btn cecfo-btn-primary">订阅</button>
+            `;
 
             const statusMsg = document.createElement("div");
 
@@ -389,6 +339,11 @@
                     try {
                         if (OneSignal && OneSignal.Slidedown) {
                             OneSignal.Slidedown.promptPush({ force: true });
+                        }
+                        
+                        // Tag/associate the name with OneSignal user profile if available
+                        if (OneSignal && OneSignal.User) {
+                            OneSignal.User.addTag("service_name", name);
                         }
 
                         localStorage.setItem(storageKey, name);
