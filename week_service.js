@@ -289,7 +289,7 @@
     if (currentScript && currentScript.dataset.autoRun !== "false") {
         const containerId = currentScript.dataset.containerId || "this_week_container";
         const dataUrl = currentScript.dataset.dataUrl || defaultDataUrl;
-        const cssUrl = currentScript.dataset.cssUrl || "";
+        const cssUrl = currentScript.dataset.cssUrl || "week_services.css";
         init({ containerId, dataUrl, cssUrl });
     }
 })();
