@@ -269,7 +269,7 @@
         const config = Object.assign({
             containerId: "this_week_container",
             dataUrl: defaultDataUrl,
-            cssUrl: "week_services.css"
+            cssUrl: "week_service.css"
         }, options || {});
 
         if (config.cssUrl) ensureCustomCss(config.cssUrl);
@@ -289,7 +289,7 @@
     if (currentScript && currentScript.dataset.autoRun !== "false") {
         const containerId = currentScript.dataset.containerId || "this_week_container";
         const dataUrl = currentScript.dataset.dataUrl || defaultDataUrl;
-        const cssUrl = currentScript.dataset.cssUrl || "week_services.css";
+        const cssUrl = currentScript.dataset.cssUrl || "week_service.css";
         init(currentScript, { containerId, dataUrl, cssUrl });
     }
 })();
