@@ -421,7 +421,7 @@
 
             const statusMsg = document.createElement("div");
 
-            form.onsubmit = async (e) => {
+            form.onsubmit = (e) => {
                 e.preventDefault();
                 const input = form.querySelector("input");
                 const name = input.value.trim();
@@ -431,21 +431,25 @@
                 button.disabled = true;
                 button.textContent = "订阅中...";
 
-                try {
-                    // Triggers OneSignal's safe mobile/desktop prompt
-                    await window.OneSignal.Slidedown.promptPush();
+                // Safely handle OneSignal prompt without throwing top-level syntax/async errors
+                (async () => {
+                    try {
+                        if (window.OneSignal && window.OneSignal.Slidedown) {
+                            await window.OneSignal.Slidedown.promptPush();
+                        }
 
-                    // Save name locally
-                    localStorage.setItem(storageKey, name);
-
-                    renderSubscribedState(name);
-                } catch (err) {
-                    button.disabled = false;
-                    button.textContent = "订阅";
-                    statusMsg.className = 'cecfo-alert';
-                    statusMsg.textContent = "订阅遇到问题，请重试";
-                    section.appendChild(statusMsg);
-                }
+                        // Save name locally
+                        localStorage.setItem(storageKey, name);
+                        renderSubscribedState(name);
+                    } catch (err) {
+                        console.error("OneSignal prompt error:", err);
+                        button.disabled = false;
+                        button.textContent = "订阅";
+                        statusMsg.className = 'cecfo-alert';
+                        statusMsg.textContent = "订阅遇到问题，请重试";
+                        section.appendChild(statusMsg);
+                    }
+                })();
             };
 
             section.appendChild(form);
