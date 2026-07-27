@@ -1,6 +1,6 @@
 (function () {
     const defaultDataUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
-    const VAPID_PUBLIC_ID = "BFNWckOeAM7T9VeE3zxC7kKNzbDEIhQ8NjsTSJGSfE3fVlkKSOHCGsi-tCb7zVChrIwgVp-4KTetK-YuWS2h9_c";
+    const VAPID_PUBLIC_KEY = "BFNWckOeAM7T9VeE3zxC7kKNzbDEIhQ8NjsTSJGSfE3fVlkKSOHCGsi-tCb7zVChrIwgVp-4KTetK-YuWS2h9_c";
     const storageKey = "cecfo_my_name";
 
     const DISPLAY_LABELS = {
@@ -140,7 +140,7 @@
         container.appendChild(section);
     }
 
-    async function subscribeToNotifications(name) {
+    async function subscribeToNotifications(name, onStatus) {
        if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
             onStatus('error', '此浏览器不支持推送通知');
             return false;
