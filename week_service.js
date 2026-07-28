@@ -73,22 +73,6 @@
                         --cecfo-alert-text: #fcebbc;
                     }
 
-                    @media (prefers-color-scheme: light) {
-                        :root {
-                            --cecfo-bg: #ffffff;
-                            --cecfo-text: #222222;
-                            --cecfo-subtext: #666666;
-                            --cecfo-accent: #C68A12; /* Light theme accent */
-                            --cecfo-accent-hover: #b07a0f;
-                            --cecfo-card-bg: #f9f9f9;
-                            --cecfo-card-alt: #f1f1f1;
-                            --cecfo-border: #dddddd;
-                            --cecfo-alert-bg: rgba(198, 138, 18, 0.1);
-                            --cecfo-alert-border: #C68A12;
-                            --cecfo-alert-text: #8c5f0a;
-                        }
-                    }
-
                     .cecfo-widget {
                         font-family: var(--cecfo-font);
                         color: var(--cecfo-text) !important;
