@@ -28,6 +28,12 @@
         "worship_vocal03": "🎤 敬拜领唱"
     };
 
+    /**
+     * Fetch the JSON data.
+     * @param {string} url the url of the data
+     * @param {*} fallbackValue 
+     * @returns 
+     */
     async function fetchJson(url, fallbackValue) {
         try {
             const response = await fetch(url);
@@ -39,6 +45,10 @@
         }
     }
 
+    /**
+     * Return a style tag containing all css rules.
+     * @returns the style tag
+     */
     function ensureCustomCss() {
         const linkId = "cecfo-widget-css";
         if (document.getElementById(linkId)) return;
@@ -50,32 +60,32 @@
                     :root {
                         --cecfo-font: "Noto Serif SC", serif;
 
-                        --cecfo-bg: #ffffff;
-                        --cecfo-text: #222222;
-                        --cecfo-subtext: #666666;
-                        --cecfo-accent: #C68A12; /* Light theme accent */
-                        --cecfo-accent-hover: #b07a0f;
-                        --cecfo-card-bg: #f9f9f9;
-                        --cecfo-card-alt: #f1f1f1;
-                        --cecfo-border: #dddddd;
-                        --cecfo-alert-bg: rgba(198, 138, 18, 0.1);
-                        --cecfo-alert-border: #C68A12;
-                        --cecfo-alert-text: #8c5f0a;
+                        --cecfo-bg: #121212;
+                        --cecfo-text: #f5f5f5;
+                        --cecfo-subtext: #b0b0b0;
+                        --cecfo-accent: #F2B94B; /* Dark theme accent */
+                        --cecfo-accent-hover: #e0a935;
+                        --cecfo-card-bg: #1c1c1c;
+                        --cecfo-card-alt: #2a2a2a;
+                        --cecfo-border: #444444;
+                        --cecfo-alert-bg: rgba(242, 185, 75, 0.15);
+                        --cecfo-alert-border: #F2B94B;
+                        --cecfo-alert-text: #fcebbc;
                     }
 
-                    @media (prefers-color-scheme: dark) {
+                    @media (prefers-color-scheme: light) {
                         :root {
-                            --cecfo-bg: #121212;
-                            --cecfo-text: #f5f5f5;
-                            --cecfo-subtext: #b0b0b0;
-                            --cecfo-accent: #F2B94B; /* Dark theme accent */
-                            --cecfo-accent-hover: #e0a935;
-                            --cecfo-card-bg: #1c1c1c;
-                            --cecfo-card-alt: #2a2a2a;
-                            --cecfo-border: #444444;
-                            --cecfo-alert-bg: rgba(242, 185, 75, 0.15);
-                            --cecfo-alert-border: #F2B94B;
-                            --cecfo-alert-text: #fcebbc;
+                            --cecfo-bg: #ffffff;
+                            --cecfo-text: #222222;
+                            --cecfo-subtext: #666666;
+                            --cecfo-accent: #C68A12; /* Light theme accent */
+                            --cecfo-accent-hover: #b07a0f;
+                            --cecfo-card-bg: #f9f9f9;
+                            --cecfo-card-alt: #f1f1f1;
+                            --cecfo-border: #dddddd;
+                            --cecfo-alert-bg: rgba(198, 138, 18, 0.1);
+                            --cecfo-alert-border: #C68A12;
+                            --cecfo-alert-text: #8c5f0a;
                         }
                     }
 
@@ -236,20 +246,43 @@
         document.head.appendChild(st);
     }
 
+    /**
+     * Ensure that the container exists. Otherwise create it and place it before the footer.
+     * @param {*} scriptEl 
+     * @param {string} containerId container DOM id
+     * @returns the container
+     */
     function ensureContainer(scriptEl, containerId) {
         let container = document.getElementById(containerId);
         if (container) return container;
+
+        // If the container does not exist, create it.
         container = document.createElement("div");
         container.id = containerId;
         container.className = "cecfo-widget";
+
         if (scriptEl && scriptEl.parentNode) {
+            // 1. If script tag is present, insert it right after the script element
             scriptEl.parentNode.insertBefore(container, scriptEl.nextSibling);
         } else {
-            document.body.appendChild(container);
+            // 2. Fallback: Try to find a footer or main wrapper to anchor right before the footer
+            const footer = document.querySelector("footer") || document.querySelector(".footer") || document.getElementById("footer");
+            
+            if (footer && footer.parentNode) {
+                footer.parentNode.insertBefore(container, footer);
+            } else {
+                // 3. Absolute fallback: append to body if no footer is found
+                document.body.appendChild(container);
+            }
         }
+
         return container;
     }
 
+    /**
+     * Return the date in a well formatted string.
+     * @returns a formatted string rapresenting the date label
+     */
     function getCurrentWeekLabel() {
         const today = new Date();
         const dayNumber = today.getDay();
@@ -263,16 +296,27 @@
         return `${year}年${month}月第${weekOfMonth}周`;
     }
 
+    /**
+     * Return only the current week data.
+     * @param {*} data the entire data
+     * @returns the filter data for this current week
+     */
     function filterByWeek(data) {
         const target = getCurrentWeekLabel();
         return data.find(week => week.date && week.date.toString().trim() === target);
     }
 
+    /**
+     * Rendering the current week service list.
+     * @param {*} container 
+     * @param {*} weekData the current week data
+     * @returns 
+     */
     function renderThisWeekServices(container, weekData) {
         const section = document.createElement("div");
         const header = document.createElement("h5");
         header.className = "cecfo-section-header";
-        header.textContent = `${weekData ? weekData.date : "-"} | 主日聚会服事安排`;
+        header.textContent = `${weekData ? weekData.date.substring(2) : "-"} | 主日聚会服事安排`;
         section.appendChild(header);
 
         if (!weekData) {
@@ -300,6 +344,10 @@
         container.appendChild(section);
     }
 
+    /**
+     * Rendering the subscription section.
+     * @param {*} container 
+     */
     function renderSubscribeSection(container) {
         const section = document.createElement("div");
         section.className = "cecfo-subscribe";
