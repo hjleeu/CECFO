@@ -316,7 +316,7 @@
         const section = document.createElement("div");
         const header = document.createElement("h5");
         header.className = "cecfo-section-header";
-        header.textContent = `${weekData ? weekData.date.substring(2) : "-"} | 主日聚会服事安排`;
+        header.textContent = `${weekData && weekData.date ? weekData.date : "-"} | 主日聚会服事安排`;
         section.appendChild(header);
 
         if (!weekData) {
@@ -413,7 +413,11 @@
         }, options || {});
 
         ensureCustomCss();
-        const container = ensureContainer(scriptEl, config.containerId);
+        let container = document.getElementById(config.containerId);
+        if (!container) {
+            container = ensureContainer(scriptEl, config.containerId);
+        }
+
         container.innerHTML = `<div class="cecfo-loading">正在加载本周服事安排...</div>`;
 
         const allData = await fetchJson(config.dataUrl, []);
