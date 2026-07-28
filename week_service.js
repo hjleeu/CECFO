@@ -377,21 +377,24 @@
                 const name = form.querySelector("input").value.trim();
                 if (!name) return;
 
-                // 1. Request browser push permission and subscribe via OneSignal SDK
                 if (window.OneSignal) {
                     try {
-                        await window.OneSignal.Slidedown.promptPush(); // or OneSignal.Notifications.requestPermission()
+                        // 1. Trigger the native browser permission prompt if not already allowed
+                        await window.OneSignal.Slidedown.promptPush();
 
-                        // 2. Set the tag so your Monday filter automation can target them by name
+                        // 2. Force the SDK to opt-in this user session (clears the -2 unsubscribed state)
+                        await window.OneSignal.User.OptIn();
+
+                        // 3. Attach the name tag so your Monday filter matches this user
                         await window.OneSignal.User.addTag("service_name", name);
 
-                        console.log("Successfully subscribed and tagged user:", name);
+                        console.log("Successfully subscribed, opted-in, and tagged:", name);
                     } catch (err) {
-                        console.error("OneSignal subscription error:", err);
+                        console.error("OneSignal subscription flow error:", err);
                     }
                 }
 
-                // 3. Save locally for UI state
+                // 4. Save locally and update UI state
                 localStorage.setItem(storageKey, name);
                 renderSubscribedState(name);
             };
