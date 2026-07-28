@@ -372,10 +372,26 @@
                         <button type="submit" class="cecfo-btn cecfo-btn-primary">➤ 订阅</button>
                     `;
 
-            form.onsubmit = (e) => {
+            form.onsubmit = async (e) => {
                 e.preventDefault();
                 const name = form.querySelector("input").value.trim();
                 if (!name) return;
+
+                // 1. Request browser push permission and subscribe via OneSignal SDK
+                if (window.OneSignal) {
+                    try {
+                        await window.OneSignal.Slidedown.promptPush(); // or OneSignal.Notifications.requestPermission()
+
+                        // 2. Set the tag so your Monday filter automation can target them by name
+                        await window.OneSignal.User.addTag("service_name", name);
+
+                        console.log("Successfully subscribed and tagged user:", name);
+                    } catch (err) {
+                        console.error("OneSignal subscription error:", err);
+                    }
+                }
+
+                // 3. Save locally for UI state
                 localStorage.setItem(storageKey, name);
                 renderSubscribedState(name);
             };
