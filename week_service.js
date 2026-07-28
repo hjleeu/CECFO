@@ -47,7 +47,6 @@
 
     function ensureCustomCss() {
         const linkId = "cecfo-widget-css";
-        if (document.getElementById(linkId)) return;
         const st = document.createElement("style");
         st.id = linkId;
         st.textContent = `
@@ -65,6 +64,8 @@
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
                 color: var(--cecfo-text-main) !important;
                 max-width: 640px;
+                max-height: 420px !important;
+                overflow-y: auto !important;
                 margin: 0 auto;
                 padding: 1rem;
                 background-color: transparent;
@@ -366,11 +367,10 @@
     async function init(scriptEl, options) {
         const config = Object.assign({
             containerId: "this_week_container",
-            dataUrl: defaultDataUrl,
-            cssUrl: "week_service.css"
+            dataUrl: defaultDataUrl
         }, options || {});
 
-        if (config.cssUrl) ensureCustomCss();
+        ensureCustomCss();
 
         const container = ensureContainer(scriptEl, config.containerId);
         const allData = await fetchJson(config.dataUrl, []);
@@ -387,7 +387,6 @@
     if (currentScript && currentScript.dataset.autoRun !== "false") {
         const containerId = currentScript.dataset.containerId || "this_week_container";
         const dataUrl = currentScript.dataset.dataUrl || defaultDataUrl;
-        const cssUrl = currentScript.dataset.cssUrl || "week_service.css";
-        init(currentScript, { containerId, dataUrl, cssUrl });
+        init(currentScript, { containerId, dataUrl });
     }
 })();
