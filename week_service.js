@@ -28,12 +28,6 @@
         "worship_vocal03": "领唱03"
     };
 
-    /**
-     * Fetch the JSON data.
-     * @param {string} url the url of the data
-     * @param {*} fallbackValue 
-     * @returns 
-     */
     async function fetchJson(url, fallbackValue) {
         try {
             const response = await fetch(url);
@@ -47,34 +41,25 @@
 
     function ensureCustomCss() {
         const linkId = "cecfo-widget-css";
+        if (document.getElementById(linkId)) return;
         const st = document.createElement("style");
         st.id = linkId;
         st.textContent = `
-            :root {
-                --cecfo-bg-primary: #1c1c1c;
-                --cecfo-bg-secondary: #2a2a2a;
-                --cecfo-border-color: #444;
-                --cecfo-text-main: #f5f5f5;
-                --cecfo-text-muted: #b0b0b0;
-                --cecfo-accent: #F2B94B;
-                --cecfo-accent-hover: #e0a935;
-            }
-
             .cecfo-widget {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-                color: var(--cecfo-text-main) !important;
+                color: #f5f5f5 !important;
                 max-width: 640px;
-                max-height: 420px !important;
-                overflow-y: auto !important;
                 margin: 0 auto;
                 padding: 1rem;
                 background-color: transparent;
+                /* No max-height or overflow restrictions - flows naturally before footer */
             }
 
             .cecfo-widget ul,
             .cecfo-widget li {
                 list-style: none !important;
                 list-style-type: none !important;
+                list-style-image: none !important;
                 margin: 0 !important;
                 padding: 0 !important;
             }
@@ -84,17 +69,19 @@
                 content: none !important;
             }
 
+            .cecfo-widget h5.cecfo-section-header,
             .cecfo-section-header {
                 font-size: 1.15rem !important;
                 font-weight: 600 !important;
                 margin: 0 0 0.75rem !important;
-                color: var(--cecfo-text-main) !important;
+                color: #f5f5f5 !important;
                 background: none !important;
             }
 
             .cecfo-service-list {
                 margin: 0 0 1.5rem !important;
-                border: 1px solid var(--cecfo-border-color) !important;
+                padding: 0 !important;
+                border: 1px solid #444 !important;
                 border-radius: 8px !important;
                 overflow: hidden !important;
             }
@@ -106,7 +93,7 @@
                 padding: 0.6rem 1rem !important;
                 border-bottom: 1px solid #3a3a3a !important;
                 font-size: 0.95rem !important;
-                background-color: var(--cecfo-bg-primary) !important;
+                background-color: #1c1c1c !important;
             }
 
             .cecfo-service-item:last-child {
@@ -114,16 +101,16 @@
             }
 
             .cecfo-service-item:nth-child(even) {
-                background-color: var(--cecfo-bg-secondary) !important;
+                background-color: #2a2a2a !important;
             }
 
             .cecfo-service-role {
-                color: var(--cecfo-text-muted) !important;
+                color: #b0b0b0 !important;
                 font-weight: 500 !important;
             }
 
             .cecfo-service-person {
-                color: var(--cecfo-text-main) !important;
+                color: #ffffff !important;
                 font-weight: 600 !important;
             }
 
@@ -131,7 +118,7 @@
                 padding: 0.75rem 1rem !important;
                 border-radius: 8px !important;
                 background-color: rgba(242, 185, 75, 0.15) !important;
-                border: 1px solid var(--cecfo-accent) !important;
+                border: 1px solid #f2b94b !important;
                 color: #fcebbc !important;
                 font-size: 0.9rem !important;
                 margin-bottom: 1rem !important;
@@ -147,15 +134,19 @@
                 flex: 1 !important;
                 padding: 0.5rem 0.75rem !important;
                 border: 1px solid #555 !important;
-                background-color: var(--cecfo-bg-primary) !important;
-                color: var(--cecfo-text-main) !important;
+                background-color: #1c1c1c !important;
+                color: #fff !important;
                 border-radius: 6px !important;
                 font-size: 0.95rem !important;
             }
 
+            .cecfo-name-input::placeholder {
+                color: #888 !important;
+            }
+
             .cecfo-name-input:focus {
                 outline: none !important;
-                border-color: var(--cecfo-accent) !important;
+                border-color: #F2B94B !important;
                 box-shadow: 0 0 0 3px rgba(242, 185, 75, 0.25) !important;
             }
 
@@ -170,12 +161,12 @@
             }
 
             .cecfo-btn-primary {
-                background-color: var(--cecfo-accent) !important;
+                background-color: #F2B94B !important;
                 color: #1a1a1a !important;
             }
 
             .cecfo-btn-primary:hover {
-                background-color: var(--cecfo-accent-hover) !important;
+                background-color: #e0a935 !important;
             }
 
             .cecfo-btn-secondary {
@@ -193,7 +184,18 @@
             .cecfo-subscribe {
                 margin-top: 1.5rem !important;
                 padding-top: 1.5rem !important;
-                border-top: 1px solid var(--cecfo-border-color) !important;
+                border-top: 1px solid #444 !important;
+            }
+
+            .cecfo-subscribe p {
+                color: #ddd !important;
+            }
+
+            .cecfo-loading {
+                text-align: center !important;
+                color: #999 !important;
+                padding: 2rem 0 !important;
+                font-size: 0.9rem !important;
             }
         `;
         document.head.appendChild(st);
@@ -334,7 +336,6 @@
                             OneSignal.Slidedown.promptPush({ force: true });
                         }
                         
-                        // Tag/associate the name with OneSignal user profile if available
                         if (OneSignal && OneSignal.User) {
                             OneSignal.User.addTag("service_name", name);
                         }
