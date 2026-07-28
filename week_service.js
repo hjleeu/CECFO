@@ -379,21 +379,23 @@
 
                 if (window.OneSignal) {
                     try {
-                        // Request the browser permission natively and wait for the result
+                        // 1. Request browser notification permission natively
                         const permission = await window.OneSignal.Notifications.requestPermission(true);
 
                         if (permission) {
-                            console.log("User allowed notifications!");
-
-                            // Safe tag encoding
+                            // 2. Create the safe ASCII tag value
                             const safeTagValue = btoa(encodeURIComponent(name));
 
+                            // 3. Push ONLY the service_name tag to OneSignal
                             window.OneSignalDeferred = window.OneSignalDeferred || [];
                             window.OneSignalDeferred.push(async function (OneSignal) {
                                 await OneSignal.User.addTag("service_name", safeTagValue);
-                                await OneSignal.User.addTag("display_name", name);
+                                // Removed display_name tag entirely
                             });
 
+                            console.log("Successfully subscribed and tagged service_name:", name);
+
+                            // 4. Save locally and update UI state
                             localStorage.setItem(storageKey, name);
                             renderSubscribedState(name);
                         } else {
@@ -401,7 +403,7 @@
                             alert("请在浏览器设置中允许通知权限，否则无法接收服事提醒。");
                         }
                     } catch (err) {
-                        console.error("OneSignal permission error:", err);
+                        console.error("OneSignal permission/tag error:", err);
                     }
                 }
             };
