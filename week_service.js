@@ -373,28 +373,36 @@
                     `;
 
             form.onsubmit = async (e) => {
-                e.preventDefault();
-                const name = form.querySelector("input").value.trim();
-                if (!name) return;
+                 e.preventDefault();
+                 const name = form.querySelector("input").value.trim();
+                 if (!name) return;
 
-                if (window.OneSignal) {
-                    try {
-                        // 1. Request browser notification permission natively
-                        await window.OneSignal.Notifications.requestPermission(true);
+                 if (window.OneSignal) {
+                     try {
+                         // 1. Request browser notification permission natively
+                         await window.OneSignal.Notifications.requestPermission(true);
 
-                        // 2. Attach the name tag so your Monday filter matches this user
-                        await window.OneSignal.User.addTag("service_name", name);
+                         // 2. Create a clean ASCII-safe tag value to avoid multi-byte encoding/display bugs
+                         const safeTagValue = btoa(encodeURIComponent(name));
 
-                        console.log("Successfully subscribed and tagged:", name);
-                    } catch (err) {
-                        console.error("OneSignal permission/tag error:", err);
-                    }
-                }
+                         // 3. Push to OneSignalDeferred safely
+                         window.OneSignalDeferred = window.OneSignalDeferred || [];
+                         window.OneSignalDeferred.push(async function (OneSignal) {
+                             await OneSignal.User.addTag("service_name", safeTagValue);
+                             await OneSignal.User.addTag("display_name", name);
+                         });
 
-                // 3. Save locally and update UI state
-                localStorage.setItem(storageKey, name);
-                renderSubscribedState(name);
-            };
+                         console.log("Successfully subscribed and tagged:", name);
+                     } catch (err) {
+                         console.error("OneSignal permission/tag error:", err);
+                     }
+                 }
+
+                 // 4. Save locally and update UI state
+                 localStorage.setItem(storageKey, name);
+                 renderSubscribedState(name);
+             };
+             
             section.appendChild(form);
         }
 
