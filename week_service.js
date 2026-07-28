@@ -398,6 +398,7 @@
 
         ensureCustomCss();
         let container = document.getElementById(config.containerId);
+        container.className = "cecfo-widget";
         if (!container) {
             container = ensureContainer(scriptEl, config.containerId);
         }
