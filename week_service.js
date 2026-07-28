@@ -379,22 +379,19 @@
 
                 if (window.OneSignal) {
                     try {
-                        // 1. Trigger the native browser permission prompt if not already allowed
-                        await window.OneSignal.Slidedown.promptPush();
+                        // 1. Request browser notification permission natively
+                        await window.OneSignal.Notifications.requestPermission(true);
 
-                        // 2. Force the SDK to opt-in this user session (clears the -2 unsubscribed state)
-                        await window.OneSignal.User.OptIn();
-
-                        // 3. Attach the name tag so your Monday filter matches this user
+                        // 2. Attach the name tag so your Monday filter matches this user
                         await window.OneSignal.User.addTag("service_name", name);
 
-                        console.log("Successfully subscribed, opted-in, and tagged:", name);
+                        console.log("Successfully subscribed and tagged:", name);
                     } catch (err) {
-                        console.error("OneSignal subscription flow error:", err);
+                        console.error("OneSignal permission/tag error:", err);
                     }
                 }
 
-                // 4. Save locally and update UI state
+                // 3. Save locally and update UI state
                 localStorage.setItem(storageKey, name);
                 renderSubscribedState(name);
             };
