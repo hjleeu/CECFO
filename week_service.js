@@ -55,179 +55,199 @@
         const st = document.createElement("style");
         st.id = linkId;
         st.textContent = `
-                    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap');
 
-                    :root {
-                        color-scheme: light dark;
-                        --cecfo-font: "Noto Serif SC", serif;
+            .cecfo-widget {
+                color-scheme: light dark;
+                --cecfo-font: "Noto Serif SC", serif;
 
-                        --cecfo-bg: light-dark(#ffffff, #121212);
-                        --cecfo-text: light-dark(#212529, #f5f5f5);
-                        --cecfo-subtext: light-dark(#6c757d, #b0b0b0);
-                        --cecfo-accent: light-dark(#425AEF, #f2b94b);
-                        --cecfo-accent-hover: light-dark(#3547cb, #e0a935);
-                        --cecfo-card-bg: light-dark(#f8f9fa, #1c1c1c);
-                        --cecfo-card-alt: light-dark(#e9ecef, #2a2a2a);
-                        --cecfo-border: light-dark(#dee2e6, #444444);
-                        --cecfo-alert-bg: light-dark(rgba(66, 90, 239, 0.1), rgba(242, 185, 75, 0.15));
-                        --cecfo-alert-border: light-dark(#425AEF, #f2b94b);
-                        --cecfo-alert-text: light-dark(#1c266b, #fcebbc);
-                    }
+                /* Default Light Theme Variables */
+                --cecfo-bg: #ffffff;
+                --cecfo-text: #212529;
+                --cecfo-subtext: #6c757d;
+                --cecfo-accent: #425AEF;
+                --cecfo-accent-hover: #3447cb;
+                --cecfo-card-bg: #f8f9fa;
+                --cecfo-card-alt: #e9ecef;
+                --cecfo-border: #dee2e6;
+                --cecfo-alert-bg: rgba(66, 90, 239, 0.08);
+                --cecfo-alert-border: #425AEF;
+                --cecfo-alert-text: #27348c;
+                --cecfo-shadow: rgba(66, 90, 239, 0.2);
+                --cecfo-hover-bg: rgba(0, 0, 0, 0.05);
 
-                    .cecfo-widget {
-                        font-family: var(--cecfo-font);
-                        color: var(--cecfo-text) !important;
-                        max-width: 520px;
-                        margin: 0 auto;
-                        padding: 1rem;
-                        background-color: transparent;
-                    }
+                font-family: var(--cecfo-font);
+                color: var(--cecfo-text) !important;
+                max-width: 520px;
+                margin: 0 auto;
+                padding: 1rem;
+                background-color: transparent;
+            }
 
-                    .cecfo-widget ul,
-                    .cecfo-widget li {
-                        list-style: none !important;
-                        margin: 0 !important;
-                        padding: 0 !important;
-                    }
+            /* Automatic Dark Mode Adjustments */
+            @media (prefers-color-scheme: dark) {
+                .cecfo-widget {
+                    --cecfo-bg: #121212;
+                    --cecfo-text: #f5f5f5;
+                    --cecfo-subtext: #b0b0b0;
+                    --cecfo-accent: #f2b94b;
+                    --cecfo-accent-hover: #d9a43f;
+                    --cecfo-card-bg: #1c1c1c;
+                    --cecfo-card-alt: #2a2a2a;
+                    --cecfo-border: #444444;
+                    --cecfo-alert-bg: rgba(242, 185, 75, 0.15);
+                    --cecfo-alert-border: #f2b94b;
+                    --cecfo-alert-text: #fcebbc;
+                    --cecfo-shadow: rgba(242, 185, 75, 0.2);
+                    --cecfo-hover-bg: rgba(255, 255, 255, 0.1);
+                }
+            }
 
-                    .cecfo-widget li::marker,
-                    .cecfo-widget li::before {
-                        content: none !important;
-                    }
+            .cecfo-widget ul,
+            .cecfo-widget li {
+                list-style: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
 
-                    .cecfo-widget h5.cecfo-section-header,
-                    .cecfo-section-header {
-                        font-size: 1.15rem !important;
-                        font-weight: 600 !important;
-                        margin: 0 0 0.75rem !important;
-                        color: var(--cecfo-text) !important;
-                        background: none !important;
-                    }
+            .cecfo-widget li::marker,
+            .cecfo-widget li::before {
+                content: none !important;
+            }
 
-                    .cecfo-service-list {
-                        margin: 0 0 1.5rem !important;
-                        padding: 0 !important;
-                        border: 1px solid var(--cecfo-border) !important;
-                        border-radius: 8px !important;
-                        overflow: hidden !important;
-                    }
+            .cecfo-widget h5.cecfo-section-header,
+            .cecfo-section-header {
+                font-size: 1.15rem !important;
+                font-weight: 600 !important;
+                margin: 0 0 0.75rem !important;
+                color: var(--cecfo-text) !important;
+                background: none !important;
+            }
 
-                    .cecfo-service-item {
-                        display: flex !important;
-                        justify-content: space-between !important;
-                        align-items: center !important;
-                        padding: 0 !important;
-                        border-bottom: 1px solid var(--cecfo-border) !important;
-                        font-size: 0.99rem !important;
-                        background-color: var(--cecfo-card-bg) !important;
-                    }
+            .cecfo-service-list {
+                margin: 0 0 1.5rem !important;
+                padding: 0 !important;
+                border: 1px solid var(--cecfo-border) !important;
+                border-radius: 8px !important;
+                overflow: hidden !important;
+            }
 
-                    .cecfo-service-item:last-child {
-                        border-bottom: none !important;
-                    }
+            .cecfo-service-item {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 0 !important;
+                border-bottom: 1px solid var(--cecfo-border) !important;
+                font-size: 0.99rem !important;
+                background-color: var(--cecfo-card-bg) !important;
+            }
 
-                    .cecfo-service-item:nth-child(even) {
-                        background-color: var(--cecfo-card-alt) !important;
-                    }
+            .cecfo-service-item:last-child {
+                border-bottom: none !important;
+            }
 
-                    .cecfo-service-role {
-                        color: var(--cecfo-subtext) !important;
-                        font-weight: 500 !important;
-                        padding: 0.66rem !important;
-                    }
+            .cecfo-service-item:nth-child(even) {
+                background-color: var(--cecfo-card-alt) !important;
+            }
 
-                    .cecfo-service-person {
-                        color: var(--cecfo-text) !important;
-                        font-weight: 600 !important;
-                        padding: 0.66rem !important;
-                    }
+            .cecfo-service-role {
+                color: var(--cecfo-subtext) !important;
+                font-weight: 500 !important;
+                padding: 0.66rem !important;
+            }
 
-                    .cecfo-alert {
-                        padding: 0.75rem 1rem !important;
-                        border-radius: 8px !important;
-                        background-color: var(--cecfo-alert-bg) !important;
-                        border: 1px solid var(--cecfo-alert-border) !important;
-                        color: var(--cecfo-alert-text) !important;
-                        font-size: 0.9rem !important;
-                        margin-bottom: 1rem !important;
-                    }
+            .cecfo-service-person {
+                color: var(--cecfo-text) !important;
+                font-weight: 600 !important;
+                padding: 0.66rem !important;
+            }
 
-                    .cecfo-name-form {
-                        display: flex !important;
-                        gap: 0.5rem !important;
-                        margin-bottom: 1.5rem !important;
-                    }
+            .cecfo-alert {
+                padding: 0.75rem 1rem !important;
+                border-radius: 8px !important;
+                background-color: var(--cecfo-alert-bg) !important;
+                border: 1px solid var(--cecfo-alert-border) !important;
+                color: var(--cecfo-alert-text) !important;
+                font-size: 0.9rem !important;
+                margin-bottom: 1rem !important;
+            }
 
-                    .cecfo-name-input {
-                        font-family: var(--cecfo-font);
-                        flex: 1 !important;
-                        padding: 0.5rem 0.75rem !important;
-                        border: 1px solid var(--cecfo-border) !important;
-                        background-color: var(--cecfo-card-bg) !important;
-                        color: var(--cecfo-text) !important;
-                        border-radius: 6px !important;
-                        font-size: 0.95rem !important;
-                    }
+            .cecfo-name-form {
+                display: flex !important;
+                gap: 0.5rem !important;
+                margin-bottom: 1.5rem !important;
+            }
 
-                    .cecfo-name-input::placeholder {
-                        color: var(--cecfo-subtext) !important;
-                    }
+            .cecfo-name-input {
+                font-family: var(--cecfo-font);
+                flex: 1 !important;
+                padding: 0.5rem 0.75rem !important;
+                border: 1px solid var(--cecfo-border) !important;
+                background-color: var(--cecfo-card-bg) !important;
+                color: var(--cecfo-text) !important;
+                border-radius: 6px !important;
+                font-size: 0.95rem !important;
+            }
 
-                    .cecfo-name-input:focus {
-                        outline: none !important;
-                        border-color: var(--cecfo-accent) !important;
-                        box-shadow: 0 0 0 3px rgba(66, 90, 239, 0.2) !important;
-                    }
+            .cecfo-name-input::placeholder {
+                color: var(--cecfo-subtext) !important;
+            }
 
-                    .cecfo-btn {
-                        font-family: var(--cecfo-font);
-                        padding: 0.5rem 1rem !important;
-                        border: none !important;
-                        border-radius: 6px !important;
-                        font-size: 0.9rem !important;
-                        font-weight: 500 !important;
-                        cursor: pointer !important;
-                        transition: background-color 0.15s ease !important;
-                    }
+            .cecfo-name-input:focus {
+                outline: none !important;
+                border-color: var(--cecfo-accent) !important;
+                box-shadow: 0 0 0 3px var(--cecfo-shadow) !important;
+            }
 
-                    .cecfo-btn-primary {
-                        background-color: var(--cecfo-accent) !important;
-                        color: #ffffff !important;
-                    }
+            .cecfo-btn {
+                font-family: var(--cecfo-font);
+                padding: 0.5rem 1rem !important;
+                border: none !important;
+                border-radius: 6px !important;
+                font-size: 0.9rem !important;
+                font-weight: 500 !important;
+                cursor: pointer !important;
+                transition: background-color 0.15s ease !important;
+            }
 
-                    .cecfo-btn-primary:hover {
-                        background-color: var(--cecfo-accent-hover) !important;
-                    }
+            .cecfo-btn-primary {
+                background-color: var(--cecfo-accent) !important;
+                color: #ffffff !important;
+            }
 
-                    .cecfo-btn-secondary {
-                        background-color: transparent !important;
-                        color: var(--cecfo-text) !important;
-                        border: 1px solid var(--cecfo-border) !important;
-                        margin-bottom: 0.75rem !important;
-                    }
+            .cecfo-btn-primary:hover {
+                background-color: var(--cecfo-accent-hover) !important;
+            }
 
-                    .cecfo-btn-secondary:hover {
-                        background-color: rgba(128, 128, 128, 0.1) !important;
-                    }
+            .cecfo-btn-secondary {
+                background-color: transparent !important;
+                color: var(--cecfo-text) !important;
+                border: 1px solid var(--cecfo-border) !important;
+                margin-bottom: 0.75rem !important;
+            }
 
-                    .cecfo-subscribe {
-                        margin-top: 1.5rem !important;
-                        padding-top: 1.5rem !important;
-                        border-top: 1px solid var(--cecfo-border) !important;
-                    }
+            .cecfo-btn-secondary:hover {
+                background-color: var(--cecfo-hover-bg) !important;
+            }
 
-                    .cecfo-subscribe p {
-                        color: var(--cecfo-text) !important;
-                    }
+            .cecfo-subscribe {
+                margin-top: 1.5rem !important;
+                padding-top: 1.5rem !important;
+                border-top: 1px solid var(--cecfo-border) !important;
+            }
 
-                    .cecfo-loading {
-                        font-family: var(--cecfo-font);
-                        text-align: center !important;
-                        color: var(--cecfo-subtext) !important;
-                        padding: 2rem 0 !important;
-                        font-size: 0.9rem !important;
-                    }
-                `;
+            .cecfo-subscribe p {
+                color: var(--cecfo-text) !important;
+            }
+
+            .cecfo-loading {
+                font-family: var(--cecfo-font);
+                text-align: center !important;
+                color: var(--cecfo-subtext) !important;
+                padding: 2rem 0 !important;
+                font-size: 0.9rem !important;
+            }
+        `;
         document.head.appendChild(st);
     }
 
