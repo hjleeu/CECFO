@@ -20,7 +20,6 @@
         st.textContent = `
             @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap');
             
-            /* Light mode defaults */
             :root {
                 --widget-font: "Noto Serif SC", serif;
                 --widget-bg: #ffffff;
@@ -33,7 +32,6 @@
                 --widget-item-border: rgba(0, 0, 0, 0.08);
             }
 
-            /* Dark mode preferences */
             @media (prefers-color-scheme: dark) {
                 :root {
                     --widget-bg: #1c1c1c;
@@ -145,7 +143,6 @@
         document.head.appendChild(st);
     }
 
-    // Helper function to render nested sermon points with 一/二/三 and 1/2 structure
     function renderSermonPoints(points) {
         if (!points || points.length === 0) return '';
         const chineseNumerals = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
@@ -153,7 +150,6 @@
         let html = `<ul class="sermon-list">`;
         points.forEach((pt, index) => {
             const prefix = chineseNumerals[index] ? `${chineseNumerals[index]}.` : `${index + 1}.`;
-            html => null; // placeholder safe check
             
             let itemHtml = `<li>`;
             itemHtml += `<strong>${prefix}</strong> ${pt.text}`;
@@ -161,7 +157,6 @@
                 itemHtml += `<span class="scripture-tag">(${pt.scripture})</span>`;
             }
 
-            // Sub-points rendering (using Arabic numerals 1, 2, 3...)
             if (pt.points && pt.points.length > 0) {
                 itemHtml += `<ul class="sermon-sublist">`;
                 pt.points.forEach((subPt, subIndex) => {
@@ -198,7 +193,6 @@
             </div>
         `;
 
-        // Worship Songs Section
         if (data.worship_songs && data.worship_songs.length > 0) {
             html += `
                 <div id="sec-worship" class="widget-section">
@@ -219,7 +213,6 @@
             html += `</div></div>`;
         }
 
-        // Choir Section
         if (data.choir && data.choir.songs && data.choir.songs.length > 0) {
             html += `
                 <div id="sec-choir" class="widget-section">
@@ -240,7 +233,6 @@
             html += `</div></div>`;
         }
 
-        // Sermon Outline Section
         const sermon = data.sermon_outline || {};
         html += `
             <div id="sec-sermon" class="widget-section">
