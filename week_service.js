@@ -58,19 +58,20 @@
                     @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap');
 
                     :root {
+                        color-scheme: light dark;
                         --cecfo-font: "Noto Serif SC", serif;
 
-                        --cecfo-bg: #121212;
-                        --cecfo-text: #f5f5f5;
-                        --cecfo-subtext: #b0b0b0;
-                        --cecfo-accent: #F2B94B; /* Dark theme accent */
-                        --cecfo-accent-hover: #e0a935;
-                        --cecfo-card-bg: #1c1c1c;
-                        --cecfo-card-alt: #2a2a2a;
-                        --cecfo-border: #444444;
-                        --cecfo-alert-bg: rgba(242, 185, 75, 0.15);
-                        --cecfo-alert-border: #F2B94B;
-                        --cecfo-alert-text: #fcebbc;
+                        --cecfo-bg: light-dark(#ffffff, #121212);
+                        --cecfo-text: light-dark(#212529, #f5f5f5);
+                        --cecfo-subtext: light-dark(#6c757d, #b0b0b0);
+                        --cecfo-accent: light-dark(#425AEF, #f2b94b);
+                        --cecfo-accent-hover: light-dark(#3547cb, #e0a935);
+                        --cecfo-card-bg: light-dark(#f8f9fa, #1c1c1c);
+                        --cecfo-card-alt: light-dark(#e9ecef, #2a2a2a);
+                        --cecfo-border: light-dark(#dee2e6, #444444);
+                        --cecfo-alert-bg: light-dark(rgba(66, 90, 239, 0.1), rgba(242, 185, 75, 0.15));
+                        --cecfo-alert-border: light-dark(#425AEF, #f2b94b);
+                        --cecfo-alert-text: light-dark(#1c266b, #fcebbc);
                     }
 
                     .cecfo-widget {
@@ -175,7 +176,7 @@
                     .cecfo-name-input:focus {
                         outline: none !important;
                         border-color: var(--cecfo-accent) !important;
-                        box-shadow: 0 0 0 3px rgba(198, 138, 18, 0.2) !important;
+                        box-shadow: 0 0 0 3px rgba(66, 90, 239, 0.2) !important;
                     }
 
                     .cecfo-btn {
