@@ -1,27 +1,21 @@
 {
+    "live_id": "lL1a548EW4k",
     "worship_songs": [
-        { "name": "祢的爱不离不弃", "yt_url": "", "img_url": "" },
-        { "name": "当赞美圣父", "yt_url": "", "img_url": "" },
-        { "name": "奇异恩典", "yt_url": "", "img_url": "" }
+        { "name": "祢的爱不离不弃", "yt_url": "test", "img_url": "test" },
+        { "name": "当赞美圣父", "yt_url": "test", "img_url": "test" },
+        { "name": "奇异恩典", "yt_url": "test", "img_url": "test" }
     ],
     "sermon_outline": {
         "pastor": "林艳景 弟兄",
         "title": "神公义宣判的反思",
         "scripture": "赛39章",
         "points": [
-            { "text": "宣判临到的原因 是因着骄傲", "scripture": "赛39:1-2节" },
-            { "text": "先知宣判的过程 带着神的爱", "scripture": "赛39:3-7节", "points": [
-                { "text": "先知的询问", "scripture": "赛39:3-4节" },
-                { "text": "先知的宣告", "scripture": "赛39:5-7节" }
+            { "text": "宣判临到的原因 是因着骄傲", "scripture": "以赛亚书+39:1-2" },
+            { "text": "先知宣判的过程 带着神的爱", "points": [
+                { "text": "先知的询问", "scripture": "以赛亚书+39:3-4" },
+                { "text": "先知的宣告", "scripture": "以赛亚书+39:5-7" }
             ] },
-            { "text": "宣判之后的反应 与神的疏远", "scripture": "赛39:8节" }
-        ]
-    },
-    "choir": {
-        "assigned": "FO诗班",
-        "songs": [
-            { "name": "时刻需主", "yt_url": "https://youtu.be/wxKQNq_Qd9s", "img_url": "" },
-            { "name": "耶稣爱我", "yt_url": "https://youtu.be/n-fHNYZDPE0", "img_url": "" }
+            { "text": "宣判之后的反应 与神的疏远", "scripture": "以赛亚书+39:8" }
         ]
     }
 }
