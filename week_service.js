@@ -12,6 +12,7 @@
         "sunschool_intermediate": "👩🏻‍🏫 主日学中班",
         "sunschool_junior": "👩🏻‍🏫 主日学小班",
         "scripture_reader": "📖 读经",
+        "scripture_toread": "经文",
         "reception01": "🤝🏻 执勤",
         "reception02": "🤝🏻 执勤",
         "clean_up01": "🧹 值日",
@@ -338,10 +339,21 @@
             if (value) {
                 const li = document.createElement("li");
                 li.className = "cecfo-service-item";
-                li.innerHTML = `
-                            <span class="cecfo-service-role">${DISPLAY_LABELS[key]}</span>
-                            <span class="cecfo-service-person">${value}</span>
-                        `;
+
+                // Ignore scripture_toread because it is rendered with scripture_reader.
+                if (key === "scripture_toread") continue
+
+                if (key === "scripture_reader") {
+                    li.innerHTML = `
+                                <span class="cecfo-service-role">${DISPLAY_LABELS[key]}</span>
+                                <span class="cecfo-service-person">${value} · ${weekData["scripture_toread"]}</span>
+                            `;
+                } else {
+                    li.innerHTML = `
+                                <span class="cecfo-service-role">${DISPLAY_LABELS[key]}</span>
+                                <span class="cecfo-service-person">${value}</span>
+                            `;
+                }
                 list.appendChild(li);
             }
         }
@@ -388,6 +400,7 @@
 
             const form = document.createElement("form");
             form.className = "cecfo-name-form";
+            form.id = "cecfo-name-form";
             form.innerHTML = `
                         <input type="text" class="cecfo-name-input" placeholder="请输入你的名字" required>
                         <button type="submit" class="cecfo-btn cecfo-btn-primary">➤ 订阅</button>
