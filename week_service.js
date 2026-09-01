@@ -1,3 +1,8 @@
+/**
+ * CECFO Weekly Service List JS.
+ * An IIFE function that render the service list of the next week.
+ * Required an div with id "this_week_container" in the .html file.
+ */
 (function () {
     const defaultDataUrl = "https://script.google.com/macros/s/AKfycbxtK3CsxFygMAXY7UUOaUYpA-AomB7zwRLo6x9elqj_1JA8kV2NDo6_1pknFBzUZDLg/exec";
     const storageKey = "cecfo_my_name";

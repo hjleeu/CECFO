@@ -1,3 +1,8 @@
+/**
+ * CECFO Weekly Post JS.
+ * An IIFE file which render the weekly post.
+ * Required a div element with id: "i_am_container" in the .html file.
+ */
 (function () {  
     const defaultDataUrl = "";
 

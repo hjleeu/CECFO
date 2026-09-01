@@ -1,0 +1,87 @@
+{
+    "name": "2026.09.05-06 培灵会",
+    "dates": [
+        {
+            "date": "2026.09.05 周六",
+            "schedule": [
+                { "time": "14.30 - 15.00", "type": "worship", "title": "诗歌敬拜", "descr": "",
+                    "details": {
+                        "leader": "柯铭 姊妹",
+                        "songs": [
+                            { "title": "让全地都听见" },
+                            { "title": "主祢是我力量" },
+                            { "title": "如鹿切慕溪水" }
+                        ]
+                    }
+                },
+                { "time": "15.00 - 16.00", "type": "sermon", "title": "第一堂", "descr": ""},
+                { "time": "16.00 - 16.15", "type": "break", "title": "休息", "descr": ""},
+                { "time": "16.15 - 17.15", "type": "sermon", "title": "第二堂", "descr": ""},
+                { "time": "17.15 - 17.30", "type": "prayer", "title": "回应祷告", "descr": ""},
+                { "time": "17.30 - 18.30", "type": "meal", "title": "晚餐", "descr": ""},
+                { "time": "18.40 - 19.00", "type": "worship", "title": "诗歌敬拜", "descr": "",
+                    "details": {
+                        "leader": "留恩慧 弟兄",
+                        "songs": [
+                            { "title": "树" },
+                            { "title": "一粒麦子" }
+                        ]
+                    }
+                },
+                { "time": "19.00 - 20.00", "type": "sermon", "title": "第三堂", "descr": ""},
+                { "time": "20.00 - 20.10", "type": "ending", "title": "祝福散会", "descr": ""}
+            ]
+        },
+        {
+            "date": "2026.09.06 周日",
+            "schedule": [
+                { "time": "10.30 - 11.00", "type": "worship", "title": "诗歌敬拜", "descr": "",
+                    "details": {
+                        "leader": "柯铭 姊妹",
+                        "songs": [
+                            { "title": "哈...哈利路亚" },
+                            { "title": "我是主羊" }
+                        ]
+                    }
+                },
+                { "time": "11.00 - 12.00", "type": "sermon", "title": "第一堂", "descr": "" },
+                { "time": "12.00 - 12.10", "type": "ending", "title": "祝福散会", "descr": "" },
+                { "time": "12.10 - 13.30", "type": "meal", "title": "午餐", "descr": "" },
+                { "time": "13.30 - 13.50", "type": "worship", "title": "诗歌敬拜", "descr": "",
+                    "details": {
+                        "leader": "陈佳怡 姊妹",
+                        "songs": [
+                            { "title": "住在祢里面" },
+                            { "title": "哈...哈利路亚" },
+                            { "title": "荣耀的呼召" }
+                        ]
+                    }
+                },
+                { "time": "13.50 - 14.50", "type": "sermon", "title": "第二堂", "descr": "" },
+                { "time": "14.50 - 15.00", "type": "break", "title": "休息", "descr": "" },
+                { "time": "15.00 - 17.00", "type": "branch", "title": "主日学合会", "descr": "" },
+                { "time": "15.00 - 15.20", "type": "worship", "title": "诗歌敬拜", "descr": "",
+                    "details": {
+                        "leader": "王纯智 姊妹",
+                        "songs": [
+                            { "title": "" }
+                        ]
+                    }
+                },
+                { "time": "15.20 - 15.40", "type": "prayer", "title": "开始祷告", "descr": "" },
+                { "time": "15.40 - 15.50", "type": "scripture", "title": "读经", "descr": "" },
+                { "time": "15.50 - 16.00", "type": "choir", "title": "诗班献诗", "descr": "",
+                    "details": {
+                        "group": "诗班",
+                        "songs": [
+                            { "title": "时刻需主" },
+                            { "title": "耶稣爱你" }
+                        ]
+                    }
+                },
+                { "time": "16.00 - 17.00", "type": "sermon", "title": "主日证道", "descr": "" },
+                { "time": "17.00 - 17.10", "type": "ending", "title": "祝福散会", "descr": "" }
+            ]
+        }
+    ]
+}
