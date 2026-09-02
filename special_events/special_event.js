@@ -92,12 +92,20 @@
 
             .cecfo-widget * { box-sizing: border-box; }
 
-            .cecfo-title {
-                text-align: center;
-                font-size: 1.4rem;
-                font-weight: 700;
-                margin: 0 0 1.5rem;
-                color: var(--cecfo-text);
+            .cecfo-widget ul,
+            .cecfo-widget ol {
+                list-style: none !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .cecfo-widget li {
+                display: flex !important;
+            }
+
+            .cecfo-widget li::before,
+            .cecfo-widget li::after {
+                all: unset !important;
             }
 
             .cecfo-nav {
@@ -175,23 +183,24 @@
                 list-style: none;
                 margin: 0;
                 padding: 0;
+                --cecfo-marker-size: 40px;
+                --cecfo-line-width: 2px;
             }
 
-            /* the vertical line running through all markers */
             .cecfo-timeline::before {
                 content: "";
                 position: absolute;
-                left: 19px;
+                left: calc(var(--cecfo-marker-size) / 2 - var(--cecfo-line-width) / 2);
                 top: 6px;
                 bottom: 6px;
-                width: 2px;
+                width: var(--cecfo-line-width);
                 background: var(--cecfo-border);
             }
 
             .cecfo-item {
                 position: relative;
                 display: flex;
-                gap: 1rem;
+                gap: 0.6rem;
                 padding-bottom: 1.5rem;
             }
 
@@ -203,8 +212,8 @@
                 position: relative;
                 z-index: 1;
                 flex: 0 0 auto;
-                width: 40px;
-                height: 40px;
+                width: var(--cecfo-marker-size);
+                height: var(--cecfo-marker-size);
                 border-radius: 50%;
                 background: var(--cecfo-card-bg);
                 border: 2px solid var(--cecfo-accent);
@@ -266,17 +275,15 @@
             }
 
             .cecfo-songs li {
-                position: relative;
-                padding-left: 0.9rem;
+                align-items: baseline;
+                gap: 0.4rem;
             }
 
             .cecfo-songs li::before {
-                content: "\\266A";
-                position: absolute;
-                left: 0;
-                color: var(--cecfo-accent);
-                font-size: 0.7rem;
-                top: 0.2em;
+                content: "\\266A" !important;
+                color: var(--cecfo-accent) !important;
+                font-size: 0.7rem !important;
+                flex: none;
             }
 
             .cecfo-loading {
@@ -457,14 +464,10 @@
             return `<div class="cecfo-loading">暂无数据</div>`;
         }
 
-        const titleHtml = data.name
-            ? `<h2 class="cecfo-title">${esc(data.name)}</h2>`
-            : "";
-
         const navHtml = renderNav(data);
         const daysHtml = data.dates.map((dateEntry, idx) => renderDay(dateEntry, idx)).join("");
 
-        return `${titleHtml}${navHtml}${daysHtml}`;
+        return `${navHtml}${daysHtml}`;
     }
 
     /**
